@@ -1610,16 +1610,6 @@ clear : function (
 },
 
 /**
- * @method toLuaString
- * @return {String}
- */
-toLuaString : function (
-)
-{
-    return ;
-},
-
-/**
  * @method putNumber
  * @param {String} arg0
  * @param {double} arg1
@@ -1876,16 +1866,6 @@ appendBoolean : function (
 bool 
 )
 {
-},
-
-/**
- * @method toLuaString
- * @return {String}
- */
-toLuaString : function (
-)
-{
-    return ;
 },
 
 /**

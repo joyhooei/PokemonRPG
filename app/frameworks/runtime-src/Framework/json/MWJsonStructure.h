@@ -185,12 +185,6 @@ public:
      * @return Return pretty version of json string.
      */
     std::string toPrettyString();
-    /**
-     * Convert to lua string.
-     *
-     * @return Return lua version of json string.
-     */
-    std::string toLuaString();
     
 protected:
     bool init();
@@ -381,12 +375,6 @@ public:
      * @return Return pretty version of json string.
      */
     std::string toPrettyString();
-    /**
-     * Convert to lua string.
-     *
-     * @return Return lua version of json string.
-     */
-    std::string toLuaString();
     
 protected:
     bool init();

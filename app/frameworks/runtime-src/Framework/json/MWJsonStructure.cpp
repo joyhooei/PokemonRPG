@@ -135,52 +135,6 @@ std::string MWJsonObject::toPrettyString()
     return MWJsonFormatter::getInstance()->format(this, true);
 }
 
-std::string MWJsonObject::toLuaString()
-{
-    // begining
-    std::string luaStr = "{\n";
-    auto keys = this->allKeys();
-    int count = keys.size();
-    for (MW_UINT i = 0; i < count; ++i) {
-        // key
-        const char *szKey = keys[i].c_str();
-        luaStr.append("[\"");
-        luaStr.append(szKey);
-        luaStr.append("\"]");
-        luaStr.append("=");
-        // value
-        Ref *pVal = _dataHolder->objectForKey(szKey);
-        MWJsonBoolean *pJsonBool = nullptr;
-        MWJsonNumber *pJsonNum = nullptr;
-        MWJsonString *pJsonStr = nullptr;
-        MWJsonObject *pJsonObj = nullptr;
-        MWJsonArray *pJsonAry = nullptr;
-        if ((pJsonBool = dynamic_cast<MWJsonBoolean*>(pVal)) != nullptr) {
-            luaStr.append(pJsonBool->stringValue());
-        } else if ((pJsonNum = dynamic_cast<MWJsonNumber*>(pVal)) != nullptr) {
-            luaStr.append(pJsonNum->stringValue());
-        } else if ((pJsonStr = dynamic_cast<MWJsonString*>(pVal)) != nullptr) {
-            luaStr.append("[==[");
-            luaStr.append(pJsonStr->stringValue());
-            luaStr.append("]==]");
-        } else if ((pJsonObj = dynamic_cast<MWJsonObject*>(pVal)) != nullptr) {
-            std::string value = pJsonObj->toLuaString();
-            luaStr.append(value);
-        } else if ((pJsonAry = dynamic_cast<MWJsonArray*>(pVal)) != nullptr) {
-            std::string value = pJsonAry->toLuaString();
-            luaStr.append(value);
-        }
-        
-        if (i < count - 1) {
-            luaStr.append(",");
-            luaStr.append("\n");
-        }
-    }
-    // ending
-    luaStr.append("\n}");
-    return luaStr;
-}
-
 /** JsonArray implementation **/
 MWJsonArray::MWJsonArray()
 : _dataHolder(new MWArrayList())
@@ -316,45 +270,6 @@ std::string MWJsonArray::toString()
 std::string MWJsonArray::toPrettyString()
 {
     return MWJsonFormatter::getInstance()->format(this, true);
-}
-
-std::string MWJsonArray::toLuaString()
-{
-    // begining
-    std::string luaStr = "{\n";
-    int num = this->count();
-    for (int i = 0; i < num; ++i) {
-        // value
-        Ref *pVal = _dataHolder->objectAtIndex(i);
-        MWJsonBoolean *pJsonBool = nullptr;
-        MWJsonNumber *pJsonNum = nullptr;
-        MWJsonString *pJsonStr = nullptr;
-        MWJsonObject *pJsonObj = nullptr;
-        MWJsonArray *pJsonAry = nullptr;
-        if ((pJsonBool = dynamic_cast<MWJsonBoolean*>(pVal)) != nullptr) {
-            luaStr.append(pJsonBool->stringValue());
-        } else if ((pJsonNum = dynamic_cast<MWJsonNumber*>(pVal)) != nullptr) {
-            luaStr.append(pJsonNum->stringValue());
-        } else if ((pJsonStr = dynamic_cast<MWJsonString*>(pVal)) != nullptr) {
-            luaStr.append("[==[");
-            luaStr.append(pJsonStr->stringValue());
-            luaStr.append("]==]");
-        } else if ((pJsonObj = dynamic_cast<MWJsonObject*>(pVal)) != nullptr) {
-            std::string value = pJsonObj->toLuaString();
-            luaStr.append(value);
-        } else if ((pJsonAry = dynamic_cast<MWJsonArray*>(pVal)) != nullptr) {
-            std::string value = pJsonAry->toLuaString();
-            luaStr.append(value);
-        }
-        
-        if (i < num - 1) {
-            luaStr.append(",");
-            luaStr.append("\n");
-        }
-    }
-    // ending
-    luaStr.append("\n}");
-    return luaStr;
 }
 
 MW_FRAMEWORK_END

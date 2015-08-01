@@ -113,6 +113,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     
 #if MW_ENABLE_SCRIPT_BINDING
     sc->addRegisterCallback(register_all_mwframework);
+    sc->addRegisterCallback(register_all_mwframework_manual);
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

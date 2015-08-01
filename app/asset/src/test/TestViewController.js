@@ -16,10 +16,15 @@ var TestViewController = mw.ViewController.extend({
         var gif1 = mw.GifSprite.createWithRawData(data1);
         var gif2 = mw.GifSprite.createWithRawData(data2);
 
-        var gifList = [ gif1, gif2 ];
-        for (var i = 0; i < gifList.length; ++i) {
-            gifList[i].setPosition(cc.winSize.width * (0.25 + i * 0.5), cc.winSize.height * 0.5);
-            this.view().addChild(gifList[i]);
+        var dict = mw.Dictionary.create();
+        dict.setObjectForKey("GIF1", gif1);
+        dict.setObjectForKey("GIF2", gif2);
+        var keys = dict.allKeys();
+        for (var i = 0; i < keys.length; ++i) {
+            var key = keys[i];
+            var gif = dict.objectForKey(key);
+            gif.setPosition(cc.winSize.width * (0.25 + i * 0.5), cc.winSize.height * 0.5);
+            this.view().addChild(gif);
             cc.log("GIF%d added.", i + 1);
         }
 
@@ -28,6 +33,20 @@ var TestViewController = mw.ViewController.extend({
         svg.setVectorScale(0.5);
         svg.setPosition(cc.winSize.width * 0.5, cc.winSize.height * 0.5);
         this.view().addChild(svg);
+        cc.log("SVG added.");
+
+        cc.log("Test Sqlite...");
+        var db = mw.SqliteDb.openDb("res/icon.jpg");
+        var data = db.executeQuery("select * from [pet_info] where id = '493';");
+        for (var k in data[0]) {
+            cc.log(k, data[0][k]);
+        }
+
+        cc.log("Test json...");
+        var jsonObj = mw.JsonObject.create();
+        jsonObj.putNumber("NUMBER", 123);
+        jsonObj.putString("STRING", "abc");
+        cc.log(jsonObj.toPrettyString());
 
         cc.log("Test some utils...");
         var reachabilityStrMap = [ "No network.", "Wifi", "WWAN" ];
@@ -35,6 +54,5 @@ var TestViewController = mw.ViewController.extend({
         cc.log("Generate UUID: %s", mw.UUIDGenerator.getInstance().generateUUID());
     },
     viewDidUnload: function() {
-        cc.log("TestViewController::viewDidUnload");
     },
 });

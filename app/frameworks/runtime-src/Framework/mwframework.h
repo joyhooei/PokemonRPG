@@ -57,6 +57,7 @@
 // lua related.
 #if MW_ENABLE_SCRIPT_BINDING
 #include "js/auto/js_mwframework_auto.hpp"
+#include "js/manual/js_mwframework_manual.hpp"
 #endif
 
 #endif

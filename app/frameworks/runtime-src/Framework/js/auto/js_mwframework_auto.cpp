@@ -4840,24 +4840,6 @@ bool js_mwframework_MWJsonObject_clear(JSContext *cx, uint32_t argc, jsval *vp)
     JS_ReportError(cx, "js_mwframework_MWJsonObject_clear : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
-bool js_mwframework_MWJsonObject_toLuaString(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    mwframework::MWJsonObject* cobj = (mwframework::MWJsonObject *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWJsonObject_toLuaString : Invalid Native Object");
-    if (argc == 0) {
-        std::string ret = cobj->toLuaString();
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
-        args.rval().set(jsret);
-        return true;
-    }
-
-    JS_ReportError(cx, "js_mwframework_MWJsonObject_toLuaString : wrong number of arguments: %d, was expecting %d", argc, 0);
-    return false;
-}
 bool js_mwframework_MWJsonObject_putNumber(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -5126,7 +5108,6 @@ void js_register_mwframework_MWJsonObject(JSContext *cx, JS::HandleObject global
         JS_FN("putJsonArray", js_mwframework_MWJsonObject_putJsonArray, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("putJsonObject", js_mwframework_MWJsonObject_putJsonObject, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("clear", js_mwframework_MWJsonObject_clear, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("toLuaString", js_mwframework_MWJsonObject_toLuaString, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("putNumber", js_mwframework_MWJsonObject_putNumber, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("remove", js_mwframework_MWJsonObject_remove, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("putString", js_mwframework_MWJsonObject_putString, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
@@ -5472,24 +5453,6 @@ bool js_mwframework_MWJsonArray_appendBoolean(JSContext *cx, uint32_t argc, jsva
     JS_ReportError(cx, "js_mwframework_MWJsonArray_appendBoolean : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
-bool js_mwframework_MWJsonArray_toLuaString(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    mwframework::MWJsonArray* cobj = (mwframework::MWJsonArray *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWJsonArray_toLuaString : Invalid Native Object");
-    if (argc == 0) {
-        std::string ret = cobj->toLuaString();
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
-        args.rval().set(jsret);
-        return true;
-    }
-
-    JS_ReportError(cx, "js_mwframework_MWJsonArray_toLuaString : wrong number of arguments: %d, was expecting %d", argc, 0);
-    return false;
-}
 bool js_mwframework_MWJsonArray_getBooleanAt(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -5766,7 +5729,6 @@ void js_register_mwframework_MWJsonArray(JSContext *cx, JS::HandleObject global)
         JS_FN("removeAt", js_mwframework_MWJsonArray_removeAt, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("appendNumber", js_mwframework_MWJsonArray_appendNumber, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("appendBoolean", js_mwframework_MWJsonArray_appendBoolean, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("toLuaString", js_mwframework_MWJsonArray_toLuaString, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getBooleanAt", js_mwframework_MWJsonArray_getBooleanAt, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("insertString", js_mwframework_MWJsonArray_insertString, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getJsonArrayAt", js_mwframework_MWJsonArray_getJsonArrayAt, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),

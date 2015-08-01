@@ -138,6 +138,7 @@
 		F559B8751B6CBC9C00C90AC9 /* MWUUIDGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B8001B6CBC9C00C90AC9 /* MWUUIDGenerator.cpp */; };
 		F559B87A1B6CBE8700C90AC9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F559B8791B6CBE8700C90AC9 /* SystemConfiguration.framework */; };
 		F559B87C1B6CBE9800C90AC9 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F559B87B1B6CBE9800C90AC9 /* libcurl.a */; };
+		F559B88C1B6CF3E700C90AC9 /* js_mwframework_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B88A1B6CF3E700C90AC9 /* js_mwframework_manual.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -432,6 +433,8 @@
 		F559B8011B6CBC9C00C90AC9 /* MWUUIDGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWUUIDGenerator.h; sourceTree = "<group>"; };
 		F559B8791B6CBE8700C90AC9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		F559B87B1B6CBE9800C90AC9 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../Framework/net/http/curl/prebuilt/ios/libcurl.a; sourceTree = "<group>"; };
+		F559B88A1B6CF3E700C90AC9 /* js_mwframework_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_mwframework_manual.cpp; sourceTree = "<group>"; };
+		F559B88B1B6CF3E700C90AC9 /* js_mwframework_manual.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = js_mwframework_manual.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -742,6 +745,7 @@
 			isa = PBXGroup;
 			children = (
 				F559B6F31B6CBC9B00C90AC9 /* auto */,
+				F559B8891B6CF3E700C90AC9 /* manual */,
 				F559B6F81B6CBC9B00C90AC9 /* MWJsUtils.cpp */,
 				F559B6F91B6CBC9B00C90AC9 /* MWJsUtils.h */,
 			);
@@ -1094,6 +1098,15 @@
 			name = exceptions;
 			sourceTree = "<group>";
 		};
+		F559B8891B6CF3E700C90AC9 /* manual */ = {
+			isa = PBXGroup;
+			children = (
+				F559B88A1B6CF3E700C90AC9 /* js_mwframework_manual.cpp */,
+				F559B88B1B6CF3E700C90AC9 /* js_mwframework_manual.hpp */,
+			);
+			path = manual;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1275,6 +1288,7 @@
 				F559B8151B6CBC9C00C90AC9 /* MWJsUtils.cpp in Sources */,
 				F559B80F1B6CBC9C00C90AC9 /* sqlite3.c in Sources */,
 				F559B80A1B6CBC9C00C90AC9 /* ioapi.c in Sources */,
+				F559B88C1B6CF3E700C90AC9 /* js_mwframework_manual.cpp in Sources */,
 				F559B86F1B6CBC9C00C90AC9 /* quantize.c in Sources */,
 				509D4AC917EBB2AB00697056 /* RootViewController.mm in Sources */,
 				F559B8181B6CBC9C00C90AC9 /* JSONChildren.cpp in Sources */,

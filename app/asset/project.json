@@ -12,9 +12,10 @@
 
     "jsList" : [
         "src/framework/extends.js",
-        "src/framework/basic.js",
         "src/framework/debug.js",
-        "src/framework/model.js",
+        "src/framework/basic.js",
+        "src/framework/mvc/model.js",
+        "src/framework/mvc/notifier.js",
 
         "src/app.js",
         "src/test/TestScene.js",

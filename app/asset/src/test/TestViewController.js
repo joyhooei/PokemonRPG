@@ -40,9 +40,7 @@ var TestViewController = mw.ViewController.extend({
         mw.logWithTag("test_begin", "Test Sqlite...");
         var db = mw.SqliteDb.openDb("res/icon.jpg");
         var data = db.executeQuery("select * from [pet_info] where id = '493';");
-        for (var k in data[0]) {
-            mw.log(k, data[0][k]);
-        }
+        mw.dump(data);
         mw.logWithTag("test_end");
 
         mw.logWithTag("test_begin", "Test json...");
@@ -67,19 +65,6 @@ var TestViewController = mw.ViewController.extend({
         mw.log("NetStatus: %s", reachabilityStrMap[mw.SystemHelper.getInstance().checkNetStatus()]);
         mw.log("Generate UUID: %s", mw.UUIDGenerator.getInstance().generateUUID());
         mw.logWithTag("test_end");
-
-        var obj = {
-            ITEM: gif1,
-            LIST: [
-                true,
-                "abc",
-                {
-                    NAME: "Winder",
-                    AGE: 23,
-                }
-            ]
-        };
-        mw.dump(obj);
 
         CallFunctionAsync(this, this.showSchedulerResult, 1, 123, "abc", [ 3, 2, 1 ]);
         CallFunctionAsync(this, this.showSchedulerResult, 2, 321, "cba", [ 3, 2, 1 ]);

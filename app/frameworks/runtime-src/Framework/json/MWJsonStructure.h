@@ -185,6 +185,12 @@ public:
      * @return Return pretty version of json string.
      */
     std::string toPrettyString();
+    /**
+     * Convert to js string.
+     *
+     * @return Return javascript string.
+     */
+    std::string toJsString();
     
 protected:
     bool init();
@@ -375,6 +381,12 @@ public:
      * @return Return pretty version of json string.
      */
     std::string toPrettyString();
+    /**
+     * Convert to js string.
+     *
+     * @return Return javascript string.
+     */
+    std::string toJsString();
     
 protected:
     bool init();

@@ -135,6 +135,59 @@ std::string MWJsonObject::toPrettyString()
     return MWJsonFormatter::getInstance()->format(this, true);
 }
 
+std::string MWJsonObject::toJsString()
+{
+    // begining
+    std::string jsStr = "{\n";
+    auto keys = this->allKeys();
+    size_t count = keys.size();
+    for (MW_UINT i = 0; i < count; ++i) {
+        // key
+        const char *szKey = keys[i].c_str();
+        jsStr.append(szKey);
+        jsStr.append(":");
+        // value
+        Ref *pVal = _dataHolder->objectForKey(szKey);
+        MWJsonBoolean *pJsonBool = nullptr;
+        MWJsonNumber *pJsonNum = nullptr;
+        MWJsonString *pJsonStr = nullptr;
+        MWJsonObject *pJsonObj = nullptr;
+        MWJsonArray *pJsonAry = nullptr;
+        if ((pJsonBool = dynamic_cast<MWJsonBoolean*>(pVal)) != nullptr) {
+            jsStr.append(pJsonBool->stringValue());
+        } else if ((pJsonNum = dynamic_cast<MWJsonNumber*>(pVal)) != nullptr) {
+            jsStr.append(pJsonNum->stringValue());
+        } else if ((pJsonStr = dynamic_cast<MWJsonString*>(pVal)) != nullptr) {
+            std::string value = pJsonStr->stringValue();
+            std::string::size_type pos = 0;
+            std::string oldStr = "\"";
+            std::string newStr = "\\\"";
+            for ( ; pos != std::string::npos; pos += newStr.length()) {
+                if ((pos = value.find(oldStr, pos)) != std::string::npos) {
+                    value = value.replace(pos, oldStr.length(), newStr);
+                } else {
+                    break;
+                }
+            }
+            jsStr.append(std::string("\"") + value + std::string("\""));
+        } else if ((pJsonObj = dynamic_cast<MWJsonObject*>(pVal)) != nullptr) {
+            std::string value = pJsonObj->toJsString();
+            jsStr.append(value);
+        } else if ((pJsonAry = dynamic_cast<MWJsonArray*>(pVal)) != nullptr) {
+            std::string value = pJsonAry->toJsString();
+            jsStr.append(value);
+        }
+        
+        if (i < count - 1) {
+            jsStr.append(",");
+            jsStr.append("\n");
+        }
+    }
+    // ending
+    jsStr.append("\n}");
+    return jsStr;
+}
+
 /** JsonArray implementation **/
 MWJsonArray::MWJsonArray()
 : _dataHolder(new MWArrayList())
@@ -270,6 +323,54 @@ std::string MWJsonArray::toString()
 std::string MWJsonArray::toPrettyString()
 {
     return MWJsonFormatter::getInstance()->format(this, true);
+}
+
+std::string MWJsonArray::toJsString()
+{
+    // begining
+    std::string jsStr = "[\n";
+    int num = this->count();
+    for (int i = 0; i < num; ++i) {
+        // value
+        Ref *pVal = _dataHolder->objectAtIndex(i);
+        MWJsonBoolean *pJsonBool = nullptr;
+        MWJsonNumber *pJsonNum = nullptr;
+        MWJsonString *pJsonStr = nullptr;
+        MWJsonObject *pJsonObj = nullptr;
+        MWJsonArray *pJsonAry = nullptr;
+        if ((pJsonBool = dynamic_cast<MWJsonBoolean*>(pVal)) != nullptr) {
+            jsStr.append(pJsonBool->stringValue());
+        } else if ((pJsonNum = dynamic_cast<MWJsonNumber*>(pVal)) != nullptr) {
+            jsStr.append(pJsonNum->stringValue());
+        } else if ((pJsonStr = dynamic_cast<MWJsonString*>(pVal)) != nullptr) {
+            std::string value = pJsonStr->stringValue();
+            std::string::size_type pos = 0;
+            std::string oldStr = "\"";
+            std::string newStr = "\\\"";
+            for ( ; pos != std::string::npos; pos += newStr.length()) {
+                if ((pos = value.find(oldStr, pos)) != std::string::npos) {
+                    value = value.replace(pos, oldStr.length(), newStr);
+                } else {
+                    break;
+                }
+            }
+            jsStr.append(std::string("\"") + value + std::string("\""));
+        } else if ((pJsonObj = dynamic_cast<MWJsonObject*>(pVal)) != nullptr) {
+            std::string value = pJsonObj->toJsString();
+            jsStr.append(value);
+        } else if ((pJsonAry = dynamic_cast<MWJsonArray*>(pVal)) != nullptr) {
+            std::string value = pJsonAry->toJsString();
+            jsStr.append(value);
+        }
+        
+        if (i < num - 1) {
+            jsStr.append(",");
+            jsStr.append("\n");
+        }
+    }
+    // ending
+    jsStr.append("\n]");
+    return jsStr;
 }
 
 MW_FRAMEWORK_END

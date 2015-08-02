@@ -4933,6 +4933,24 @@ bool js_mwframework_MWJsonObject_getJsonObject(JSContext *cx, uint32_t argc, jsv
     JS_ReportError(cx, "js_mwframework_MWJsonObject_getJsonObject : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
+bool js_mwframework_MWJsonObject_toJsString(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWJsonObject* cobj = (mwframework::MWJsonObject *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWJsonObject_toJsString : Invalid Native Object");
+    if (argc == 0) {
+        std::string ret = cobj->toJsString();
+        jsval jsret = JSVAL_NULL;
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWJsonObject_toJsString : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
 bool js_mwframework_MWJsonObject_toPrettyString(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -5112,6 +5130,7 @@ void js_register_mwframework_MWJsonObject(JSContext *cx, JS::HandleObject global
         JS_FN("remove", js_mwframework_MWJsonObject_remove, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("putString", js_mwframework_MWJsonObject_putString, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getJsonObject", js_mwframework_MWJsonObject_getJsonObject, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("toJsString", js_mwframework_MWJsonObject_toJsString, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("toPrettyString", js_mwframework_MWJsonObject_toPrettyString, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("hasKey", js_mwframework_MWJsonObject_hasKey, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getObject", js_mwframework_MWJsonObject_getObject, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
@@ -5590,6 +5609,24 @@ bool js_mwframework_MWJsonArray_getNumberAt(JSContext *cx, uint32_t argc, jsval 
     JS_ReportError(cx, "js_mwframework_MWJsonArray_getNumberAt : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
+bool js_mwframework_MWJsonArray_toJsString(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWJsonArray* cobj = (mwframework::MWJsonArray *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWJsonArray_toJsString : Invalid Native Object");
+    if (argc == 0) {
+        std::string ret = cobj->toJsString();
+        jsval jsret = JSVAL_NULL;
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWJsonArray_toJsString : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
 bool js_mwframework_MWJsonArray_getJsonObjectAt(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -5735,6 +5772,7 @@ void js_register_mwframework_MWJsonArray(JSContext *cx, JS::HandleObject global)
         JS_FN("appendString", js_mwframework_MWJsonArray_appendString, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("insertBoolean", js_mwframework_MWJsonArray_insertBoolean, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getNumberAt", js_mwframework_MWJsonArray_getNumberAt, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("toJsString", js_mwframework_MWJsonArray_toJsString, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getJsonObjectAt", js_mwframework_MWJsonArray_getJsonObjectAt, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };

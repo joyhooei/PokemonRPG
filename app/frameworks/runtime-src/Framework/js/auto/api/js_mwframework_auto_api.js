@@ -1656,6 +1656,16 @@ str
 },
 
 /**
+ * @method toJsString
+ * @return {String}
+ */
+toJsString : function (
+)
+{
+    return ;
+},
+
+/**
  * @method toPrettyString
  * @return {String}
  */
@@ -1936,6 +1946,16 @@ int
 )
 {
     return 0;
+},
+
+/**
+ * @method toJsString
+ * @return {String}
+ */
+toJsString : function (
+)
+{
+    return ;
 },
 
 /**

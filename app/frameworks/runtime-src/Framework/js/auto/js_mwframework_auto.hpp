@@ -305,6 +305,7 @@ bool js_mwframework_MWJsonObject_putNumber(JSContext *cx, uint32_t argc, jsval *
 bool js_mwframework_MWJsonObject_remove(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonObject_putString(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonObject_getJsonObject(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWJsonObject_toJsString(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonObject_toPrettyString(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonObject_hasKey(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonObject_getObject(JSContext *cx, uint32_t argc, jsval *vp);
@@ -338,6 +339,7 @@ bool js_mwframework_MWJsonArray_getJsonArrayAt(JSContext *cx, uint32_t argc, jsv
 bool js_mwframework_MWJsonArray_appendString(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonArray_insertBoolean(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonArray_getNumberAt(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWJsonArray_toJsString(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonArray_getJsonObjectAt(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonArray_createWithFile(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonArray_create(JSContext *cx, uint32_t argc, jsval *vp);

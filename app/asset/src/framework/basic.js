@@ -11,8 +11,8 @@
  */
 function MakeScriptHandler() {
     if (arguments.length < 2) {}
-    var target = arguments.shift();
-    var selector = arguments.shift();
+    var target = Array.prototype.shift.call(arguments);
+    var selector = Array.prototype.shift.call(arguments);
     if (typeof selector != "function") {}
     var args = Array.prototype.slice.call(arguments);
 
@@ -28,25 +28,36 @@ function MakeScriptHandler() {
  * @param selector 对象的成员函数
  * @param delay 延迟(s)，0表示一帧间隔
  * @param ... 自定义参数
- * @returns scheduleId 计时器句柄
  */
 function CallFunctionAsync() {
     if (arguments.length < 3) {}
-    var target = arguments.shift();
-    var selector = arguments.shift();
-    var delay = arguments.shift();
-    if (!target instanceof cc.Node || typeof selector != "function" || typeof delay != "number") {}
+    var target = Array.prototype.shift.call(arguments);
+    var selector = Array.prototype.shift.call(arguments);
+    var delay = Array.prototype.shift.call(arguments);
+    if (!(target instanceof cc.Node) || typeof selector != "function" || typeof delay != "number") {
+        return;
+    }
     if (delay < 0) {
         delay = 0;
     }
     var args = Array.prototype.slice.call(arguments);
 
-    var scheduleId = 0;
     var scheduleSelector = function() {
         selector.apply(target, args);
-        cc.Director.getInstance().getScheduler().unscheduleScriptEntry(scheduleId);
-    }
-    scheduleId = cc.Director.getInstance().getScheduler().scheduleScriptFunc(scheduleSelector, delay, false);
+    };
+    cc.director.getScheduler().schedule(scheduleSelector, target, delay, 0, delay, false, mw.UUIDGenerator.getInstance().generateUUID());
+}
 
-    return scheduleId;
+/**
+ * 将Json对象转换成js字面量对象
+ * @param json mw.JsonObject/mw.JsonArray
+ * @returns {*} 如果成功则返回js对象 否则返回null
+ */
+function JsonToJsObject(json) {
+    if (!(json instanceof mw.JsonObject) && !(json instanceof mw.JsonArray)) {
+        return null;
+    }
+    var jsObj = null;
+    eval("var jsObj = " + json.toJsString() + ";");
+    return jsObj;
 }

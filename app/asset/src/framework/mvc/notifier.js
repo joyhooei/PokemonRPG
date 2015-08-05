@@ -25,7 +25,7 @@ var Observer = cc.Class.extend({
  * @type {{addObserver: Function, removeObserver: Function, notify: Function, _observerMap: Object}|*}
  */
 mw.Notifier = mw.Notifier || {
-        addObserver: function() {
+        addObserver: function () {
             cc.assert(arguments.length >= 3, "mw.Notifier.addObserver至少需要3个参数");
             var event = Array.prototype.shift.apply(arguments);
             var sender = Array.prototype.shift.apply(arguments);
@@ -41,7 +41,7 @@ mw.Notifier = mw.Notifier || {
             var ob = new Observer(sender, callback, args);
             this._observerMap[event].push(ob);
         },
-        removeObserver: function() {
+        removeObserver: function () {
             cc.assert(arguments.length >= 2, "mw.Notifier.removeObserver至少需要2个参数");
             var event = Array.prototype.shift.apply(arguments);
             var sender = Array.prototype.shift.apply(arguments);
@@ -66,7 +66,7 @@ mw.Notifier = mw.Notifier || {
                 }
             }
         },
-        notify: function() {
+        notify: function () {
             cc.assert(arguments.length >= 1, "mw.Notifier.notify至少需要1个参数");
             var event = Array.prototype.shift.apply(arguments);
             var args = Array.prototype.slice.apply(arguments);

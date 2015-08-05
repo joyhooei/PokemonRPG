@@ -61,3 +61,30 @@ function JsonToJsObject(json) {
     eval("var jsObj = " + json.toJsString() + ";");
     return jsObj;
 }
+
+/**
+ * 使对象获得绑定组件的功能
+ * @param target 绑定对象 必须是个Object
+ * @returns 绑定对象
+ */
+function MakeBindable(target) {
+    target._components = [];
+
+    target.addComponent = function (name) {
+        var component = Registry.newObject(name);
+        this._components[name] = component;
+        component._bind(target);
+        return component;
+    };
+    target.removeComponent = function (name) {
+        var component = this._components[name];
+        if (component) {
+            component._unbind();
+        }
+        this._components[name] = undefined;
+    };
+    target.getComponent = function (name) {
+        return this._components[name];
+    };
+    return target;
+}

@@ -5,7 +5,6 @@
 var TestScene = mw.GameScene.extend({
     ctor: function() {
         this._super();
-        this.init();
     },
     onEnter: function() {
         this._super();

@@ -2,6 +2,40 @@
  * Created by Maple on 6/27/15.
  */
 
+var Person = ModelBase.extend({
+    ctor: function(id, name, age) {
+        this._super(id);
+        this._defineScheme({
+            name: [ "string", null ],
+            age: [ "number", 0 ],
+        });
+        this._setProperties({
+            id: id,
+            name: name,
+            age: age,
+        });
+    },
+    getName: function () {
+        return this._name;
+    },
+    getAge: function () {
+        return this._age;
+    },
+    grow: function() {
+        this._setProperties({
+            age: this._age + 1,
+        });
+    },
+    changeName: function(newName) {
+        this._setProperties({
+            name: newName,
+        });
+    },
+    showInfo: function() {
+        mw.log("My ID is %s, My name is %s. I am %d years old.", this.getId(), this.getName(), this.getAge());
+    }
+});
+
 var TestViewController = mw.ViewController.extend({
     ctor: function() {
         this._super();
@@ -64,6 +98,17 @@ var TestViewController = mw.ViewController.extend({
         var reachabilityStrMap = [ "No network.", "Wifi", "WWAN" ];
         mw.log("NetStatus: %s", reachabilityStrMap[mw.SystemHelper.getInstance().checkNetStatus()]);
         mw.log("Generate UUID: %s", mw.UUIDGenerator.getInstance().generateUUID());
+        mw.logWithTag("test_end");
+
+        mw.logWithTag("test_begin", "Test model...");
+        var p = new Person("WANXIN", "Winder", 24);
+        p.showInfo();
+        p.grow();
+        p.grow();
+        p.changeName("HongYe");
+        p.showInfo();
+        p.changeName(123);
+        p.showInfo();
         mw.logWithTag("test_end");
 
         CallFunctionAsync(this, this.showSchedulerResult, 1, 123, "abc", [ 3, 2, 1 ]);

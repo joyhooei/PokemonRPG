@@ -20,7 +20,14 @@
         "src/framework/components/component.js",
 
         "src/app.js",
-        "src/test/TestScene.js",
-        "src/test/TestViewController.js"
+
+        "src/core/GameConstants.js",
+        "src/core/DataCenter.js",
+
+        "src/models/Hero.js",
+
+        "src/scenes/map/PlayScene.js",
+        "src/scenes/map/MapViewController.js",
+        "src/scenes/map/OperationViewController.js"
     ]
 }

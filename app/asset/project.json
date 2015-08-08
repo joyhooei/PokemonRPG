@@ -28,6 +28,11 @@
 
         "src/scenes/map/PlayScene.js",
         "src/scenes/map/MapViewController.js",
-        "src/scenes/map/OperationViewController.js"
+        "src/scenes/map/OperationViewController.js",
+        "src/scenes/demo/DemoScene.js",
+        "src/scenes/demo/DemoBGViewController.js",
+        "src/scenes/demo/DemoGameViewController.js",
+        "src/scenes/demo/AnotherBGViewController.js",
+        "src/scenes/demo/AnotherScene.js"
     ]
 }

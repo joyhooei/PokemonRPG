@@ -16,6 +16,7 @@ var MapViewController = mw.ViewController.extend({
         var map = new cc.TMXTiledMap("res/tmx/demo_map.tmx");
         this.view().addChild(map);
 
+                                        
         // 开始积累游戏时间
         cc.director.getScheduler().schedule(MakeScriptHandler(this, this.addTime), this.view(), 1, -1, 1, false, "PLAYTIME_TICK");
     },

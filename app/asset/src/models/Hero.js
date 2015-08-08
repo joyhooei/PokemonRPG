@@ -14,7 +14,9 @@ var Hero = ModelBase.extend({
         this._defineScheme({
             name: [ "string", null ],   // 姓名
             gender: ["number", GENDER.MALE ], // 性别
-            playTime: [ "number", 0 ],  // 游戏总时间
+            playTime: [ function (val) {
+                return typeof val == "number" && val >= 0;
+            }, 0 ],  // 游戏总时间
         });
 
         // 初始化

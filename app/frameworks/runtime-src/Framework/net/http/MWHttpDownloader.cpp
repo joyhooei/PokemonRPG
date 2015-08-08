@@ -6,8 +6,8 @@
 #include <new>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-#include "curl/include/ios/curl/curl.h"
-#include "curl/include/ios/curl/easy.h"
+#include "curl.h"
+#include "easy.h"
 #endif
 
 using namespace cocos2d;

@@ -137,7 +137,6 @@
 		F559B8741B6CBC9C00C90AC9 /* MWAssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B7FE1B6CBC9C00C90AC9 /* MWAssetManager.cpp */; };
 		F559B8751B6CBC9C00C90AC9 /* MWUUIDGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B8001B6CBC9C00C90AC9 /* MWUUIDGenerator.cpp */; };
 		F559B87A1B6CBE8700C90AC9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F559B8791B6CBE8700C90AC9 /* SystemConfiguration.framework */; };
-		F559B87C1B6CBE9800C90AC9 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F559B87B1B6CBE9800C90AC9 /* libcurl.a */; };
 		F559B88C1B6CF3E700C90AC9 /* js_mwframework_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B88A1B6CF3E700C90AC9 /* js_mwframework_manual.cpp */; };
 /* End PBXBuildFile section */
 
@@ -356,15 +355,6 @@
 		F559B72F1B6CBC9B00C90AC9 /* MWJsonStructure.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWJsonStructure.cpp; sourceTree = "<group>"; };
 		F559B7301B6CBC9B00C90AC9 /* MWJsonStructure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJsonStructure.h; sourceTree = "<group>"; };
 		F559B7311B6CBC9B00C90AC9 /* mwframework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mwframework.h; sourceTree = "<group>"; };
-		F559B7441B6CBC9B00C90AC9 /* curl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
-		F559B7451B6CBC9B00C90AC9 /* curlbuild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlbuild.h; sourceTree = "<group>"; };
-		F559B7461B6CBC9B00C90AC9 /* curlrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlrules.h; sourceTree = "<group>"; };
-		F559B7471B6CBC9B00C90AC9 /* curlver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlver.h; sourceTree = "<group>"; };
-		F559B7481B6CBC9B00C90AC9 /* easy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = easy.h; sourceTree = "<group>"; };
-		F559B7491B6CBC9B00C90AC9 /* mprintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mprintf.h; sourceTree = "<group>"; };
-		F559B74A1B6CBC9B00C90AC9 /* multi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = multi.h; sourceTree = "<group>"; };
-		F559B74B1B6CBC9B00C90AC9 /* stdcheaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdcheaders.h; sourceTree = "<group>"; };
-		F559B74C1B6CBC9B00C90AC9 /* typecheck-gcc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "typecheck-gcc.h"; sourceTree = "<group>"; };
 		F559B7B61B6CBC9C00C90AC9 /* IHttpTransferStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IHttpTransferStrategy.h; sourceTree = "<group>"; };
 		F559B7B71B6CBC9C00C90AC9 /* MWHttpDownloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWHttpDownloader.cpp; sourceTree = "<group>"; };
 		F559B7B81B6CBC9C00C90AC9 /* MWHttpDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWHttpDownloader.h; sourceTree = "<group>"; };
@@ -464,7 +454,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F559B87C1B6CBE9800C90AC9 /* libcurl.a in Frameworks */,
 				F559B87A1B6CBE8700C90AC9 /* SystemConfiguration.framework in Frameworks */,
 				BA3A85EC1A724AE900924D24 /* Security.framework in Frameworks */,
 				BA4E718119EB6E3F00932425 /* MediaPlayer.framework in Frameworks */,
@@ -897,7 +886,6 @@
 		F559B7331B6CBC9B00C90AC9 /* http */ = {
 			isa = PBXGroup;
 			children = (
-				F559B7341B6CBC9B00C90AC9 /* curl */,
 				F559B7B61B6CBC9C00C90AC9 /* IHttpTransferStrategy.h */,
 				F559B7B71B6CBC9C00C90AC9 /* MWHttpDownloader.cpp */,
 				F559B7B81B6CBC9C00C90AC9 /* MWHttpDownloader.h */,
@@ -909,46 +897,6 @@
 				F559B7BE1B6CBC9C00C90AC9 /* MWHttpPostService.h */,
 			);
 			path = http;
-			sourceTree = "<group>";
-		};
-		F559B7341B6CBC9B00C90AC9 /* curl */ = {
-			isa = PBXGroup;
-			children = (
-				F559B7351B6CBC9B00C90AC9 /* include */,
-			);
-			path = curl;
-			sourceTree = "<group>";
-		};
-		F559B7351B6CBC9B00C90AC9 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				F559B7421B6CBC9B00C90AC9 /* ios */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		F559B7421B6CBC9B00C90AC9 /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				F559B7431B6CBC9B00C90AC9 /* curl */,
-			);
-			path = ios;
-			sourceTree = "<group>";
-		};
-		F559B7431B6CBC9B00C90AC9 /* curl */ = {
-			isa = PBXGroup;
-			children = (
-				F559B7441B6CBC9B00C90AC9 /* curl.h */,
-				F559B7451B6CBC9B00C90AC9 /* curlbuild.h */,
-				F559B7461B6CBC9B00C90AC9 /* curlrules.h */,
-				F559B7471B6CBC9B00C90AC9 /* curlver.h */,
-				F559B7481B6CBC9B00C90AC9 /* easy.h */,
-				F559B7491B6CBC9B00C90AC9 /* mprintf.h */,
-				F559B74A1B6CBC9B00C90AC9 /* multi.h */,
-				F559B74B1B6CBC9B00C90AC9 /* stdcheaders.h */,
-				F559B74C1B6CBC9B00C90AC9 /* typecheck-gcc.h */,
-			);
-			path = curl;
 			sourceTree = "<group>";
 		};
 		F559B7CC1B6CBC9C00C90AC9 /* platform */ = {
@@ -1495,19 +1443,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/android/armeabi",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/android/armeabi-v7a",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/android/x86",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/ios",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/win32",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/winrt_8.1/arm",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/winrt_8.1/win32",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/wp8/arm",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/wp8/win32",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/wp_8.1/arm",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/wp_8.1/win32",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../runtime-src/Framework/net/http/curl/prebuilt/ios";
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1534,19 +1470,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/android/armeabi",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/android/armeabi-v7a",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/android/x86",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/ios",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/win32",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/winrt_8.1/arm",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/winrt_8.1/win32",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/wp8/arm",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/wp8/win32",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/wp_8.1/arm",
-					"/Users/Maple/Documents/Projects/PokemonRPG/app/frameworks/runtime-src/Framework/net/http/curl/prebuilt/wp_8.1/win32",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../runtime-src/Framework/net/http/curl/prebuilt/ios";
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

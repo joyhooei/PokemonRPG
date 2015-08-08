@@ -25,9 +25,6 @@ var Hero = ModelBase.extend({
             gender: gender,
         });
     },
-    getId: function () {
-        return this._id;
-    },
     getName: function () {
         return this._name;
     },

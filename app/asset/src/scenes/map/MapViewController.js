@@ -13,7 +13,7 @@ var MapViewController = mw.ViewController.extend({
         var hero = DataCenter.getHero();
         mw.logWithTag("heroinfo", "Hero ID: %s, Hero Name: %s", hero.getId(), hero.getName());
 
-        var map = new cc.TMXTiledMap("res/tmx/demo_map.tmx");
+        var map = new cc.TMXTiledMap("tmx/demo_map.tmx");
         this.view().addChild(map);
 
         // 开始积累游戏时间

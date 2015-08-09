@@ -25,12 +25,36 @@ var DemoGameViewController=mw.ViewController.extend({
         //卸载View;
         mw.log("DemoViewController unload");
     },
-    playTouchedBegan:function(sender,event){
+    playTouchedBegan:function(touch,event){
+
         mw.log("Player TouchBegan with "+this._defineName);
 
-        cc.eventManager.removeAllListeners();//移除所有的监听 因为要转场了
+        //碰撞检测
 
-        cc.director.runScene(new AnotherScene());//转场
+        var target=event.getCurrentTarget();
+
+        //转换为相Player的坐标点这样只需要考虑宽高
+        var location=target.convertToNodeSpace( touch.getLocation());
+
+        //用于碰撞检测的矩形
+        var rect=cc.rect(0,0,target.getContentSize().width,target.getContentSize().height);
+
+       if( cc.rectContainsPoint(rect,location)){
+            mw.log("已碰撞");
+
+
+           cc.eventManager.removeAllListeners();//移除所有的监听 因为要转场了
+
+           cc.director.runScene(new AnotherScene());//转场
+
+
+       }else{
+           mw.log("未碰撞");
+       }
+
+
+
+
         return true;
     }
 });

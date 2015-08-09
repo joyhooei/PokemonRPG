@@ -2,8 +2,6 @@
  * Created by Maple on 8/5/15.
  */
 
-Registry = Registry || new Object();
-
 var Component = cc.Class.extend({
     ctor: function (name, depends) {
         if (!depends || !(depends instanceof Array)) {

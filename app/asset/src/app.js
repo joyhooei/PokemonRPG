@@ -4,7 +4,7 @@ var App = cc.Class.extend({
         jsb.fileUtils.addSearchPath("res");
     },
     run: function() {
-        var scene = new DemoScene();
+        var scene = new PlayScene();
         cc.director.runScene(scene);
     }
 });

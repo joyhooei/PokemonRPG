@@ -18,6 +18,7 @@ var ModalViewSegue = mw.ViewSegue.extend({
         cc.eventManager.addListener(listener, vc.view());
     },
     onTouchBegan: function (touch, event) {
+                                         mw.log("Segue Hook Touch");
         return true;
     }
 });

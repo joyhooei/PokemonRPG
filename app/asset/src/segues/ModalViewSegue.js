@@ -7,7 +7,6 @@ var ModalViewSegue = mw.ViewSegue.extend({
         this._super();
     },
     viewReadyToSegue: function (vc) {
-
     },
     viewDidSegue: function (vc) {
         var listener = cc.EventListener.create({
@@ -16,6 +15,8 @@ var ModalViewSegue = mw.ViewSegue.extend({
             onTouchBegan: MakeScriptHandler(this, this.onTouchBegan),
         });
         cc.eventManager.addListener(listener, vc.view());
+    },
+    viewDidSegueBack: function (vc) {
     },
     onTouchBegan: function (touch, event) {
         return true;

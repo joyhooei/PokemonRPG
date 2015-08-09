@@ -33,6 +33,7 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
 >>>>>>> 48e7d3ac3e349aa6c8a96999ad034286b53a2dda
       <file leaf-file-name="MapViewController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asset/src/scenes/map/MapViewController.js">
@@ -44,6 +45,12 @@
                 <element signature="n#!!doc" expanded="true" />
               </folding>
 =======
+=======
+      <file leaf-file-name="MapViewController.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/asset/src/scenes/map/MapViewController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.78846157">
+>>>>>>> ea56416022aff3150ba69ebc176fccc6bc25bf20
               <caret line="41" column="45" selection-start-line="41" selection-start-column="45" selection-end-line="41" selection-end-column="45" />
               <folding />
 >>>>>>> 48e7d3ac3e349aa6c8a96999ad034286b53a2dda
@@ -71,31 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OperationViewController.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/asset/src/scenes/map/OperationViewController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1923077">
-              <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="init.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asset/src/framework/init.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ModalViewSegue.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asset/src/segues/ModalViewSegue.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+              <caret line="23" column="3" selection-start-line="23" selection-start-column="3" selection-end-line="23" selection-end-column="3" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -163,15 +150,20 @@
         <option value="$PROJECT_DIR$/asset/src/framework/components/component.js" />
         <option value="$PROJECT_DIR$/asset/src/models/Hero.js" />
         <option value="$PROJECT_DIR$/asset/project.json" />
-        <option value="$PROJECT_DIR$/asset/src/segues/ModalViewSegue.js" />
         <option value="$PROJECT_DIR$/asset/src/framework/init.js" />
         <option value="$PROJECT_DIR$/asset/src/scenes/map/MapViewController.js" />
+<<<<<<< HEAD
 <<<<<<< HEAD
         <option value="$PROJECT_DIR$/asset/src/scenes/demo/DemoGameViewController.js" />
 =======
         <option value="$PROJECT_DIR$/asset/src/scenes/map/PlayScene.js" />
         <option value="$PROJECT_DIR$/asset/src/scenes/map/OperationViewController.js" />
 >>>>>>> 48e7d3ac3e349aa6c8a96999ad034286b53a2dda
+=======
+        <option value="$PROJECT_DIR$/asset/src/scenes/map/OperationViewController.js" />
+        <option value="$PROJECT_DIR$/asset/src/scenes/map/PlayScene.js" />
+        <option value="$PROJECT_DIR$/asset/src/segues/ModalViewSegue.js" />
+>>>>>>> ea56416022aff3150ba69ebc176fccc6bc25bf20
       </list>
     </option>
   </component>
@@ -235,6 +227,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frameworks" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -816,8 +822,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asset/src/segues/ModalViewSegue.js">
+    <entry file="file://$PROJECT_DIR$/asset/src/scenes/map/OperationViewController.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
 >>>>>>> 48e7d3ac3e349aa6c8a96999ad034286b53a2dda
@@ -837,10 +844,21 @@
           </folding>
 =======
     <entry file="file://$PROJECT_DIR$/asset/src/scenes/map/MapViewController.js">
+=======
+        <state vertical-scroll-proportion="0.32692307">
+          <caret line="19" column="3" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asset/src/segues/ModalViewSegue.js">
+>>>>>>> ea56416022aff3150ba69ebc176fccc6bc25bf20
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="45" selection-start-line="41" selection-start-column="45" selection-end-line="41" selection-end-column="45" />
-          <folding />
+          <caret line="23" column="3" selection-start-line="23" selection-start-column="3" selection-end-line="23" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#38#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -852,10 +870,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asset/src/scenes/map/OperationViewController.js">
+    <entry file="file://$PROJECT_DIR$/asset/src/scenes/map/MapViewController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1923077">
-          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.78846157">
+          <caret line="41" column="45" selection-start-line="41" selection-start-column="45" selection-end-line="41" selection-end-column="45" />
           <folding />
 >>>>>>> 48e7d3ac3e349aa6c8a96999ad034286b53a2dda
         </state>

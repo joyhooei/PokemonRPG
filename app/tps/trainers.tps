@@ -123,7 +123,7 @@
         <key>contentProtection</key>
         <struct type="ContentProtection">
             <key>key</key>
-            <string></string>
+            <string>33b495bcb090291ccb5aaa689a516406</string>
         </struct>
         <key>autoAliasEnabled</key>
         <true/>

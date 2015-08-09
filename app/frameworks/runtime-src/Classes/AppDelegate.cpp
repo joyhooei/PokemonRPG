@@ -67,6 +67,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
     
+    // set pvr.ccz encryption key 33b495bcb090291ccb5aaa689a516406
+    ZipUtils::setPvrEncryptionKey(0x33b495bc, 0xb090291c, 0xcb5aaa68, 0x9a516406);
+    
     ScriptingCore* sc = ScriptingCore::getInstance();
     sc->addRegisterCallback(register_all_cocos2dx);
     sc->addRegisterCallback(register_cocos2dx_js_core);

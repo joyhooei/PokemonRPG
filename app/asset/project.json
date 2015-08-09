@@ -26,6 +26,8 @@
 
         "src/models/Hero.js",
 
+        "src/segues/ModalViewSegue.js",
+
         "src/scenes/map/PlayScene.js",
         "src/scenes/map/MapViewController.js",
         "src/scenes/map/OperationViewController.js"

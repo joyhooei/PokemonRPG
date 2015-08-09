@@ -9,7 +9,7 @@ var PlayScene = mw.GameScene.extend({
     onEnter: function() {
         this._super();
         this.loadViewController(new MapViewController(), "MAP_VIEW_CONTROLLER");
-        this.loadViewController(new OperationViewController(), "OP_VIEW_CONTROLLER");
+        this.loadViewController(new OperationViewController(new ModalViewSegue()), "OP_VIEW_CONTROLLER");
     },
     onExit: function() {
         this._super();

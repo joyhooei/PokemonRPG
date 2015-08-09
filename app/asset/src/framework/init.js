@@ -20,7 +20,7 @@ mw.GameScene.prototype._ctor = function() {
 
 mw.ViewController.prototype._ctor = function() {
     if (arguments.length == 1) {
-        mw.ViewController.prototype.init.call(this, arguments[0]);
+        mw.ViewController.prototype.init.apply(this, arguments);
     }
 };
 

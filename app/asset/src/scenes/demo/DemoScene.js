@@ -14,7 +14,10 @@ var DemoScene=mw.GameScene.extend({
     },
     onExit:function(){
         mw.log("DemoScene onExit");
-        this.unloadAllViewControllers();//卸载所有的ViewController
+        /**
+        这段代码是不需要的，因为我在cpp层做了(By Winder)
+        */
+        // this.unloadAllViewControllers();//卸载所有的ViewController
         this._super();
     }
 });

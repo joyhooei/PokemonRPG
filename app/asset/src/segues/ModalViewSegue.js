@@ -19,6 +19,7 @@ var ModalViewSegue = mw.ViewSegue.extend({
     viewDidSegueBack: function (vc) {
     },
     onTouchBegan: function (touch, event) {
+                                         mw.log("Segue Hook Touch");
         return true;
     }
 });

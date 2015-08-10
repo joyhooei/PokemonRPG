@@ -18,12 +18,14 @@ var MapViewController = mw.ViewController.extend({
         var map = new cc.TMXTiledMap("tmx/demo_map.tmx");
         this.view().addChild(map);
 
+
         var listener = cc.EventListener.create({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
             onTouchBegan: MakeScriptHandler(this, this.onTouchBegan),
         });
         cc.eventManager.addListener(listener, this.view());
+
 
         // 开始积累游戏时间
         cc.director.getScheduler().schedule(MakeScriptHandler(this, this.addTime), this.view(), 1, -1, 1, false, PLAYTIME_SCHEDULE_KEY);

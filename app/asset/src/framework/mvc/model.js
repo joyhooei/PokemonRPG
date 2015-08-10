@@ -77,14 +77,13 @@ var ModelBase = cc.Class.extend({
                 var propType = propAttr[0];
                 var propValue = props[propName];
                 if (propType == undefined) {
-                    cc.log("Scheme中不存在的属性: %s", propName);
+                    mw.error("Scheme中不存在的属性: %s", propName);
                 } else if (propType instanceof Function && propType(propValue)) {
                     this["_" + propName] = propValue;
-                } else if (propValue === null || typeof propValue == propType ||
-                    (typeof global[propType] == "object" && propValue instanceof global[propType])) {
+                } else if (propValue === null || typeof propValue == propType) {
                     this["_" + propName] = propValue;
                 } else {
-                    cc.log("属性%s类型不匹配", propName);
+                    mw.error("属性%s类型不匹配", propName);
                 }
             }
         }

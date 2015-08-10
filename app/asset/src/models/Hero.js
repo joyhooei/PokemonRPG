@@ -13,7 +13,12 @@ var Hero = ModelBase.extend({
         // 定义model结构
         this._defineScheme({
             name: [ "string", null ],   // 姓名
-            gender: ["number", GENDER.MALE ], // 性别
+            gender: [function (val) {
+                return typeof val == "number" && val >= GENDER.MALE && val <= GENDER.FEMALE;
+            }, GENDER.MALE ], // 性别
+            direction: [function (val) {
+                return typeof val == "number" && val >= DIRECTIONS.UP && val <= DIRECTIONS.RIGHT;
+            }, DIRECTIONS.UP ],
             playTime: [ function (val) {
                 return typeof val == "number" && val >= 0;
             }, 0 ],  // 游戏总时间
@@ -30,6 +35,9 @@ var Hero = ModelBase.extend({
     },
     getGender: function () {
         return this._gender;
+    },
+    getDirection: function () {
+        return this._direction;
     },
     getPlayTime: function () {
         return this._playTime;

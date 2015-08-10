@@ -18,6 +18,7 @@
         "src/framework/mvc/model.js",
         "src/framework/mvc/notifier.js",
         "src/framework/components/component.js",
+        "src/framework/texture/manager.js",
 
         "src/app.js",
 
@@ -25,6 +26,8 @@
         "src/core/DataCenter.js",
 
         "src/models/Hero.js",
+
+        "src/views/HeroView.js",
 
         "src/segues/ModalViewSegue.js",
 

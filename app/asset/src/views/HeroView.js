@@ -21,6 +21,8 @@ var HeroView = cc.Node.extend({
         this._model = model;
     },
     updateView: function () {
+        var frameName = "trainers/hero" + this._model.getDirection() + "_1.png";
+        this._sprite.setSpriteFrame(cc.SpriteFrameCache.getInstance().getSpriteFrame(frameName));
     },
     _sprite: null,
 });

@@ -23,6 +23,8 @@ xcuserdata/
 xcuserdatad/
 *.xcclassmodel/
 DerivedData/
+# webstorm
+.idea/
 /tools/PokemonDBSpider/nbproject/private/
 /tools/PokemonDBSpider/build/
 /tools/PokemonDBSpider/dist/

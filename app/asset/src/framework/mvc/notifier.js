@@ -24,62 +24,62 @@ var Observer = cc.Class.extend({
  * notify触发事件 并传递事件参数
  * @type {{addObserver: Function, removeObserver: Function, notify: Function, _observerMap: Object}|*}
  */
-mw.Notifier = mw.Notifier || {
-        addObserver: function () {
-            cc.assert(arguments.length >= 3, "mw.Notifier.addObserver至少需要3个参数");
-            var event = Array.prototype.shift.apply(arguments);
-            var sender = Array.prototype.shift.apply(arguments);
-            var callback = Array.prototype.shift.apply(arguments);
-            var args = Array.prototype.slice.apply(arguments);
-            cc.assert(typeof event == "string", "event必须是一个字符串");
-            cc.assert(sender instanceof Object, "sender必须是一个对象");
-            cc.assert(callback instanceof Function, "callback必须是一个函数");
+Notifier =  {
+    addObserver: function () {
+        cc.assert(arguments.length >= 3, "mw.Notifier.addObserver至少需要3个参数");
+        var event = Array.prototype.shift.apply(arguments);
+        var sender = Array.prototype.shift.apply(arguments);
+        var callback = Array.prototype.shift.apply(arguments);
+        var args = Array.prototype.slice.apply(arguments);
+        cc.assert(typeof event == "string", "event必须是一个字符串");
+        cc.assert(sender instanceof Object, "sender必须是一个对象");
+        cc.assert(callback instanceof Function, "callback必须是一个函数");
 
-            if (this._observerMap[event] == undefined) {
-                this._observerMap[event] = [];
-            }
-            var ob = new Observer(sender, callback, args);
-            this._observerMap[event].push(ob);
-        },
-        removeObserver: function () {
-            cc.assert(arguments.length >= 2, "mw.Notifier.removeObserver至少需要2个参数");
-            var event = Array.prototype.shift.apply(arguments);
-            var sender = Array.prototype.shift.apply(arguments);
-            var callback = Array.prototype.shift.apply(arguments);
-            cc.assert(typeof event == "string", "event必须是一个字符串");
-            cc.assert(sender instanceof Object, "sender必须是一个对象");
-            cc.assert(callback instanceof Function, "callback必须是一个函数");
+        if (this._observerMap[event] == undefined) {
+            this._observerMap[event] = [];
+        }
+        var ob = new Observer(sender, callback, args);
+        this._observerMap[event].push(ob);
+    },
+    removeObserver: function () {
+        cc.assert(arguments.length >= 2, "mw.Notifier.removeObserver至少需要2个参数");
+        var event = Array.prototype.shift.apply(arguments);
+        var sender = Array.prototype.shift.apply(arguments);
+        var callback = Array.prototype.shift.apply(arguments);
+        cc.assert(typeof event == "string", "event必须是一个字符串");
+        cc.assert(sender instanceof Object, "sender必须是一个对象");
+        cc.assert(callback instanceof Function, "callback必须是一个函数");
 
-            if (this._observerMap[event] == undefined || this._observerMap[event].length <= 0) {
-                return;
+        if (this._observerMap[event] == undefined || this._observerMap[event].length <= 0) {
+            return;
+        }
+        var i = 0;
+        while (true) {
+            var ob = this._observerMap[event][i];
+            if (ob._sender == sender && (ob._callback == callback || callback == undefined)) {
+                this._observerMap[event].splice(i, 1);
+                --i;
             }
-            var i = 0;
-            while (true) {
-                var ob = this._observerMap[event][i];
-                if (ob._sender == sender && (ob._callback == callback || callback == undefined)) {
-                    this._observerMap[event].splice(i, 1);
-                    --i;
-                }
-                ++i;
-                if (i >= this._observerMap[event].length) {
-                    break;
-                }
+            ++i;
+            if (i >= this._observerMap[event].length) {
+                break;
             }
-        },
-        notify: function () {
-            cc.assert(arguments.length >= 1, "mw.Notifier.notify至少需要1个参数");
-            var event = Array.prototype.shift.apply(arguments);
-            var args = Array.prototype.slice.apply(arguments);
-            cc.assert(typeof event == "string", "event必须是一个字符串");
-            for (var ev in this._observerMap) {
-                if (ev == event) {
-                    for (var i in this._observerMap[ev]) {
-                        var ob = this._observerMap[ev][i];
-                        ob.call(args);
-                    }
-                    break;
+        }
+    },
+    notify: function () {
+        cc.assert(arguments.length >= 1, "mw.Notifier.notify至少需要1个参数");
+        var event = Array.prototype.shift.apply(arguments);
+        var args = Array.prototype.slice.apply(arguments);
+        cc.assert(typeof event == "string", "event必须是一个字符串");
+        for (var ev in this._observerMap) {
+            if (ev == event) {
+                for (var i in this._observerMap[ev]) {
+                    var ob = this._observerMap[ev][i];
+                    ob.call(args);
                 }
+                break;
             }
-        },
-        _observerMap: new Object(),
-    };
+        }
+    },
+    _observerMap: new Object(),
+};

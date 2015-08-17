@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="5aa255ae-e7e9-46a0-8dac-bdbb64b77114" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/asset/src/scenes/map/MapViewController.js" afterPath="$PROJECT_DIR$/app/asset/src/scenes/map/MapViewController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/asset/src/app.js" afterPath="$PROJECT_DIR$/app/asset/src/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/asset/project.json" afterPath="$PROJECT_DIR$/app/asset/project.json" />
     </list>
+=======
+    <list default="true" id="767af34e-75f8-4988-bce2-0f873cdd3e15" name="Default" comment="" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
     <ignored path="PokemonRPG.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,6 +29,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+<<<<<<< HEAD
       <file leaf-file-name="DemoGameViewController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/asset/src/scenes/demo/DemoGameViewController.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -32,21 +37,39 @@
               <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
               <folding>
                 <element signature="e#0#43#0" expanded="false" />
+=======
+      <file leaf-file-name="CCNode.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/frameworks/cocos2d-html5/cocos2d/core/base-nodes/CCNode.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="130" column="16" selection-start-line="130" selection-start-column="16" selection-end-line="130" selection-end-column="16" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="project.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/asset/project.json">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-7.4897957">
               <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+=======
+      <file leaf-file-name="CCClass.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/frameworks/cocos2d-html5/cocos2d/core/platform/CCClass.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.06048387">
+              <caret line="128" column="9" selection-start-line="128" selection-start-column="9" selection-end-line="128" selection-end-column="9" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="AnotherScene.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/asset/src/scenes/demo/AnotherScene.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -100,6 +123,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+=======
+      <file leaf-file-name="EcmaScript5.js" pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript5.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
               <folding />
             </state>
           </provider>
@@ -107,6 +137,7 @@
       </file>
     </leaf>
   </component>
+<<<<<<< HEAD
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -131,6 +162,11 @@
       </list>
     </option>
   </component>
+=======
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
   <component name="JsBuildToolGruntFileManager" detection-done="true" />
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
@@ -139,8 +175,13 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
+<<<<<<< HEAD
     <option name="x" value="30" />
     <option name="y" value="28" />
+=======
+    <option name="x" value="4" />
+    <option name="y" value="23" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
     <option name="width" value="1436" />
     <option name="height" value="877" />
   </component>
@@ -151,7 +192,11 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
+<<<<<<< HEAD
     <ConfirmationsSetting value="1" id="Add" />
+=======
+    <ConfirmationsSetting value="0" id="Add" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -167,7 +212,10 @@
       <sortByType />
     </navigator>
     <panes>
+<<<<<<< HEAD
       <pane id="Scope" />
+=======
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -214,7 +262,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="asset" />
+=======
+              <option name="myItemId" value="frameworks" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -232,11 +284,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="asset" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+=======
+              <option name="myItemId" value="frameworks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cocos2d-x" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -254,6 +314,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="asset" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -267,6 +328,13 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="map" />
+=======
+              <option name="myItemId" value="frameworks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cocos2d-html5" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -284,6 +352,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="asset" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -297,6 +366,17 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="demo" />
+=======
+              <option name="myItemId" value="frameworks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cocos2d-html5" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cocos2d" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -314,6 +394,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="asset" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -353,6 +434,21 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="mvc" />
+=======
+              <option name="myItemId" value="frameworks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cocos2d-html5" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cocos2d" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -370,6 +466,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="asset" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -405,17 +502,41 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
+=======
+              <option name="myItemId" value="frameworks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cocos2d-html5" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cocos2d" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="base-nodes" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
+<<<<<<< HEAD
+=======
+      <pane id="Scope" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="settings.nodejs" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
@@ -430,6 +551,12 @@
     <configuration default="false" name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/PokemonRPG/app/index.html">
       <method />
     </configuration>
+=======
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+  </component>
+  <component name="RunManager">
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <method />
     </configuration>
@@ -462,6 +589,7 @@
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <method />
     </configuration>
+<<<<<<< HEAD
     <list size="1">
       <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
     </list>
@@ -470,19 +598,32 @@
         <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
       </list>
     </recent_temporary>
+=======
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< HEAD
       <changelist id="5aa255ae-e7e9-46a0-8dac-bdbb64b77114" name="Default" comment="" />
       <created>1439036357052</created>
       <option name="number" value="Default" />
       <updated>1439036357052</updated>
+=======
+      <changelist id="767af34e-75f8-4988-bce2-0f873cdd3e15" name="Default" comment="" />
+      <created>1439708326822</created>
+      <option name="number" value="Default" />
+      <updated>1439708326822</updated>
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="30" y="28" width="1436" height="877" extended-state="0" />
+=======
+    <frame x="4" y="23" width="1436" height="877" extended-state="6" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
     <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -501,8 +642,13 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -513,6 +659,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/asset/src/scenes/map/PlayScene.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.198939">
@@ -598,12 +745,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.14919356">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/frameworks/cocos2d-html5/cocos2d/core/base-nodes/CCNode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="130" column="16" selection-start-line="130" selection-start-column="16" selection-end-line="130" selection-end-column="16" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/asset/src/framework/basic.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -616,18 +770,32 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4858871">
           <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
+=======
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/asset/project.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.4897957">
           <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/frameworks/cocos2d-html5/cocos2d/core/platform/CCClass.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.06048387">
+          <caret line="128" column="9" selection-start-line="128" selection-start-column="9" selection-end-line="128" selection-end-column="9" />
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/asset/src/scenes/demo/DemoScene.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -678,5 +846,7 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> 249dfd61a534b8af142260a9f3cef1fbd5c1de06
   </component>
 </project>

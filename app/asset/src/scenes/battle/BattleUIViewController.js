@@ -27,8 +27,23 @@ var BattleUIViewController = mw.ViewController.extend({
         }
     },
     _renderView: function () {
-        this._pokemon1 = new Pokemon(this.scene().getNumberParameter("pokemon1"));
-        this._pokemon2 = new Pokemon(this.scene().getNumberParameter("pokemon2"));
+        var bg = new cc.LayerColor(cc.color(0, 255, 0));
+        this.view().addChild(bg);
 
+        var pokemon1Id = this.scene().getParameter("pokemon1");
+        var pokemon2Id = this.scene().getParameter("pokemon2");
+        mw.logWithTag("mlgb", "Pokemon1: %s, Pokemon2: %s", pokemon1Id, pokemon2Id);
+        var pokemon1Model = new Pokemon(pokemon1Id);
+        var pokemon2Model = new Pokemon(pokemon2Id);
+
+        this._pokemon1 = new BattlePokemonView(pokemon1Model, true);
+        this._pokemon2 = new BattlePokemonView(pokemon2Model, false);
+
+        this._pokemon1.setPosition(cc.director.getWinSize().width * 0.2, cc.director.getWinSize().height * 0.2);
+        this.view().addChild(this._pokemon1);
+        this._pokemon2.setPosition(cc.director.getWinSize().width * 0.8, cc.director.getWinSize().height * 0.6);
+        this.view().addChild(this._pokemon2);
     },
+    _pokemon1: null,
+    _pokemon2: null,
 });

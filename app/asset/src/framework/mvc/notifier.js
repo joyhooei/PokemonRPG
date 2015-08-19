@@ -24,7 +24,7 @@ var Observer = cc.Class.extend({
  * notify触发事件 并传递事件参数
  * @type {{addObserver: Function, removeObserver: Function, notify: Function, _observerMap: Object}|*}
  */
-Notifier =  {
+var Notifier =  {
     addObserver: function () {
         cc.assert(arguments.length >= 3, "mw.Notifier.addObserver至少需要3个参数");
         var event = Array.prototype.shift.apply(arguments);
@@ -75,7 +75,7 @@ Notifier =  {
             if (ev == event) {
                 for (var i in this._observerMap[ev]) {
                     var ob = this._observerMap[ev][i];
-                    ob.call(args);
+                    ob.apply(null, args);
                 }
                 break;
             }

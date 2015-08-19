@@ -1,8 +1,8 @@
 /**
- * Created by Maple on 8/15/15.
+ * Created by Maple on 8/19/15.
  */
 
-var BattleUIViewController = mw.ViewController.extend({
+var BattleDialogViewController = mw.ViewController.extend({
     ctor: function (segue) {
         this._super(segue);
     },
@@ -27,6 +27,5 @@ var BattleUIViewController = mw.ViewController.extend({
         }
     },
     _renderView: function () {
-        
     },
 });

@@ -24,6 +24,7 @@
         "src/app.js",
 
         "src/core/GameConstants.js",
+        "src/core/GameEnumerations.js",
         "src/core/DataCenter.js",
 
         "src/models/Hero.js",
@@ -34,6 +35,10 @@
 
         "src/scenes/map/PlayScene.js",
         "src/scenes/map/MapViewController.js",
-        "src/scenes/map/OperationViewController.js"
+        "src/scenes/map/OperationViewController.js",
+
+        "src/scenes/battle/BattleScene.js",
+        "src/scenes/battle/BattleUIViewController.js",
+        "src/scenes/battle/BattleDialogViewController.js"
     ]
 }

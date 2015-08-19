@@ -7,11 +7,7 @@
   */
 var OperationViewController = mw.ViewController.extend({
     ctor: function (segue) {
-        if (segue) {
-            this._super(segue);
-        } else {
-            this._super();
-        }
+        this._super(segue);
     },
     viewDidLoad: function () {
     },

@@ -1,18 +1,12 @@
 /**
- * Created by Maple on 8/7/15.
+ * Created by Maple on 8/19/15.
  */
 
 /**
- * 游戏常量都在这
+ * 游戏常量都放这
  */
-GENDER = {
-    MALE: 1,
-    FEMALE: 2,
-};
 
-DIRECTIONS = {
-    UP: 1,
-    LEFT: 2,
-    DOWN: 3,
-    RIGHT: 4,
-}
+var MAP_VC_NAME = "MAP_VC";
+var OPERATION_VC_NAME = "OP_VC";
+var BATTLE_UI_VC_NAME = "BATTLE_UI_VC";
+var BATTLE_DIALOG_VC_NAME = "BATTLE_DLG_VC";

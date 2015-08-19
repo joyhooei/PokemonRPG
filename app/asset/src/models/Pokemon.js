@@ -12,7 +12,7 @@ var Pokemon = ModelBase.extend({
             gender: [function (val) {
                 return typeof val == "number" && val >= GENDER.MALE && val <= GENDER.FEMALE;
             }, GENDER.MALE ], // 性别
-            properties: [function (val) {
+            property: [function (val) {
                 return val instanceof Array;
             }],     // 属性
         });
@@ -26,5 +26,14 @@ var Pokemon = ModelBase.extend({
             gender: Math.ceil(Math.random() * 2),
             properties: data["property"].split(","),
         });
+    },
+    getName: function () {
+        return this._name;
+    },
+    getGender: function () {
+        return this._gender;
+    },
+    getProperty: function () {
+        return this._property;
     },
 });

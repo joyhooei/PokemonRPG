@@ -3,6 +3,8 @@
  */
 
 var BattleDialogViewController = mw.ViewController.extend({
+    TEXTURES_TO_LOAD: {
+    },
     ctor: function (segue) {
         this._super(segue);
     },
@@ -14,15 +16,13 @@ var BattleDialogViewController = mw.ViewController.extend({
         this._unloadTextures();
     },
     _loadTextures: function () {
-        var TEXTURES_TO_LOAD = {
-        };
-        for (var plist in TEXTURES_TO_LOAD) {
-            var tex = TEXTURES_TO_LOAD[plist];
+        for (var plist in this.TEXTURES_TO_LOAD) {
+            var tex = this.TEXTURES_TO_LOAD[plist];
             TextureManager.loadTexture(plist, tex);
         }
     },
     _unloadTextures: function () {
-        for (var plist in TEXTURES_TO_LOAD) {
+        for (var plist in this.TEXTURES_TO_LOAD) {
             TextureManager.unloadTexture(plist);
         }
     },

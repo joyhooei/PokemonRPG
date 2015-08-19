@@ -28,6 +28,7 @@
         "src/core/DataCenter.js",
 
         "src/models/Hero.js",
+        "src/models/Pokemon.js",
 
         "src/views/HeroView.js",
 

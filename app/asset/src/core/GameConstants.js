@@ -5,6 +5,7 @@
 /**
  * 游戏常量都放这
  */
+var DB_PATH = "icon.jpg";
 
 var MAP_VC_NAME = "MAP_VC";
 var OPERATION_VC_NAME = "OP_VC";

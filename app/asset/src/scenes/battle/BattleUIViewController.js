@@ -27,6 +27,9 @@ var BattleUIViewController = mw.ViewController.extend({
         }
     },
     _renderView: function () {
-        
+        this._pokemon1 = new Pokemon(this.scene().getNumberParameter("pokemon1"));
+        this._pokemon2 = new Pokemon(this.scene().getNumberParameter("pokemon2"));
+
+
     },
 });

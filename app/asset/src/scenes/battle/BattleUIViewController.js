@@ -44,9 +44,9 @@ var BattleUIViewController = mw.ViewController.extend({
         this._pokemon2.setPosition(cc.director.getWinSize().width * 0.8, cc.director.getWinSize().height * 0.6);
         this.view().addChild(this._pokemon2);
 
-        this._playerBoard = new BattlePlayerBoardView(pokemon1Model);
-        this._playerBoard.setPosition(cc.director.getWinSize().width * 0.5, cc.director.getWinSize().height * 0.5);
-        this.view().addChild(this._playerBoard);
+        //this._playerBoard = new BattlePlayerBoardView(pokemon1Model);
+        //this._playerBoard.setPosition(cc.director.getWinSize().width * 0.5, cc.director.getWinSize().height * 0.5);
+        //this.view().addChild(this._playerBoard);
     },
     _pokemon1: null,
     _pokemon2: null,

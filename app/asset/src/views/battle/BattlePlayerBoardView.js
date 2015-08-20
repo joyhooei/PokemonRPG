@@ -6,7 +6,7 @@ var BattlePlayerBoardView = cc.Node.extend({
     ctor: function (model) {
         this._super();
 
-        var node = ccs.csLoader.createNode("csb/battle_player_board1.csb");
-        this.addChild(node);
+        //var node = ccs.csLoader.createNode("csb/battle_player_board1.csb");
+        //this.addChild(node);
     },
 });

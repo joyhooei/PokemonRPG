@@ -6,7 +6,7 @@
  * 数据中心 全局数据都保存在这
  * @type {Object}
  */
-DataCenter = new Object();
+var DataCenter = new Object();
 
 DataCenter.getHero = function () {
     if (this._hero === undefined) {

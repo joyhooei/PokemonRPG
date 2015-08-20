@@ -2174,6 +2174,42 @@ bool js_mwframework_MWGameScene_getViewControllers(JSContext *cx, uint32_t argc,
     JS_ReportError(cx, "js_mwframework_MWGameScene_getViewControllers : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
+bool js_mwframework_MWGameScene_init(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWGameScene* cobj = (mwframework::MWGameScene *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWGameScene_init : Invalid Native Object");
+    if (argc == 0) {
+        bool ret = cobj->init();
+        jsval jsret = JSVAL_NULL;
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+    if (argc == 1) {
+        mwframework::MWDictionary* arg0;
+        do {
+            if (!args.get(0).isObject()) { ok = false; break; }
+            js_proxy_t *jsProxy;
+            JSObject *tmpObj = args.get(0).toObjectOrNull();
+            jsProxy = jsb_get_js_proxy(tmpObj);
+            arg0 = (mwframework::MWDictionary*)(jsProxy ? jsProxy->ptr : NULL);
+            JSB_PRECONDITION2( arg0, cx, false, "Invalid Native Object");
+        } while (0);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWGameScene_init : Error processing arguments");
+        bool ret = cobj->init(arg0);
+        jsval jsret = JSVAL_NULL;
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWGameScene_init : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
 bool js_mwframework_MWGameScene_unloadViewController(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -2259,62 +2295,26 @@ bool js_mwframework_MWGameScene_getViewControllerByIdentifier(JSContext *cx, uin
     JS_ReportError(cx, "js_mwframework_MWGameScene_getViewControllerByIdentifier : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
-bool js_mwframework_MWGameScene_init(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_mwframework_MWGameScene_getParameter(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
     js_proxy_t *proxy = jsb_get_js_proxy(obj);
     mwframework::MWGameScene* cobj = (mwframework::MWGameScene *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWGameScene_init : Invalid Native Object");
-    if (argc == 0) {
-        bool ret = cobj->init();
-        jsval jsret = JSVAL_NULL;
-        jsret = BOOLEAN_TO_JSVAL(ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    if (argc == 1) {
-        mwframework::MWDictionary* arg0;
-        do {
-            if (!args.get(0).isObject()) { ok = false; break; }
-            js_proxy_t *jsProxy;
-            JSObject *tmpObj = args.get(0).toObjectOrNull();
-            jsProxy = jsb_get_js_proxy(tmpObj);
-            arg0 = (mwframework::MWDictionary*)(jsProxy ? jsProxy->ptr : NULL);
-            JSB_PRECONDITION2( arg0, cx, false, "Invalid Native Object");
-        } while (0);
-        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWGameScene_init : Error processing arguments");
-        bool ret = cobj->init(arg0);
-        jsval jsret = JSVAL_NULL;
-        jsret = BOOLEAN_TO_JSVAL(ret);
-        args.rval().set(jsret);
-        return true;
-    }
-
-    JS_ReportError(cx, "js_mwframework_MWGameScene_init : wrong number of arguments: %d, was expecting %d", argc, 0);
-    return false;
-}
-bool js_mwframework_MWGameScene_getBooleanParameter(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    bool ok = true;
-    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    mwframework::MWGameScene* cobj = (mwframework::MWGameScene *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWGameScene_getBooleanParameter : Invalid Native Object");
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWGameScene_getParameter : Invalid Native Object");
     if (argc == 1) {
         std::string arg0;
         ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWGameScene_getBooleanParameter : Error processing arguments");
-        bool ret = cobj->getBooleanParameter(arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWGameScene_getParameter : Error processing arguments");
+        std::string ret = cobj->getParameter(arg0);
         jsval jsret = JSVAL_NULL;
-        jsret = BOOLEAN_TO_JSVAL(ret);
+        jsret = std_string_to_jsval(cx, ret);
         args.rval().set(jsret);
         return true;
     }
 
-    JS_ReportError(cx, "js_mwframework_MWGameScene_getBooleanParameter : wrong number of arguments: %d, was expecting %d", argc, 1);
+    JS_ReportError(cx, "js_mwframework_MWGameScene_getParameter : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
 bool js_mwframework_MWGameScene_unloadAllViewControllers(JSContext *cx, uint32_t argc, jsval *vp)
@@ -2337,105 +2337,22 @@ bool js_mwframework_MWGameScene_addParameter(JSContext *cx, uint32_t argc, jsval
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-
-    JS::RootedObject obj(cx);
-    mwframework::MWGameScene* cobj = NULL;
-    obj = args.thisv().toObjectOrNull();
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    cobj = (mwframework::MWGameScene *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWGameScene_addParameter : Invalid Native Object");
-    do {
-        if (argc == 2) {
-            std::string arg0;
-            ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-            if (!ok) { ok = true; break; }
-            bool arg1;
-            arg1 = JS::ToBoolean(args.get(1));
-            cobj->addParameter(arg0, arg1);
-            args.rval().setUndefined();
-            return true;
-        }
-    } while(0);
-
-    do {
-        if (argc == 2) {
-            std::string arg0;
-            ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-            if (!ok) { ok = true; break; }
-            double arg1;
-            ok &= JS::ToNumber( cx, args.get(1), &arg1) && !isnan(arg1);
-            if (!ok) { ok = true; break; }
-            cobj->addParameter(arg0, arg1);
-            args.rval().setUndefined();
-            return true;
-        }
-    } while(0);
-
-    do {
-        if (argc == 2) {
-            std::string arg0;
-            ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-            if (!ok) { ok = true; break; }
-            std::string arg1;
-            ok &= jsval_to_std_string(cx, args.get(1), &arg1);
-            if (!ok) { ok = true; break; }
-            cobj->addParameter(arg0, arg1);
-            args.rval().setUndefined();
-            return true;
-        }
-    } while(0);
-
-    do {
-        if (argc == 2) {
-            std::string arg0;
-            ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-            if (!ok) { ok = true; break; }
-            cocos2d::Ref* arg1;
-            do {
-                if (!args.get(1).isObject()) { ok = false; break; }
-                js_proxy_t *jsProxy;
-                JSObject *tmpObj = args.get(1).toObjectOrNull();
-                jsProxy = jsb_get_js_proxy(tmpObj);
-                arg1 = (cocos2d::Ref*)(jsProxy ? jsProxy->ptr : NULL);
-                JSB_PRECONDITION2( arg1, cx, false, "Invalid Native Object");
-            } while (0);
-            if (!ok) { ok = true; break; }
-            cobj->addParameter(arg0, arg1);
-            args.rval().setUndefined();
-            return true;
-        }
-    } while(0);
-
-    JS_ReportError(cx, "js_mwframework_MWGameScene_addParameter : wrong number of arguments");
-    return false;
-}
-bool js_mwframework_MWGameScene_getRefParameter(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    bool ok = true;
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
     js_proxy_t *proxy = jsb_get_js_proxy(obj);
     mwframework::MWGameScene* cobj = (mwframework::MWGameScene *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWGameScene_getRefParameter : Invalid Native Object");
-    if (argc == 1) {
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWGameScene_addParameter : Invalid Native Object");
+    if (argc == 2) {
         std::string arg0;
+        std::string arg1;
         ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWGameScene_getRefParameter : Error processing arguments");
-        cocos2d::Ref* ret = cobj->getRefParameter(arg0);
-        jsval jsret = JSVAL_NULL;
-        do {
-            if (ret) {
-                js_proxy_t *jsProxy = js_get_or_create_proxy<cocos2d::Ref>(cx, (cocos2d::Ref*)ret);
-                jsret = OBJECT_TO_JSVAL(jsProxy->obj);
-            } else {
-                jsret = JSVAL_NULL;
-            }
-        } while (0);
-        args.rval().set(jsret);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWGameScene_addParameter : Error processing arguments");
+        cobj->addParameter(arg0, arg1);
+        args.rval().setUndefined();
         return true;
     }
 
-    JS_ReportError(cx, "js_mwframework_MWGameScene_getRefParameter : wrong number of arguments: %d, was expecting %d", argc, 1);
+    JS_ReportError(cx, "js_mwframework_MWGameScene_addParameter : wrong number of arguments: %d, was expecting %d", argc, 2);
     return false;
 }
 bool js_mwframework_MWGameScene_getMemoryWarningLine(JSContext *cx, uint32_t argc, jsval *vp)
@@ -2476,28 +2393,6 @@ bool js_mwframework_MWGameScene_setMemoryWarningLine(JSContext *cx, uint32_t arg
     JS_ReportError(cx, "js_mwframework_MWGameScene_setMemoryWarningLine : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
-bool js_mwframework_MWGameScene_getStringParameter(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    bool ok = true;
-    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    mwframework::MWGameScene* cobj = (mwframework::MWGameScene *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWGameScene_getStringParameter : Invalid Native Object");
-    if (argc == 1) {
-        std::string arg0;
-        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWGameScene_getStringParameter : Error processing arguments");
-        std::string ret = cobj->getStringParameter(arg0);
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
-        args.rval().set(jsret);
-        return true;
-    }
-
-    JS_ReportError(cx, "js_mwframework_MWGameScene_getStringParameter : wrong number of arguments: %d, was expecting %d", argc, 1);
-    return false;
-}
 bool js_mwframework_MWGameScene_unloadViewControllerByIdentifier(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -2516,28 +2411,6 @@ bool js_mwframework_MWGameScene_unloadViewControllerByIdentifier(JSContext *cx, 
     }
 
     JS_ReportError(cx, "js_mwframework_MWGameScene_unloadViewControllerByIdentifier : wrong number of arguments: %d, was expecting %d", argc, 1);
-    return false;
-}
-bool js_mwframework_MWGameScene_getNumberParameter(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    bool ok = true;
-    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    mwframework::MWGameScene* cobj = (mwframework::MWGameScene *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWGameScene_getNumberParameter : Invalid Native Object");
-    if (argc == 1) {
-        std::string arg0;
-        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWGameScene_getNumberParameter : Error processing arguments");
-        double ret = cobj->getNumberParameter(arg0);
-        jsval jsret = JSVAL_NULL;
-        jsret = DOUBLE_TO_JSVAL(ret);
-        args.rval().set(jsret);
-        return true;
-    }
-
-    JS_ReportError(cx, "js_mwframework_MWGameScene_getNumberParameter : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
 bool js_mwframework_MWGameScene_create(JSContext *cx, uint32_t argc, jsval *vp)
@@ -2633,19 +2506,16 @@ void js_register_mwframework_MWGameScene(JSContext *cx, JS::HandleObject global)
 
     static JSFunctionSpec funcs[] = {
         JS_FN("getViewControllers", js_mwframework_MWGameScene_getViewControllers, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("init", js_mwframework_MWGameScene_init, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("unloadViewController", js_mwframework_MWGameScene_unloadViewController, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("loadViewController", js_mwframework_MWGameScene_loadViewController, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getViewControllerByIdentifier", js_mwframework_MWGameScene_getViewControllerByIdentifier, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("init", js_mwframework_MWGameScene_init, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("getBooleanParameter", js_mwframework_MWGameScene_getBooleanParameter, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getParameter", js_mwframework_MWGameScene_getParameter, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("unloadAllViewControllers", js_mwframework_MWGameScene_unloadAllViewControllers, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("addParameter", js_mwframework_MWGameScene_addParameter, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("getRefParameter", js_mwframework_MWGameScene_getRefParameter, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getMemoryWarningLine", js_mwframework_MWGameScene_getMemoryWarningLine, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("setMemoryWarningLine", js_mwframework_MWGameScene_setMemoryWarningLine, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("getStringParameter", js_mwframework_MWGameScene_getStringParameter, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("unloadViewControllerByIdentifier", js_mwframework_MWGameScene_unloadViewControllerByIdentifier, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("getNumberParameter", js_mwframework_MWGameScene_getNumberParameter, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("ctor", js_mwframework_MWGameScene_ctor, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };

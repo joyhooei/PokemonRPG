@@ -58,10 +58,7 @@ public:
      * @param key New parameter key.
      * @param param It can be a number, boolean, string and cocos2dx object.
      */
-    void addParameter(const std::string &key, double param);
-    void addParameter(const std::string &key, bool param);
     void addParameter(const std::string &key, const std::string &param);
-    void addParameter(const std::string &key, cocos2d::Ref *param);
     
     /**
      * Get the parameter of the specified key, it will throw an exception if the key doesn't exist.
@@ -70,10 +67,7 @@ public:
      *
      * @return The parameter value.
      */
-    double getNumberParameter(const std::string &key);
-    bool getBooleanParameter(const std::string &key);
-    std::string getStringParameter(const std::string &key);
-    cocos2d::Ref *getRefParameter(const std::string &key);
+    std::string getParameter(const std::string &key);
     
     /**
      * Segue a view controller from the root view controller with the way of overlapping.

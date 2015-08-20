@@ -15,11 +15,24 @@ var ModalViewSegue = mw.ViewSegue.extend({
             onTouchBegan: MakeScriptHandler(this, this.onTouchBegan),
         });
         cc.eventManager.addListener(listener, vc.view());
+        this._listener = listener;
     },
     viewDidSegueBack: function (vc) {
+    },
+    setEnabled: function (isEnabled) {
+        if (this._listener) {
+            this._listener.setEnabled(isEnabled);
+        }
+    },
+    isEnabled: function () {
+        if (this._listener) {
+            return this._listener.isEnabled();
+        }
+        return false;
     },
     onTouchBegan: function (touch, event) {
                                          mw.log("Segue Hook Touch");
         return true;
-    }
+    },
+    _listener: null,
 });

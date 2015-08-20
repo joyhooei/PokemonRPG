@@ -771,6 +771,16 @@ getViewControllers : function (
 },
 
 /**
+ * @method init
+ * @return {bool}
+ */
+init : function (
+)
+{
+    return false;
+},
+
+/**
  * @method unloadViewController
  * @param {mw.MWViewController} arg0
  */
@@ -805,25 +815,15 @@ str
 },
 
 /**
- * @method init
- * @return {bool}
- */
-init : function (
-)
-{
-    return false;
-},
-
-/**
- * @method getBooleanParameter
+ * @method getParameter
  * @param {String} arg0
- * @return {bool}
+ * @return {String}
  */
-getBooleanParameter : function (
+getParameter : function (
 str 
 )
 {
-    return false;
+    return ;
 },
 
 /**
@@ -836,26 +836,14 @@ unloadAllViewControllers : function (
 
 /**
  * @method addParameter
-* @param {String|String|String|String} str
-* @param {bool|double|String|cc.Ref} bool
-*/
-addParameter : function(
-str,
-ref 
-)
-{
-},
-
-/**
- * @method getRefParameter
  * @param {String} arg0
- * @return {cc.Ref}
+ * @param {String} arg1
  */
-getRefParameter : function (
+addParameter : function (
+str, 
 str 
 )
 {
-    return cc.Ref;
 },
 
 /**
@@ -879,18 +867,6 @@ double
 },
 
 /**
- * @method getStringParameter
- * @param {String} arg0
- * @return {String}
- */
-getStringParameter : function (
-str 
-)
-{
-    return ;
-},
-
-/**
  * @method unloadViewControllerByIdentifier
  * @param {String} arg0
  */
@@ -898,18 +874,6 @@ unloadViewControllerByIdentifier : function (
 str 
 )
 {
-},
-
-/**
- * @method getNumberParameter
- * @param {String} arg0
- * @return {double}
- */
-getNumberParameter : function (
-str 
-)
-{
-    return 0;
 },
 
 /**

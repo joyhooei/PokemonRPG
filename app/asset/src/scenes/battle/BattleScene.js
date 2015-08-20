@@ -8,6 +8,9 @@ var BattleScene = mw.GameScene.extend({
     },
     onEnter: function () {
         this._super();
+
+        this.loadViewController(new BattleUIViewController(), BATTLE_UI_VC_NAME);
+        this.loadViewController(new BattleDialogViewController(new ModalViewSegue()), BATTLE_DIALOG_VC_NAME);
     },
     onExit: function () {
         this._super();

@@ -1,5 +1,5 @@
 /******************************
- Description: IO utils strategy base.
+ Description: IO utils ios strategy.
  Author: M.Wan
  Date: 3/18/2015
  ******************************/

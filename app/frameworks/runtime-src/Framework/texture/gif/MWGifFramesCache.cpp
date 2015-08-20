@@ -19,7 +19,7 @@ void MWGifFramesCache::addGifFramesCache(const std::string &gifPath)
 {
     auto pGif = MWGifSprite::createWithFile(gifPath);
     if (pGif) {
-        this->addGifFramesCache(pGif, FileUtils::getInstance()->fullPathForFilename(gifPath));
+    this->addGifFramesCache(pGif, FileUtils::getInstance()->fullPathForFilename(gifPath));
     }
 }
 
@@ -27,7 +27,7 @@ void MWGifFramesCache::addGifFramesCache(mwframework::MWBinaryData *data, const 
 {
     auto pGif = MWGifSprite::createWithRawData(data);
     if (pGif) {
-        this->addGifFramesCache(pGif, key);
+    this->addGifFramesCache(pGif, key);
     }
 }
 

@@ -15,7 +15,7 @@ bool js_mwframework_MWDictionary_allKeys(JSContext *cx, uint32_t argc, jsval *vp
     mwframework::MWDictionary * cobj = (mwframework::MWDictionary *)(proxy ? proxy->ptr : NULL);
     JSB_PRECONDITION2(cobj, cx, false, "js_mwframework_MWDictionary_allKeys : Invalid Native Object");
     if (argc == 0) {
-        std::vector<const std::string> ret = cobj->allKeys();
+        std::vector<std::string> ret = cobj->allKeys();
         JS::RootedObject jsretArr(cx, JS_NewArrayObject(cx, 0));
         
         int i = 0;
@@ -131,7 +131,7 @@ bool js_mwframework_MWJsonObject_allKeys(JSContext *cx, uint32_t argc, jsval *vp
     mwframework::MWJsonObject * cobj = (mwframework::MWJsonObject *)(proxy ? proxy->ptr : NULL);
     JSB_PRECONDITION2(cobj, cx, false, "js_mwframework_MWJsonObject_allKeys : Invalid Native Object");
     if (argc == 0) {
-        std::vector<const std::string> ret = cobj->allKeys();
+        std::vector<std::string> ret = cobj->allKeys();
         JS::RootedObject jsretArr(cx, JS_NewArrayObject(cx, 0));
         
         int i = 0;

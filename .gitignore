@@ -25,6 +25,9 @@ xcuserdatad/
 DerivedData/
 # webstorm
 .idea/
+# ccs
+*.udf
+# netbeans
 /tools/PokemonDBSpider/nbproject/private/
 /tools/PokemonDBSpider/build/
 /tools/PokemonDBSpider/dist/

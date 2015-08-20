@@ -32,6 +32,7 @@
 
         "src/views/HeroView.js",
         "src/views/battle/BattlePokemonView.js",
+        "src/views/battle/BattlePlayerBoardView.js",
 
         "src/segues/ModalViewSegue.js",
 

@@ -27,5 +27,6 @@ var BattleDialogViewController = mw.ViewController.extend({
         }
     },
     _renderView: function () {
+        this.segue().setEnabled(false);
     },
 });

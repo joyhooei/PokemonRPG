@@ -2,6 +2,8 @@
 var App = cc.Class.extend({
     ctor: function() {
         jsb.fileUtils.addSearchPath("res");
+
+        TextureManager.setPvrTexturesSupportPremultipliedAlpha(true);
     },
     run: function() {
         var scene = new BattleScene();

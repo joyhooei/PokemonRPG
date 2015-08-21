@@ -11,6 +11,7 @@
  * didLoadTexture: 是否加载了某个纹理
  * loadTextureAsync: 异步加载纹理
  * forceUnloadTexture: 强制卸载纹理
+ * setPvrTexturesSupportPremultipliedAlpha: 设置PVR纹理是否支持alpha预乘
  * @type {{loadTexture: Function, unloadTexture: Function, _textureMap: Object}}
  */
 var TextureManager = {
@@ -83,6 +84,9 @@ var TextureManager = {
         cc.SpriteFrameCache.getInstance().removeSpriteFramesFromFile(plist);
         cc.director.getTextureCache().removeTextureForKey(this._textureMap[plist]["texture"]);
         this._textureMap[plist] = undefined;
+    },
+    setPvrTexturesSupportPremultipliedAlpha: function (bSupport) {
+        cc.Image.setPVRImagesHavePremultipliedAlpha(bSupport);
     },
     _textureMap: new Object(),
 };

@@ -41,6 +41,7 @@ var BattlePlayerBoardView = cc.Node.extend({
         );
         this.updateState(this._model.getState());
         this.updateLevel(this._model.getLevel());
+        this.updateHpInfo();
     },
     updateState: function (state) {
         if (state == POKEMON_STATES.NORMAL) {
@@ -54,6 +55,10 @@ var BattlePlayerBoardView = cc.Node.extend({
     },
     updateLevel: function (lv) {
         this._lblLv.setString("Lv." + lv.toString());
+    },
+    updateHpInfo: function () {
+        var basicValues = this._model.getBasicValues();
+        this._lblHp.setString(cc.formatStr("%d / %d", this._model.getHp(), basicValues[0]))
     },
     _model: null,
     _expBar: null,

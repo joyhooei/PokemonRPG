@@ -40,8 +40,8 @@
           <AbstractNodeData Name="board_bg" ActionTag="-786491580" Tag="3" IconVisible="False" LeftMargin="-150.0000" RightMargin="-150.0000" TopMargin="-40.0000" BottomMargin="-40.0000" Scale9Enable="True" LeftEage="16" RightEage="16" TopEage="16" BottomEage="16" Scale9OriginX="16" Scale9OriginY="16" Scale9Width="19" Scale9Height="19" ctype="ImageViewObjectData">
             <Size X="300.0000" Y="80.0000" />
             <Children>
-              <AbstractNodeData Name="pokemon_name" ActionTag="1262623502" Tag="3" IconVisible="False" VerticalEdge="TopEdge" LeftMargin="35.0000" RightMargin="183.0000" TopMargin="9.0000" BottomMargin="69.0000" FontSize="20" LabelText="阿尔修斯" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
-                <Size X="82.0000" Y="22.0000" />
+              <AbstractNodeData Name="pokemon_name" ActionTag="1262623502" Tag="3" IconVisible="False" VerticalEdge="TopEdge" LeftMargin="35.0000" RightMargin="183.0000" TopMargin="9.0000" BottomMargin="69.0000" FontSize="20" LabelText="我的名字很长" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
+                <Size X="122.0000" Y="22.0000" />
                 <AnchorPoint ScaleY="0.5000" />
                 <Position X="35.0000" Y="60.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
@@ -74,8 +74,8 @@
                 <FileData Type="PlistSubImage" Path="common/icon_state_1.png" Plist="textures/common.plist" />
                 <BlendFunc Src="1" Dst="771" />
               </AbstractNodeData>
-              <AbstractNodeData Name="pokemon_lv" ActionTag="-408012991" Tag="8" IconVisible="False" HorizontalEdge="RightEdge" VerticalEdge="TopEdge" LeftMargin="238.0000" RightMargin="15.0000" TopMargin="9.0000" BottomMargin="69.0000" FontSize="20" LabelText="Lv.28" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
-                <Size X="47.0000" Y="22.0000" />
+              <AbstractNodeData Name="pokemon_lv" ActionTag="-408012991" Tag="8" IconVisible="False" HorizontalEdge="RightEdge" VerticalEdge="TopEdge" LeftMargin="238.0000" RightMargin="15.0000" TopMargin="9.0000" BottomMargin="69.0000" FontSize="20" LabelText="Lv.100" HorizontalAlignmentType="HT_Right" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
+                <Size X="58.0000" Y="22.0000" />
                 <AnchorPoint ScaleX="1.0000" ScaleY="0.5000" />
                 <Position X="285.0000" Y="60.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
@@ -107,8 +107,8 @@
                 <PreSize X="0.4533" Y="0.1000" />
                 <ImageFileData Type="PlistSubImage" Path="common/hp_green.png" Plist="textures/common.plist" />
               </AbstractNodeData>
-              <AbstractNodeData Name="hp_info" ActionTag="528013667" Tag="12" IconVisible="False" HorizontalEdge="RightEdge" VerticalEdge="BottomEdge" LeftMargin="220.5000" RightMargin="12.5000" TopMargin="54.6826" BottomMargin="7.3174" FontSize="18" LabelText="99 / 200" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
-                <Size X="67.0000" Y="18.0000" />
+              <AbstractNodeData Name="hp_info" ActionTag="528013667" Tag="12" IconVisible="False" HorizontalEdge="RightEdge" VerticalEdge="BottomEdge" LeftMargin="220.5000" RightMargin="12.5000" TopMargin="54.6826" BottomMargin="7.3174" FontSize="18" LabelText="9999 / 9999&#xA;" HorizontalAlignmentType="HT_Right" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+                <Size X="97.0000" Y="18.0000" />
                 <AnchorPoint ScaleX="1.0000" ScaleY="0.5000" />
                 <Position X="287.5000" Y="16.3174" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />

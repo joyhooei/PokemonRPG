@@ -187,7 +187,7 @@
             "Children": [
               {
                 "FontSize": 20,
-                "LabelText": "阿尔修斯",
+                "LabelText": "我的名字很长",
                 "FontResource": {
                   "Type": "Normal",
                   "Path": "../fonts/DFPYuanW7-GB.ttf",
@@ -236,7 +236,7 @@
                 "Tag": 3,
                 "ActionTag": 1262623502,
                 "Size": {
-                  "X": 82.0,
+                  "X": 122.0,
                   "Y": 22.0
                 },
                 "Name": "pokemon_name",
@@ -336,12 +336,13 @@
               },
               {
                 "FontSize": 20,
-                "LabelText": "Lv.28",
+                "LabelText": "Lv.100",
                 "FontResource": {
                   "Type": "Normal",
                   "Path": "../fonts/DFPYuanW7-GB.ttf",
                   "Plist": ""
                 },
+                "HorizontalAlignmentType": "HT_Right",
                 "OutlineColor": {
                   "R": 0,
                   "G": 0,
@@ -387,7 +388,7 @@
                 "Tag": 8,
                 "ActionTag": -408012991,
                 "Size": {
-                  "X": 47.0,
+                  "X": 58.0,
                   "Y": 22.0
                 },
                 "Name": "pokemon_lv",
@@ -486,12 +487,13 @@
               },
               {
                 "FontSize": 18,
-                "LabelText": "99 / 200",
+                "LabelText": "9999 / 9999\n",
                 "FontResource": {
                   "Type": "Normal",
                   "Path": "../fonts/DFPYuanW7-GB.ttf",
                   "Plist": ""
                 },
+                "HorizontalAlignmentType": "HT_Right",
                 "OutlineColor": {
                   "R": 0,
                   "G": 0,
@@ -539,7 +541,7 @@
                 "Tag": 12,
                 "ActionTag": 528013667,
                 "Size": {
-                  "X": 67.0,
+                  "X": 97.0,
                   "Y": 18.0
                 },
                 "Name": "hp_info",

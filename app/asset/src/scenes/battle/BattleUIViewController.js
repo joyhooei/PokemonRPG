@@ -35,8 +35,8 @@ var BattleUIViewController = mw.ViewController.extend({
         var pokemon1Id = parseInt(this.scene().getParameter("pokemon1"));
         var pokemon2Id = parseInt(this.scene().getParameter("pokemon2"));
         mw.logWithTag("mlgb", "Pokemon1: %d, Pokemon2: %d", pokemon1Id, pokemon2Id);
-        var pokemon1Model = new Pokemon({ id: pokemon1Id });
-        var pokemon2Model = new Pokemon({ id: pokemon2Id });
+        var pokemon1Model = new Pokemon({ id: pokemon1Id, level: 44 });
+        var pokemon2Model = new Pokemon({ id: pokemon2Id, level: 17 });
 
         this._pokemon1 = new BattlePokemonView(pokemon1Model, true);
         this._pokemon2 = new BattlePokemonView(pokemon2Model, false);

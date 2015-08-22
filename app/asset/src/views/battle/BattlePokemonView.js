@@ -19,7 +19,7 @@ var BattlePokemonView = cc.Node.extend({
         }
 
         var gifPath = cc.formatStr("coredata/%s%s.gif", model.getFormatedId(), suffix);
-        mw.log(gifPath);
+        //mw.log(gifPath);
         this._gif = mw.GifSprite.createWithFile(gifPath);
         this._gif.setAnchorPoint(0.5, 0);
         this.addChild(this._gif);

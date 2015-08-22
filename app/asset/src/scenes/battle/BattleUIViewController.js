@@ -16,6 +16,9 @@ var BattleUIViewController = mw.ViewController.extend({
     viewDidUnload: function () {
         this._unloadTextures();
     },
+    didReceiveMemoryWarning: function () {
+        mw.log("RECEIVE MEMORY WARNING");
+    },
     _loadTextures: function () {
         for (var plist in this.TEXTURES_TO_LOAD) {
             var tex = this.TEXTURES_TO_LOAD[plist];

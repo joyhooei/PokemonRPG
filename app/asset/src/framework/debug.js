@@ -75,9 +75,21 @@ mw.dump = function(obj) {
  * @param oldClass 作废的类名
  * @param newClass 替换的类名
  */
-mw.deprecate = function(oldClass, newClass) {
+mw.deprecateClass = function(oldClass, newClass) {
     if (typeof oldClass != "string" && typeof newClass != "string") {
         return;
     }
     cc.assert(false, "作废的类: " + oldClass + "  请使用: " + newClass);
+};
+
+/**
+ * 定义作废的方法
+ * @param oldMethod 作废的方法名
+ * @param newMethod 替换的方法名
+ */
+mw.deprecateMethod = function(oldMethod, newMethod) {
+    if (typeof oldMethod != "string" && typeof newMethod != "string") {
+        return;
+    }
+    cc.assert(false, "作废的方法: " + oldMethod + "  请使用: " + newMethod);
 };

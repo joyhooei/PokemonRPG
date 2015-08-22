@@ -7,6 +7,8 @@ var Pokemon = ModelBase.extend({
      * properties必须拥有id 其他key值为缺省参数 列表如下:
      * id: pokemon id
      * gender: 性别
+     * personality: 性格
+     * shiny: 是否闪光
      * @param properties
      */
     ctor: function (properties) {
@@ -31,13 +33,11 @@ var Pokemon = ModelBase.extend({
             talentValues: [function (val) {
                 return val instanceof Array;
             }],     // 个体值
-            hardValues: [function (val) {
-                return val instanceof Array;
-            }],     // 努力值
+            hardValues: [ "object", {} ],     // 努力值
             shiny: [ "boolean", false ],    // 闪光
         });
 
-        var rd = Math.ceil(Math.random() * 4);
+        var rd = Math.ceil(Math.random() * 10000);
         var isShiny = rd == 1;
 
         // 初始化

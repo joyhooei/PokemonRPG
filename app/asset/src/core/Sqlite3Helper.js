@@ -12,11 +12,18 @@ var Sqlite3Helper = {
             this._parseIntForData(data, needParseIntList);
             var needSplitAndParseIntList = [ "property", "speciality", "racial", "levelUpSkills", "machineSkills", "heredSkills", "fixedSkills" ];
             this._splitAndParseIntForData(data, needSplitAndParseIntList);
-            data["hardValue"] = data["hardValue"].split(";").map(function (item, index, ary) {
+            // 努力值的计算 { 21: 2, 26: 1 } etc..
+            var hardValueMap = new Object();
+            var ary = data["hardValue"].split(";").map(function (item, index, ary) {
                 return item.split(",").map(function (item2, index2, ary2) {
                     return parseInt(item2);
                 })
             });
+            for (var i in ary) {
+                var vals = ary[i];
+                hardValueMap[vals[0]] = vals[1];
+            }
+            data["hardValue"] = hardValueMap;
             return data;
         }
         return null;

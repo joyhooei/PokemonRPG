@@ -29,7 +29,7 @@ var TextureManager = {
                 texture: texture,   // 纹理key
             };
         }
-        cc.log("Texture %s loaded, reference count: %d", plist, this._textureMap[plist]);
+        cc.log("Texture %s loaded, reference count: %d", plist, this._textureMap[plist]["ref"]);
     },
     unloadTexture: function (plist) {
         if (typeof plist != "string") {
@@ -41,7 +41,7 @@ var TextureManager = {
             return;
         }
         --this._textureMap[plist]["ref"];
-        cc.log("Texture %s unloaded, reference count: %d", plist, this._textureMap[plist]);
+        cc.log("Texture %s unloaded, reference count: %d", plist, this._textureMap[plist]["ref"]);
         if (this._textureMap[plist]["ref"] <= 0) {
             cc.SpriteFrameCache.getInstance().removeSpriteFramesFromFile(plist);
             cc.director.getTextureCache().removeTextureForKey(this._textureMap[plist]["texture"]);
@@ -67,6 +67,7 @@ var TextureManager = {
                     ref: 1,
                     texture: texture,
                 };
+                cc.log("Texture %s loaded, reference count: %d", plist, this._textureMap[plist]["ref"]);
                 callback.call();
             };
             cc.director.getTextureCache().addImageAsync(texture, realCallback);

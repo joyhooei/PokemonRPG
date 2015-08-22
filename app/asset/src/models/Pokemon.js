@@ -83,7 +83,6 @@ var Pokemon = ModelBase.extend({
         var exp = this._getExpAtLv(lv);
         var speciality = properties["speciality"] || this._randomSpeciality();
         var personality = properties["personality"] || this._randomPersonality();
-        var skills = properties["skills"] || this._genSkills();
         this._setProperties({
             gender: properties["gender"] || Math.ceil(Math.random() * 2),
             level: lv,
@@ -91,12 +90,13 @@ var Pokemon = ModelBase.extend({
             speciality: speciality,
             personality: personality,
             talentValues: randomTalents,
-            skills: skills,
             shiny: isShiny,
         });
+        var skills = properties["skills"] || this._genSkills();
         var basicValues = this._calculateBasicValues(this._level);
         this._setProperties({
             basicValues: basicValues,
+            skills: skills,
             hp: basicValues[0],
         });
     },
@@ -214,9 +214,12 @@ var Pokemon = ModelBase.extend({
         var lvUpSkills = this.getInfo().getLevelUpSkills();
         var loaded = 0;
         // 优先选出最靠后的4个技能
+        var lastLv = -1;
         for (var i = lvUpSkills.length - 1; i >= 0; --i) {
             var skillInfo = lvUpSkills[i];
-            if (skillInfo[0] <= this._level) {
+            // 0级的技能只能学习最近的一个
+            if (skillInfo[0] <= this._level && lastLv != 0) {
+                lastLv = skillInfo[0];
                 var skillData = [];     // [ 技能ID, 技能PP, 技能PP上升次数 ]
                 skillData.push(skillInfo[1]);
                 var sql = cc.formatStr("select [pp] from [skill_info] where [id] = '%d';", skillInfo[1]);

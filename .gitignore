@@ -27,9 +27,5 @@ DerivedData/
 .idea/
 # ccs
 *.udf
-# netbeans
-/tools/PokemonDBSpider/nbproject/private/
-/tools/PokemonDBSpider/build/
-/tools/PokemonDBSpider/dist/
 # special
 app/ccs/publish/

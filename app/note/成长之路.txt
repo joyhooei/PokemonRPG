@@ -1,0 +1,4 @@
+自己在开发过程中遇到的问题，以及后来如何解决的，或者自己灵光一闪的idea，可以暂时分享在这里，等我搞定Github的Wiki之后再搬运到Wiki上，记得标注作者。
+
+e.g.
+(1) 找到了xxx优化方法，解决方案：http://mlgb.net/xxx.html		—- By Winder.

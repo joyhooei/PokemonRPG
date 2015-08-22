@@ -4,6 +4,9 @@
 
 var Sqlite3Helper = {
     getPokemonInfo: function (id) {
+        if (this._db == null) {
+            this._db = mw.SqliteDb.openDb(DB_PATH);
+        }
         var sql = cc.formatStr("select * from [pet_info] where [id] = '%d';", parseInt(id));
         var query = this._db.executeQuery(sql);
         if (query && query.length > 0) {
@@ -50,5 +53,5 @@ var Sqlite3Helper = {
             }
         }
     },
-    _db: mw.SqliteDb.openDb(DB_PATH),
+    _db: null,
 };

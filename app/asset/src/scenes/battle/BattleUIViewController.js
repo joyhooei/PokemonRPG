@@ -41,14 +41,14 @@ var BattleUIViewController = mw.ViewController.extend({
         this._pokemon1 = new BattlePokemonView(pokemon1Model, true);
         this._pokemon2 = new BattlePokemonView(pokemon2Model, false);
 
-        this._pokemon1.setPosition(cc.director.getWinSize().width * 0.2, cc.director.getWinSize().height * 0.2);
+        this._pokemon1.setPosition(cc.director.getWinSize().width * 0.2, cc.director.getWinSize().height * 0.3);
         this.view().addChild(this._pokemon1);
         this._pokemon2.setPosition(cc.director.getWinSize().width * 0.8, cc.director.getWinSize().height * 0.6);
         this.view().addChild(this._pokemon2);
 
-        //this._playerBoard = new BattlePlayerBoardView(pokemon1Model);
-        //this._playerBoard.setPosition(cc.director.getWinSize().width * 0.5, cc.director.getWinSize().height * 0.5);
-        //this.view().addChild(this._playerBoard);
+        this._playerBoard = new BattlePlayerBoardView(pokemon1Model);
+        this._playerBoard.setPosition(cc.director.getWinSize().width * 0.8, cc.director.getWinSize().height * 0.45);
+        this.view().addChild(this._playerBoard);
     },
     _pokemon1: null,
     _pokemon2: null,

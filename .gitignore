@@ -31,3 +31,6 @@ DerivedData/
 /tools/PokemonDBSpider/nbproject/private/
 /tools/PokemonDBSpider/build/
 /tools/PokemonDBSpider/dist/
+# special
+app/ccs/cocosstudio/textures/
+app/ccs/publish/

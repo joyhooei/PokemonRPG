@@ -7,11 +7,11 @@
             <key>trainers/hero1_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{432,2},{36,52}}</string>
+                <string>{{56,212},{36,52}}</string>
                 <key>offset</key>
                 <string>{0,1}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{36,52}}</string>
                 <key>sourceSize</key>
@@ -20,11 +20,11 @@
             <key>trainers/hero1_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{276,2},{36,54}}</string>
+                <string>{{58,120},{36,54}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{36,54}}</string>
                 <key>sourceSize</key>
@@ -33,11 +33,11 @@
             <key>trainers/hero1_3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{238,2},{36,54}}</string>
+                <string>{{2,120},{36,54}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{36,54}}</string>
                 <key>sourceSize</key>
@@ -46,11 +46,11 @@
             <key>trainers/hero2_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{354,2},{38,52}}</string>
+                <string>{{2,212},{38,52}}</string>
                 <key>offset</key>
                 <string>{0,1}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{38,52}}</string>
                 <key>sourceSize</key>
@@ -59,11 +59,11 @@
             <key>trainers/hero2_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{122,2},{38,54}}</string>
+                <string>{{58,42},{38,54}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{38,54}}</string>
                 <key>sourceSize</key>
@@ -72,11 +72,11 @@
             <key>trainers/hero2_3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{82,2},{38,54}}</string>
+                <string>{{2,42},{38,54}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{38,54}}</string>
                 <key>sourceSize</key>
@@ -85,7 +85,7 @@
             <key>trainers/hero3_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{394,2},{36,52}}</string>
+                <string>{{42,158},{36,52}}</string>
                 <key>offset</key>
                 <string>{0,1}</string>
                 <key>rotated</key>
@@ -98,11 +98,11 @@
             <key>trainers/hero3_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{200,2},{36,54}}</string>
+                <string>{{58,82},{36,54}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{36,54}}</string>
                 <key>sourceSize</key>
@@ -111,11 +111,11 @@
             <key>trainers/hero3_3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{162,2},{36,54}}</string>
+                <string>{{2,82},{36,54}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{36,54}}</string>
                 <key>sourceSize</key>
@@ -124,7 +124,7 @@
             <key>trainers/hero4_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{314,2},{38,52}}</string>
+                <string>{{2,158},{38,52}}</string>
                 <key>offset</key>
                 <string>{0,1}</string>
                 <key>rotated</key>
@@ -137,11 +137,11 @@
             <key>trainers/hero4_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{42,2},{38,54}}</string>
+                <string>{{58,2},{38,54}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{38,54}}</string>
                 <key>sourceSize</key>
@@ -154,7 +154,7 @@
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{38,54}}</string>
                 <key>sourceSize</key>
@@ -168,9 +168,9 @@
             <key>realTextureFileName</key>
             <string>trainers.pvr.ccz</string>
             <key>size</key>
-            <string>{470,58}</string>
+            <string>{128,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:f37e36a68f3003af850d21d7d2bb852f:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:31ddd42d252aa666ab324fc76e751831:1/1$</string>
             <key>textureFileName</key>
             <string>trainers.pvr.ccz</string>
         </dict>

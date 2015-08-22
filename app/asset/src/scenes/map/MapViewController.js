@@ -3,16 +3,16 @@
  */
 
 var PLAYTIME_SCHEDULE_KEY = "PLAYTIME_TICK";
-var TEXTURES_TO_LOAD = {
-    "textures/trainers.plist": "textures/trainers.pvr.ccz",
-};
 
 /**
  * 地图控制器 只处理地图逻辑
   */
 var MapViewController = mw.ViewController.extend({
-    ctor: function () {
-        this._super();
+    TEXTURES_TO_LOAD: {
+        "textures/trainers.plist": "textures/trainers.pvr.ccz",
+    },
+    ctor: function (segue) {
+        this._super(segue);
     },
     viewDidLoad: function () {
         this._loadTextures();
@@ -27,13 +27,13 @@ var MapViewController = mw.ViewController.extend({
         cc.director.getScheduler().unschedule(PLAYTIME_SCHEDULE_KEY, this.view());
     },
     _loadTextures: function () {
-        for (var plist in TEXTURES_TO_LOAD) {
-            var tex = TEXTURES_TO_LOAD[plist];
+        for (var plist in this.TEXTURES_TO_LOAD) {
+            var tex = this.TEXTURES_TO_LOAD[plist];
             TextureManager.loadTexture(plist, tex);
         }
     },
     _unloadTextures: function () {
-        for (var plist in TEXTURES_TO_LOAD) {
+        for (var plist in this.TEXTURES_TO_LOAD) {
             TextureManager.unloadTexture(plist);
         }
     },

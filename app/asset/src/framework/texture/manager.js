@@ -9,20 +9,25 @@
  * loadTexture: 加载纹理
  * unloadTexture: 卸载纹理
  * didLoadTexture: 是否加载了某个纹理
+ * loadTextureAsync: 异步加载纹理
  * forceUnloadTexture: 强制卸载纹理
+ * setPvrTexturesSupportPremultipliedAlpha: 设置PVR纹理是否支持alpha预乘
  * @type {{loadTexture: Function, unloadTexture: Function, _textureMap: Object}}
  */
-TextureManager = {
+var TextureManager = {
     loadTexture: function (plist, texture) {
         if (typeof plist != "string" || typeof texture != "string") {
             mw.error("参数错误");
             return;
         }
         if (this._textureMap[plist]) {
-            ++this._textureMap[plist];
+            ++this._textureMap[plist]["ref"];
         } else {
             cc.SpriteFrameCache.getInstance().addSpriteFrames(plist, texture);
-            this._textureMap[plist] = 1;
+            this._textureMap[plist] = {
+                ref: 1,         // 引用计数
+                texture: texture,   // 纹理key
+            };
         }
         cc.log("Texture %s loaded, reference count: %d", plist, this._textureMap[plist]);
     },
@@ -35,15 +40,37 @@ TextureManager = {
             mw.error("未加载的纹理: %s", plist);
             return;
         }
-        --this._textureMap[plist];
+        --this._textureMap[plist]["ref"];
         cc.log("Texture %s unloaded, reference count: %d", plist, this._textureMap[plist]);
-        if (this._textureMap[plist] <= 0) {
+        if (this._textureMap[plist]["ref"] <= 0) {
             cc.SpriteFrameCache.getInstance().removeSpriteFramesFromFile(plist);
+            cc.director.getTextureCache().removeTextureForKey(this._textureMap[plist]["texture"]);
             this._textureMap[plist] = undefined;
         }
     },
     didLoadTexture: function (plist) {
-        return this._textureMap[plist] != undefined;
+        return this._textureMap[plist] !== undefined;
+    },
+    loadTextureAsync: function (plist, texture, callback) {
+        if (typeof plist != "string" || typeof texture != "string" || !callback instanceof Function) {
+            mw.error("参数错误");
+            return;
+        }
+        if (this.didLoadTexture(plist)) {
+            ++this._textureMap[plist]["ref"];
+            callback.call();
+        } else {
+            var self = this;
+            var realCallback = function () {
+                cc.SpriteFrameCache.getInstance().addSpriteFrames(plist, texture);
+                self._textureMap[plist] = {
+                    ref: 1,
+                    texture: texture,
+                };
+                callback.call();
+            };
+            cc.director.getTextureCache().addImageAsync(texture, realCallback);
+        }
     },
     forceUnloadTexture: function (plist) {
         if (typeof plist != "string") {
@@ -55,7 +82,11 @@ TextureManager = {
             return;
         }
         cc.SpriteFrameCache.getInstance().removeSpriteFramesFromFile(plist);
+        cc.director.getTextureCache().removeTextureForKey(this._textureMap[plist]["texture"]);
         this._textureMap[plist] = undefined;
+    },
+    setPvrTexturesSupportPremultipliedAlpha: function (bSupport) {
+        cc.Image.setPVRImagesHavePremultipliedAlpha(bSupport);
     },
     _textureMap: new Object(),
 };

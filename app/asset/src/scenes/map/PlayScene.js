@@ -8,10 +8,10 @@ var PlayScene = mw.GameScene.extend({
     },
     onEnter: function() {
         this._super();
-        this.loadViewController(new MapViewController(), "MAP_VIEW_CONTROLLER");
-        this.loadViewController(new OperationViewController(new ModalViewSegue()), "OP_VIEW_CONTROLLER");
+        this.loadViewController(new MapViewController(), MAP_VC_NAME);
+        this.loadViewController(new OperationViewController(), OPERATION_VC_NAME);
     },
     onExit: function() {
         this._super();
-    }
+    },
 });

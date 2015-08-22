@@ -125,44 +125,14 @@ void MWGameScene::onExitTransitionDidStart()
     Scene::onExitTransitionDidStart();
 }
 
-void MWGameScene::addParameter(const std::string &key, double param)
-{
-    _params->setObjectForKey(key, __Double::create(param));
-}
-
-void MWGameScene::addParameter(const std::string &key, bool param)
-{
-    _params->setObjectForKey(key, __Bool::create(param));
-}
-
 void MWGameScene::addParameter(const std::string &key, const std::string &param)
 {
     _params->setObjectForKey(key, __String::create(param));
 }
 
-void MWGameScene::addParameter(const std::string &key, cocos2d::Ref *param)
-{
-    _params->setObjectForKey(key, param);
-}
-
-double MWGameScene::getNumberParameter(const std::string &key)
-{
-    return static_cast<__Double *>(_params->objectForKey(key))->getValue();
-}
-
-bool MWGameScene::getBooleanParameter(const std::string &key)
-{
-    return static_cast<__Bool *>(_params->objectForKey(key))->getValue();
-}
-
-std::string MWGameScene::getStringParameter(const std::string &key)
+std::string MWGameScene::getParameter(const std::string &key)
 {
     return static_cast<__String *>(_params->objectForKey(key))->getCString();
-}
-
-cocos2d::Ref *MWGameScene::getRefParameter(const std::string &key)
-{
-    return _params->objectForKey(key);
 }
 
 void MWGameScene::loadViewController(mwframework::MWViewController *controller, const std::string &identifier)

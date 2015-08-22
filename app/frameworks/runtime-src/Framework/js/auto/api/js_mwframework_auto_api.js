@@ -6,7 +6,7 @@ var mw = mw || {};
 /**
  * @class MWObject
  */
-mw.MWObject = {
+mw.Object = {
 
 /**
  * @method toString
@@ -23,7 +23,7 @@ toString : function (
 /**
  * @class MWBinaryData
  */
-mw.MWBinaryData = {
+mw.BinaryData = {
 
 /**
  * @method isValid
@@ -40,7 +40,7 @@ isValid : function (
 /**
  * @class MWException
  */
-mw.MWException = {
+mw.Exception = {
 
 /**
  * @method errorCode
@@ -66,14 +66,14 @@ what : function (
  * @method create
  * @param {int} arg0
  * @param {char} arg1
- * @return {mw.MWException}
+ * @return {mw.Exception}
  */
 create : function (
 int, 
 char 
 )
 {
-    return mw.MWException;
+    return mw.Exception;
 },
 
 /**
@@ -94,7 +94,7 @@ char
 /**
  * @class MWDictionary
  */
-mw.MWDictionary = {
+mw.Dictionary = {
 
 /**
  * @method count
@@ -174,22 +174,22 @@ str
 
 /**
  * @method clone
- * @return {mw.MWDictionary}
+ * @return {mw.Dictionary}
  */
 clone : function (
 )
 {
-    return mw.MWDictionary;
+    return mw.Dictionary;
 },
 
 /**
  * @method create
- * @return {mw.MWDictionary}
+ * @return {mw.Dictionary}
  */
 create : function (
 )
 {
-    return mw.MWDictionary;
+    return mw.Dictionary;
 },
 
 /**
@@ -206,7 +206,7 @@ MWDictionary : function (
 /**
  * @class MWArrayList
  */
-mw.MWArrayList = {
+mw.ArrayList = {
 
 /**
  * @method count
@@ -302,12 +302,12 @@ ref
 
 /**
  * @method clone
- * @return {mw.MWArrayList}
+ * @return {mw.ArrayList}
  */
 clone : function (
 )
 {
-    return mw.MWArrayList;
+    return mw.ArrayList;
 },
 
 /**
@@ -342,12 +342,12 @@ int
 
 /**
  * @method create
- * @return {mw.MWArrayList}
+ * @return {mw.ArrayList}
  */
 create : function (
 )
 {
-    return mw.MWArrayList;
+    return mw.ArrayList;
 },
 
 /**
@@ -364,7 +364,7 @@ MWArrayList : function (
 /**
  * @class MWQueue
  */
-mw.MWQueue = {
+mw.Queue = {
 
 /**
  * @method count
@@ -416,12 +416,12 @@ front : function (
 
 /**
  * @method clone
- * @return {mw.MWQueue}
+ * @return {mw.Queue}
  */
 clone : function (
 )
 {
-    return mw.MWQueue;
+    return mw.Queue;
 },
 
 /**
@@ -436,12 +436,12 @@ empty : function (
 
 /**
  * @method create
- * @return {mw.MWQueue}
+ * @return {mw.Queue}
  */
 create : function (
 )
 {
-    return mw.MWQueue;
+    return mw.Queue;
 },
 
 /**
@@ -458,7 +458,7 @@ MWQueue : function (
 /**
  * @class MWStack
  */
-mw.MWStack = {
+mw.Stack = {
 
 /**
  * @method count
@@ -502,12 +502,12 @@ ref
 
 /**
  * @method clone
- * @return {mw.MWStack}
+ * @return {mw.Stack}
  */
 clone : function (
 )
 {
-    return mw.MWStack;
+    return mw.Stack;
 },
 
 /**
@@ -530,12 +530,12 @@ empty : function (
 
 /**
  * @method create
- * @return {mw.MWStack}
+ * @return {mw.Stack}
  */
 create : function (
 )
 {
-    return mw.MWStack;
+    return mw.Stack;
 },
 
 /**
@@ -552,7 +552,7 @@ MWStack : function (
 /**
  * @class MWSystemHelper
  */
-mw.MWSystemHelper = {
+mw.SystemHelper = {
 
 /**
  * @method checkNetStatus
@@ -596,12 +596,12 @@ str
 
 /**
  * @method getInstance
- * @return {mw.MWSystemHelper}
+ * @return {mw.SystemHelper}
  */
 getInstance : function (
 )
 {
-    return mw.MWSystemHelper;
+    return mw.SystemHelper;
 },
 
 };
@@ -609,7 +609,7 @@ getInstance : function (
 /**
  * @class MWIOUtils
  */
-mw.MWIOUtils = {
+mw.IOUtils = {
 
 /**
  * @method fileExists
@@ -639,16 +639,16 @@ str
 
 /**
  * @method writeDataToFile
- * @param {void} arg0
- * @param {unsigned long} arg1
- * @param {String} arg2
- * @param {bool} arg3
- * @return {bool}
- */
-writeDataToFile : function (
-void, 
-long, 
-str, 
+* @param {mw.BinaryData|void} mwbinarydata
+* @param {String|unsigned long} str
+* @param {bool|String} bool
+* @param {bool} bool
+* @return {bool|bool}
+*/
+writeDataToFile : function(
+void,
+long,
+str,
 bool 
 )
 {
@@ -658,13 +658,13 @@ bool
 /**
  * @method getDataFromFile
  * @param {String} arg0
- * @return {mw.MWBinaryData}
+ * @return {mw.BinaryData}
  */
 getDataFromFile : function (
 str 
 )
 {
-    return mw.MWBinaryData;
+    return mw.BinaryData;
 },
 
 /**
@@ -745,12 +745,12 @@ str
 
 /**
  * @method getInstance
- * @return {mw.MWIOUtils}
+ * @return {mw.IOUtils}
  */
 getInstance : function (
 )
 {
-    return mw.MWIOUtils;
+    return mw.IOUtils;
 },
 
 };
@@ -758,50 +758,16 @@ getInstance : function (
 /**
  * @class MWGameScene
  */
-mw.MWGameScene = {
+mw.GameScene = {
 
 /**
  * @method getViewControllers
- * @return {mw.MWDictionary}
+ * @return {mw.Dictionary}
  */
 getViewControllers : function (
 )
 {
-    return mw.MWDictionary;
-},
-
-/**
- * @method unloadViewController
- * @param {mw.MWViewController} arg0
- */
-unloadViewController : function (
-mwviewcontroller 
-)
-{
-},
-
-/**
- * @method loadViewController
- * @param {mw.MWViewController} arg0
- * @param {String} arg1
- */
-loadViewController : function (
-mwviewcontroller, 
-str 
-)
-{
-},
-
-/**
- * @method getViewControllerByIdentifier
- * @param {String} arg0
- * @return {mw.MWViewController}
- */
-getViewControllerByIdentifier : function (
-str 
-)
-{
-    return mw.MWViewController;
+    return mw.Dictionary;
 },
 
 /**
@@ -815,15 +781,49 @@ init : function (
 },
 
 /**
- * @method getBooleanParameter
- * @param {String} arg0
- * @return {bool}
+ * @method unloadViewController
+ * @param {mw.ViewController} arg0
  */
-getBooleanParameter : function (
+unloadViewController : function (
+mwviewcontroller 
+)
+{
+},
+
+/**
+ * @method loadViewController
+ * @param {mw.ViewController} arg0
+ * @param {String} arg1
+ */
+loadViewController : function (
+mwviewcontroller, 
 str 
 )
 {
-    return false;
+},
+
+/**
+ * @method getViewControllerByIdentifier
+ * @param {String} arg0
+ * @return {mw.ViewController}
+ */
+getViewControllerByIdentifier : function (
+str 
+)
+{
+    return mw.ViewController;
+},
+
+/**
+ * @method getParameter
+ * @param {String} arg0
+ * @return {String}
+ */
+getParameter : function (
+str 
+)
+{
+    return ;
 },
 
 /**
@@ -836,26 +836,14 @@ unloadAllViewControllers : function (
 
 /**
  * @method addParameter
-* @param {String|String|String|String} str
-* @param {bool|double|String|cc.Ref} bool
-*/
-addParameter : function(
-str,
-ref 
-)
-{
-},
-
-/**
- * @method getRefParameter
  * @param {String} arg0
- * @return {cc.Ref}
+ * @param {String} arg1
  */
-getRefParameter : function (
+addParameter : function (
+str, 
 str 
 )
 {
-    return cc.Ref;
 },
 
 /**
@@ -879,18 +867,6 @@ double
 },
 
 /**
- * @method getStringParameter
- * @param {String} arg0
- * @return {String}
- */
-getStringParameter : function (
-str 
-)
-{
-    return ;
-},
-
-/**
  * @method unloadViewControllerByIdentifier
  * @param {String} arg0
  */
@@ -901,25 +877,13 @@ str
 },
 
 /**
- * @method getNumberParameter
- * @param {String} arg0
- * @return {double}
- */
-getNumberParameter : function (
-str 
-)
-{
-    return 0;
-},
-
-/**
  * @method create
- * @return {mw.MWGameScene}
+ * @return {mw.GameScene}
  */
 create : function (
 )
 {
-    return mw.MWGameScene;
+    return mw.GameScene;
 },
 
 /**
@@ -936,11 +900,11 @@ MWGameScene : function (
 /**
  * @class MWViewController
  */
-mw.MWViewController = {
+mw.ViewController = {
 
 /**
  * @method init
- * @param {mw.MWViewSegue} arg0
+ * @param {mw.ViewSegue} arg0
  * @return {bool}
  */
 init : function (
@@ -952,22 +916,22 @@ mwviewsegue
 
 /**
  * @method segue
- * @return {mw.MWViewSegue}
+ * @return {mw.ViewSegue}
  */
 segue : function (
 )
 {
-    return mw.MWViewSegue;
+    return mw.ViewSegue;
 },
 
 /**
  * @method scene
- * @return {mw.MWGameScene}
+ * @return {mw.GameScene}
  */
 scene : function (
 )
 {
-    return mw.MWGameScene;
+    return mw.GameScene;
 },
 
 /**
@@ -982,22 +946,22 @@ getIdentifier : function (
 
 /**
  * @method view
- * @return {mw.MWGameView}
+ * @return {mw.GameView}
  */
 view : function (
 )
 {
-    return mw.MWGameView;
+    return mw.GameView;
 },
 
 /**
  * @method create
- * @return {mw.MWViewController}
+ * @return {mw.ViewController}
  */
 create : function (
 )
 {
-    return mw.MWViewController;
+    return mw.ViewController;
 },
 
 /**
@@ -1014,16 +978,16 @@ MWViewController : function (
 /**
  * @class MWGameView
  */
-mw.MWGameView = {
+mw.GameView = {
 
 /**
  * @method create
- * @return {mw.MWGameView}
+ * @return {mw.GameView}
  */
 create : function (
 )
 {
-    return mw.MWGameView;
+    return mw.GameView;
 },
 
 };
@@ -1031,7 +995,7 @@ create : function (
 /**
  * @class MWViewSegue
  */
-mw.MWViewSegue = {
+mw.ViewSegue = {
 
 /**
  * @method init
@@ -1045,12 +1009,12 @@ init : function (
 
 /**
  * @method create
- * @return {mw.MWViewSegue}
+ * @return {mw.ViewSegue}
  */
 create : function (
 )
 {
-    return mw.MWViewSegue;
+    return mw.ViewSegue;
 },
 
 /**
@@ -1067,7 +1031,7 @@ MWViewSegue : function (
 /**
  * @class MWSqliteDb
  */
-mw.MWSqliteDb = {
+mw.SqliteDb = {
 
 /**
  * @method executeNonQuery
@@ -1106,13 +1070,13 @@ beginTransaction : function (
 /**
  * @method openDb
  * @param {String} arg0
- * @return {mw.MWSqliteDb}
+ * @return {mw.SqliteDb}
  */
 openDb : function (
 str 
 )
 {
-    return mw.MWSqliteDb;
+    return mw.SqliteDb;
 },
 
 /**
@@ -1128,26 +1092,26 @@ clearConnectionCache : function (
 /**
  * @class MWZipData
  */
-mw.MWZipData = {
+mw.ZipData = {
 
 /**
  * @method getCompressedFileData
  * @param {String} arg0
  * @param {String} arg1
- * @return {mw.MWBinaryData}
+ * @return {mw.BinaryData}
  */
 getCompressedFileData : function (
 str, 
 str 
 )
 {
-    return mw.MWBinaryData;
+    return mw.BinaryData;
 },
 
 /**
  * @method zipNewFile
  * @param {String} arg0
- * @param {mw.MWBinaryData} arg1
+ * @param {mw.BinaryData} arg1
  * @param {String} arg2
  * @param {int} arg3
  * @return {bool}
@@ -1197,25 +1161,25 @@ endZip : function (
 /**
  * @method createWithExistingFile
  * @param {String} arg0
- * @return {mw.MWZipData}
+ * @return {mw.ZipData}
  */
 createWithExistingFile : function (
 str 
 )
 {
-    return mw.MWZipData;
+    return mw.ZipData;
 },
 
 /**
  * @method createWithNewFile
  * @param {String} arg0
- * @return {mw.MWZipData}
+ * @return {mw.ZipData}
  */
 createWithNewFile : function (
 str 
 )
 {
-    return mw.MWZipData;
+    return mw.ZipData;
 },
 
 };
@@ -1223,7 +1187,7 @@ str
 /**
  * @class MWGifFrame
  */
-mw.MWGifFrame = {
+mw.GifFrame = {
 
 /**
  * @method setSpriteFrame
@@ -1269,14 +1233,14 @@ getDuration : function (
  * @method create
  * @param {cc.SpriteFrame} arg0
  * @param {unsigned int} arg1
- * @return {mw.MWGifFrame}
+ * @return {mw.GifFrame}
  */
 create : function (
 spriteframe, 
 int 
 )
 {
-    return mw.MWGifFrame;
+    return mw.GifFrame;
 },
 
 };
@@ -1284,7 +1248,7 @@ int
 /**
  * @class MWGifSprite
  */
-mw.MWGifSprite = {
+mw.GifSprite = {
 
 /**
  * @method play
@@ -1353,37 +1317,37 @@ stop : function (
 /**
  * @method createWithFile
  * @param {String} arg0
- * @return {mw.MWGifSprite}
+ * @return {mw.GifSprite}
  */
 createWithFile : function (
 str 
 )
 {
-    return mw.MWGifSprite;
+    return mw.GifSprite;
 },
 
 /**
  * @method createWithFrames
- * @param {mw.MWArrayList} arg0
- * @return {mw.MWGifSprite}
+ * @param {mw.ArrayList} arg0
+ * @return {mw.GifSprite}
  */
 createWithFrames : function (
 mwarraylist 
 )
 {
-    return mw.MWGifSprite;
+    return mw.GifSprite;
 },
 
 /**
  * @method createWithRawData
- * @param {mw.MWBinaryData} arg0
- * @return {mw.MWGifSprite}
+ * @param {mw.BinaryData} arg0
+ * @return {mw.GifSprite}
  */
 createWithRawData : function (
 mwbinarydata 
 )
 {
-    return mw.MWGifSprite;
+    return mw.GifSprite;
 },
 
 };
@@ -1391,7 +1355,7 @@ mwbinarydata
 /**
  * @class MWGifFramesCache
  */
-mw.MWGifFramesCache = {
+mw.GifFramesCache = {
 
 /**
  * @method removeAll
@@ -1403,7 +1367,7 @@ removeAll : function (
 
 /**
  * @method addGifFramesCache
-* @param {mw.MWBinaryData|String|mw.MWGifSprite|mw.MWArrayList} mwbinarydata
+* @param {mw.BinaryData|String|mw.GifSprite|mw.ArrayList} mwbinarydata
 * @param {String|String|String} str
 */
 addGifFramesCache : function(
@@ -1416,13 +1380,13 @@ str
 /**
  * @method getGifSprite
  * @param {String} arg0
- * @return {mw.MWGifSprite}
+ * @return {mw.GifSprite}
  */
 getGifSprite : function (
 str 
 )
 {
-    return mw.MWGifSprite;
+    return mw.GifSprite;
 },
 
 /**
@@ -1437,12 +1401,12 @@ str
 
 /**
  * @method getInstance
- * @return {mw.MWGifFramesCache}
+ * @return {mw.GifFramesCache}
  */
 getInstance : function (
 )
 {
-    return mw.MWGifFramesCache;
+    return mw.GifFramesCache;
 },
 
 };
@@ -1450,7 +1414,7 @@ getInstance : function (
 /**
  * @class MWSvgSprite
  */
-mw.MWSvgSprite = {
+mw.SvgSprite = {
 
 /**
  * @method setVectorScale
@@ -1476,28 +1440,28 @@ getVectorScale : function (
  * @method createWithFile
  * @param {String} arg0
  * @param {float} arg1
- * @return {mw.MWSvgSprite}
+ * @return {mw.SvgSprite}
  */
 createWithFile : function (
 str, 
 float 
 )
 {
-    return mw.MWSvgSprite;
+    return mw.SvgSprite;
 },
 
 /**
  * @method createWithRawData
- * @param {mw.MWBinaryData} arg0
+ * @param {mw.BinaryData} arg0
  * @param {float} arg1
- * @return {mw.MWSvgSprite}
+ * @return {mw.SvgSprite}
  */
 createWithRawData : function (
 mwbinarydata, 
 float 
 )
 {
-    return mw.MWSvgSprite;
+    return mw.SvgSprite;
 },
 
 };
@@ -1505,7 +1469,7 @@ float
 /**
  * @class MWJsonObject
  */
-mw.MWJsonObject = {
+mw.JsonObject = {
 
 /**
  * @method count
@@ -1520,13 +1484,13 @@ count : function (
 /**
  * @method getJsonArray
  * @param {String} arg0
- * @return {mw.MWJsonArray}
+ * @return {mw.JsonArray}
  */
 getJsonArray : function (
 str 
 )
 {
-    return mw.MWJsonArray;
+    return mw.JsonArray;
 },
 
 /**
@@ -1580,7 +1544,7 @@ str
 /**
  * @method putJsonArray
  * @param {String} arg0
- * @param {mw.MWJsonArray} arg1
+ * @param {mw.JsonArray} arg1
  */
 putJsonArray : function (
 str, 
@@ -1592,7 +1556,7 @@ mwjsonarray
 /**
  * @method putJsonObject
  * @param {String} arg0
- * @param {mw.MWJsonObject} arg1
+ * @param {mw.JsonObject} arg1
  */
 putJsonObject : function (
 str, 
@@ -1646,13 +1610,13 @@ str
 /**
  * @method getJsonObject
  * @param {String} arg0
- * @return {mw.MWJsonObject}
+ * @return {mw.JsonObject}
  */
 getJsonObject : function (
 str 
 )
 {
-    return mw.MWJsonObject;
+    return mw.JsonObject;
 },
 
 /**
@@ -1690,47 +1654,47 @@ str
 /**
  * @method getObject
  * @param {String} arg0
- * @return {mw.MWObject}
+ * @return {mw.Object}
  */
 getObject : function (
 str 
 )
 {
-    return mw.MWObject;
+    return mw.Object;
 },
 
 /**
  * @method createWithFile
  * @param {String} arg0
- * @return {mw.MWJsonObject}
+ * @return {mw.JsonObject}
  */
 createWithFile : function (
 str 
 )
 {
-    return mw.MWJsonObject;
+    return mw.JsonObject;
 },
 
 /**
  * @method create
- * @return {mw.MWJsonObject}
+ * @return {mw.JsonObject}
  */
 create : function (
 )
 {
-    return mw.MWJsonObject;
+    return mw.JsonObject;
 },
 
 /**
  * @method createWithString
  * @param {String} arg0
- * @return {mw.MWJsonObject}
+ * @return {mw.JsonObject}
  */
 createWithString : function (
 str 
 )
 {
-    return mw.MWJsonObject;
+    return mw.JsonObject;
 },
 
 };
@@ -1738,7 +1702,7 @@ str
 /**
  * @class MWJsonArray
  */
-mw.MWJsonArray = {
+mw.JsonArray = {
 
 /**
  * @method count
@@ -1753,13 +1717,13 @@ count : function (
 /**
  * @method getObjectAt
  * @param {unsigned int} arg0
- * @return {mw.MWObject}
+ * @return {mw.Object}
  */
 getObjectAt : function (
 int 
 )
 {
-    return mw.MWObject;
+    return mw.Object;
 },
 
 /**
@@ -1786,7 +1750,7 @@ int
 
 /**
  * @method insertJsonArray
- * @param {mw.MWJsonArray} arg0
+ * @param {mw.JsonArray} arg0
  * @param {unsigned int} arg1
  */
 insertJsonArray : function (
@@ -1798,7 +1762,7 @@ int
 
 /**
  * @method appendJsonArray
- * @param {mw.MWJsonArray} arg0
+ * @param {mw.JsonArray} arg0
  */
 appendJsonArray : function (
 mwjsonarray 
@@ -1808,7 +1772,7 @@ mwjsonarray
 
 /**
  * @method insertJsonObject
- * @param {mw.MWJsonObject} arg0
+ * @param {mw.JsonObject} arg0
  * @param {unsigned int} arg1
  */
 insertJsonObject : function (
@@ -1828,7 +1792,7 @@ clear : function (
 
 /**
  * @method appendJsonObject
- * @param {mw.MWJsonObject} arg0
+ * @param {mw.JsonObject} arg0
  */
 appendJsonObject : function (
 mwjsonobject 
@@ -1905,13 +1869,13 @@ int
 /**
  * @method getJsonArrayAt
  * @param {unsigned int} arg0
- * @return {mw.MWJsonArray}
+ * @return {mw.JsonArray}
  */
 getJsonArrayAt : function (
 int 
 )
 {
-    return mw.MWJsonArray;
+    return mw.JsonArray;
 },
 
 /**
@@ -1961,47 +1925,162 @@ toJsString : function (
 /**
  * @method getJsonObjectAt
  * @param {unsigned int} arg0
- * @return {mw.MWJsonObject}
+ * @return {mw.JsonObject}
  */
 getJsonObjectAt : function (
 int 
 )
 {
-    return mw.MWJsonObject;
+    return mw.JsonObject;
 },
 
 /**
  * @method createWithFile
  * @param {String} arg0
- * @return {mw.MWJsonArray}
+ * @return {mw.JsonArray}
  */
 createWithFile : function (
 str 
 )
 {
-    return mw.MWJsonArray;
+    return mw.JsonArray;
 },
 
 /**
  * @method create
- * @return {mw.MWJsonArray}
+ * @return {mw.JsonArray}
  */
 create : function (
 )
 {
-    return mw.MWJsonArray;
+    return mw.JsonArray;
 },
 
 /**
  * @method createWithString
  * @param {String} arg0
- * @return {mw.MWJsonArray}
+ * @return {mw.JsonArray}
  */
 createWithString : function (
 str 
 )
 {
-    return mw.MWJsonArray;
+    return mw.JsonArray;
+},
+
+};
+
+/**
+ * @class MWCrypto
+ */
+mw.Crypto = {
+
+/**
+ * @method encipherAes256
+ * @param {mw.BinaryData} arg0
+ * @param {String} arg1
+ * @return {mw.BinaryData}
+ */
+encipherAes256 : function (
+mwbinarydata, 
+str 
+)
+{
+    return mw.BinaryData;
+},
+
+/**
+ * @method decodeBase64
+ * @param {String} arg0
+ * @return {String}
+ */
+decodeBase64 : function (
+str 
+)
+{
+    return ;
+},
+
+/**
+ * @method md5String
+ * @param {String} arg0
+ * @return {String}
+ */
+md5String : function (
+str 
+)
+{
+    return ;
+},
+
+/**
+ * @method md5File
+ * @param {String} arg0
+ * @return {String}
+ */
+md5File : function (
+str 
+)
+{
+    return ;
+},
+
+/**
+ * @method getAes256KeyLength
+ * @return {int}
+ */
+getAes256KeyLength : function (
+)
+{
+    return 0;
+},
+
+/**
+ * @method decipherAes256
+ * @param {mw.BinaryData} arg0
+ * @param {String} arg1
+ * @return {mw.BinaryData}
+ */
+decipherAes256 : function (
+mwbinarydata, 
+str 
+)
+{
+    return mw.BinaryData;
+},
+
+/**
+ * @method encodeBase64
+ * @param {String} arg0
+ * @return {String}
+ */
+encodeBase64 : function (
+str 
+)
+{
+    return ;
+},
+
+/**
+ * @method md5
+ * @param {mw.BinaryData} arg0
+ * @return {String}
+ */
+md5 : function (
+mwbinarydata 
+)
+{
+    return ;
+},
+
+/**
+ * @method getInstance
+ * @return {mw.Crypto}
+ */
+getInstance : function (
+)
+{
+    return mw.Crypto;
 },
 
 };
@@ -2009,7 +2088,7 @@ str
 /**
  * @class MWUUIDGenerator
  */
-mw.MWUUIDGenerator = {
+mw.UUIDGenerator = {
 
 /**
  * @method generateUUID
@@ -2023,12 +2102,12 @@ generateUUID : function (
 
 /**
  * @method getInstance
- * @return {mw.MWUUIDGenerator}
+ * @return {mw.UUIDGenerator}
  */
 getInstance : function (
 )
 {
-    return mw.MWUUIDGenerator;
+    return mw.UUIDGenerator;
 },
 
 };
@@ -2036,16 +2115,16 @@ getInstance : function (
 /**
  * @class MWNetHandler
  */
-mw.MWNetHandler = {
+mw.NetHandler = {
 
 /**
  * @method create
- * @return {mw.MWNetHandler}
+ * @return {mw.NetHandler}
  */
 create : function (
 )
 {
-    return mw.MWNetHandler;
+    return mw.NetHandler;
 },
 
 };
@@ -2053,7 +2132,7 @@ create : function (
 /**
  * @class MWNetRequest
  */
-mw.MWNetRequest = {
+mw.NetRequest = {
 
 /**
  * @method getProtocolId
@@ -2099,14 +2178,14 @@ getBody : function (
  * @method create
  * @param {String} arg0
  * @param {String} arg1
- * @return {mw.MWNetRequest}
+ * @return {mw.NetRequest}
  */
 create : function (
 str, 
 str 
 )
 {
-    return mw.MWNetRequest;
+    return mw.NetRequest;
 },
 
 };
@@ -2114,16 +2193,16 @@ str
 /**
  * @class MWNetResponse
  */
-mw.MWNetResponse = {
+mw.NetResponse = {
 
 /**
  * @method getRelatedRequest
- * @return {mw.MWNetRequest}
+ * @return {mw.NetRequest}
  */
 getRelatedRequest : function (
 )
 {
-    return mw.MWNetRequest;
+    return mw.NetRequest;
 },
 
 /**
@@ -2170,8 +2249,8 @@ getBody : function (
  * @method create
  * @param {String} arg0
  * @param {String} arg1
- * @param {mw.MWNetRequest} arg2
- * @return {mw.MWNetResponse}
+ * @param {mw.NetRequest} arg2
+ * @return {mw.NetResponse}
  */
 create : function (
 str, 
@@ -2179,7 +2258,7 @@ str,
 mwnetrequest 
 )
 {
-    return mw.MWNetResponse;
+    return mw.NetResponse;
 },
 
 };
@@ -2187,16 +2266,16 @@ mwnetrequest
 /**
  * @class MWNetProtocol
  */
-mw.MWNetProtocol = {
+mw.NetProtocol = {
 
 /**
  * @method getRelatedHandler
- * @return {mw.MWNetHandler}
+ * @return {mw.NetHandler}
  */
 getRelatedHandler : function (
 )
 {
-    return mw.MWNetHandler;
+    return mw.NetHandler;
 },
 
 /**
@@ -2243,8 +2322,8 @@ str
  * @method create
  * @param {String} arg0
  * @param {String} arg1
- * @param {mw.MWNetHandler} arg2
- * @return {mw.MWNetProtocol}
+ * @param {mw.NetHandler} arg2
+ * @return {mw.NetProtocol}
  */
 create : function (
 str, 
@@ -2252,7 +2331,7 @@ str,
 mwnethandler 
 )
 {
-    return mw.MWNetProtocol;
+    return mw.NetProtocol;
 },
 
 };
@@ -2260,12 +2339,12 @@ mwnethandler
 /**
  * @class MWNetCenter
  */
-mw.MWNetCenter = {
+mw.NetCenter = {
 
 /**
  * @method addNetService
  * @param {String} arg0
- * @param {mw.MWNetService} arg1
+ * @param {mw.NetService} arg1
  */
 addNetService : function (
 str, 
@@ -2284,7 +2363,7 @@ removeAllNetFilters : function (
 
 /**
  * @method addNetFilter
- * @param {mw.MWNetFilter} arg0
+ * @param {mw.NetFilter} arg0
  */
 addNetFilter : function (
 mwnetfilter 
@@ -2304,7 +2383,7 @@ str
 
 /**
  * @method removeNetFilter
- * @param {mw.MWNetFilter} arg0
+ * @param {mw.NetFilter} arg0
  */
 removeNetFilter : function (
 mwnetfilter 
@@ -2324,7 +2403,7 @@ str
 
 /**
  * @method sendMessage
- * @param {mw.MWNetRequest} arg0
+ * @param {mw.NetRequest} arg0
  */
 sendMessage : function (
 mwnetrequest 
@@ -2334,9 +2413,9 @@ mwnetrequest
 
 /**
  * @method addNetProtocol
-* @param {mw.MWNetProtocol|String} mwnetprotocol
+* @param {mw.NetProtocol|String} mwnetprotocol
 * @param {String} str
-* @param {mw.MWNetHandler} mwnethandler
+* @param {mw.NetHandler} mwnethandler
 */
 addNetProtocol : function(
 str,
@@ -2348,7 +2427,7 @@ mwnethandler
 
 /**
  * @method dispatchFailedMessage
- * @param {mw.MWNetResponse} arg0
+ * @param {mw.NetResponse} arg0
  */
 dispatchFailedMessage : function (
 mwnetresponse 
@@ -2358,7 +2437,7 @@ mwnetresponse
 
 /**
  * @method dispatchSuccessfulMessage
- * @param {mw.MWNetResponse} arg0
+ * @param {mw.NetResponse} arg0
  */
 dispatchSuccessfulMessage : function (
 mwnetresponse 
@@ -2382,12 +2461,12 @@ ref
 
 /**
  * @method getInstance
- * @return {mw.MWNetCenter}
+ * @return {mw.NetCenter}
  */
 getInstance : function (
 )
 {
-    return mw.MWNetCenter;
+    return mw.NetCenter;
 },
 
 };

@@ -48,6 +48,7 @@
         "src/scenes/demo/DemoGameViewController.js",
         "src/scenes/demo/AnotherBGViewController.js",
         "src/scenes/demo/AnotherScene.js",
+        "src/scenes/demo/RockerController.js",
 
         "src/scenes/battle/BattleScene.js",
         "src/scenes/battle/BattleUIViewController.js",

@@ -14,6 +14,12 @@ var DemoBGViewController=mw.ViewController.extend({
         bg.setPosition(cc.director.getWinSize().width/2,cc.director.getWinSize().height/2);
         this.view().addChild(bg);
 
+        var rocker=new RockerController();
+        rocker.setPosition(200,200);
+        this.view().addChild(rocker);
+
+
+
     },
     viewDidUnload:function(){
         //卸载View

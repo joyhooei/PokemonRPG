@@ -2,8 +2,6 @@
  * Created by Maple on 8/2/15.
  */
 
-mw = mw || new Object();
-
 var Observer = cc.Class.extend({
     ctor: function(sender, callback, args) {
         cc.assert(sender instanceof Object, "Invalid sender param.");

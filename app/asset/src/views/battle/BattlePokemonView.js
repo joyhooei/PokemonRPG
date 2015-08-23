@@ -22,6 +22,7 @@ var BattlePokemonView = cc.Node.extend({
         //mw.log(gifPath);
         this._gif = mw.GifSprite.createWithFile(gifPath);
         this._gif.setAnchorPoint(0.5, 0);
+        this._gif.setSpeedRatio(1.5);
         this.addChild(this._gif);
 
         this.setScale(2.5);

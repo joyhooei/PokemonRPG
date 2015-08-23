@@ -30,19 +30,6 @@
                 <key>sourceSize</key>
                 <string>{400,111}</string>
             </dict>
-            <key>battle/dialog_indice.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{996,2},{20,8}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{20,8}}</string>
-                <key>sourceSize</key>
-                <string>{20,8}</string>
-            </dict>
             <key>battle/empty_ball.png</key>
             <dict>
                 <key>frame</key>
@@ -59,7 +46,7 @@
             <key>battle/exp_bar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{996,12},{160,10}}</string>
+                <string>{{996,2},{160,10}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -72,7 +59,7 @@
             <key>battle/exp_progress.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1018,2},{126,4}}</string>
+                <string>{{1008,2},{126,4}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -118,7 +105,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:da8ffc59c31dd5005083a0754cf7d607:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:87b95336fa6d3af4a7b88b08c27e148b:1/1$</string>
             <key>textureFileName</key>
             <string>battle.pvr.ccz</string>
         </dict>

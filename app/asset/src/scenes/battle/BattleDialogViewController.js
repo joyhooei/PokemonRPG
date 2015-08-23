@@ -2,31 +2,22 @@
  * Created by Maple on 8/19/15.
  */
 
-var BattleDialogViewController = mw.ViewController.extend({
-    TEXTURES_TO_LOAD: {
-    },
+var BattleDialogViewController = DialogBaseViewController.extend({
     ctor: function (segue) {
         this._super(segue);
     },
     viewDidLoad: function () {
-        this._loadTextures();
-        this._renderView();
+        this._super();
     },
     viewDidUnload: function () {
-        this._unloadTextures();
+        this._super();
     },
-    _loadTextures: function () {
-        for (var plist in this.TEXTURES_TO_LOAD) {
-            var tex = this.TEXTURES_TO_LOAD[plist];
-            TextureManager.loadTexture(plist, tex);
-        }
-    },
-    _unloadTextures: function () {
-        for (var plist in this.TEXTURES_TO_LOAD) {
-            TextureManager.unloadTexture(plist);
-        }
+    didReceiveMemoryWarning: function () {
     },
     _renderView: function () {
+        this._super();
+
         this.segue().setEnabled(false);
+        mw.log("SIZE: %d", this._lblMsg.getString().length);
     },
 });

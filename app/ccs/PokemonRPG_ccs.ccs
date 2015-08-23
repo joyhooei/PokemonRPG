@@ -54,6 +54,8 @@
         </Folder>
         <Folder Name="json">
           <Project Name="battle_player_board_1.csd" Type="Node" />
+          <Project Name="battle_player_board_2.csd" Type="Node" />
+          <Project Name="dialog_board.csd" Type="Node" />
         </Folder>
         <Folder Name="fonts">
           <TTF Name="DFPYuanW7-GB.ttf" />

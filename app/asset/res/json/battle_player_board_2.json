@@ -1,7 +1,7 @@
 {
   "ID": "2aab1d9d-a150-436b-982c-da66f782a6d6",
   "Version": "2.3.1.1",
-  "Name": "battle_player_board_1",
+  "Name": "battle_player_board_2",
   "Content": {
     "Content": {
       "Animation": {
@@ -13,139 +13,6 @@
       "AnimationList": [],
       "ObjectData": {
         "Children": [
-          {
-            "FileData": {
-              "Type": "PlistSubImage",
-              "Path": "common/back_gray.png",
-              "Plist": "../textures/common.plist"
-            },
-            "Scale9Enable": true,
-            "Scale9OriginX": 16,
-            "Scale9OriginY": 16,
-            "Scale9Width": 19,
-            "Scale9Height": 19,
-            "AnchorPoint": {
-              "ScaleX": 0.5,
-              "ScaleY": 0.5
-            },
-            "Position": {
-              "X": 58.0,
-              "Y": -33.6826
-            },
-            "Scale": {
-              "ScaleX": 1.0,
-              "ScaleY": 1.0
-            },
-            "CColor": {},
-            "IconVisible": false,
-            "PrePosition": {
-              "X": 0.0,
-              "Y": 0.0
-            },
-            "PreSize": {
-              "X": 0.0,
-              "Y": 0.0
-            },
-            "LeftMargin": -29.5,
-            "RightMargin": -145.5,
-            "TopMargin": 13.6826,
-            "BottomMargin": -53.6826,
-            "Tag": 15,
-            "ActionTag": -69790068,
-            "Size": {
-              "X": 175.0,
-              "Y": 40.0
-            },
-            "Name": "exp_bg",
-            "ctype": "ImageViewObjectData"
-          },
-          {
-            "FileData": {
-              "Type": "PlistSubImage",
-              "Path": "battle/exp_bar.png",
-              "Plist": "../textures/battle.plist"
-            },
-            "BlendFunc": {
-              "Src": 1,
-              "Dst": 771
-            },
-            "AnchorPoint": {
-              "ScaleX": 0.5,
-              "ScaleY": 0.5
-            },
-            "Position": {
-              "X": 59.0,
-              "Y": -44.0
-            },
-            "Scale": {
-              "ScaleX": 1.0,
-              "ScaleY": 1.0
-            },
-            "CColor": {},
-            "IconVisible": false,
-            "PrePosition": {
-              "X": 0.0,
-              "Y": 0.0
-            },
-            "PreSize": {
-              "X": 0.0,
-              "Y": 0.0
-            },
-            "LeftMargin": -21.0,
-            "RightMargin": -139.0,
-            "TopMargin": 39.0,
-            "BottomMargin": -49.0,
-            "Tag": 13,
-            "ActionTag": -1521390273,
-            "Size": {
-              "X": 160.0,
-              "Y": 10.0
-            },
-            "Name": "exp_bar_bg",
-            "ctype": "SpriteObjectData"
-          },
-          {
-            "ProgressInfo": 20,
-            "ImageFileData": {
-              "Type": "PlistSubImage",
-              "Path": "battle/exp_progress.png",
-              "Plist": "../textures/battle.plist"
-            },
-            "AnchorPoint": {
-              "ScaleX": 0.5,
-              "ScaleY": 0.5
-            },
-            "Position": {
-              "X": 71.0,
-              "Y": -44.0
-            },
-            "Scale": {
-              "ScaleX": 1.0,
-              "ScaleY": 1.0
-            },
-            "CColor": {},
-            "IconVisible": false,
-            "PrePosition": {
-              "X": 0.0,
-              "Y": 0.0
-            },
-            "PreSize": {
-              "X": 0.0,
-              "Y": 0.0
-            },
-            "LeftMargin": 8.0,
-            "RightMargin": -134.0,
-            "TopMargin": 42.0,
-            "BottomMargin": -46.0,
-            "Tag": 14,
-            "ActionTag": 1879926722,
-            "Size": {
-              "X": 126.0,
-              "Y": 4.0
-            },
-            "Name": "exp_bar",
-            "ctype": "LoadingBarObjectData"
-          },
           {
             "FileData": {
               "Type": "PlistSubImage",
@@ -181,8 +48,8 @@
             },
             "LeftMargin": -150.0,
             "RightMargin": -150.0,
-            "TopMargin": -40.0,
-            "BottomMargin": -40.0,
+            "TopMargin": -30.0,
+            "BottomMargin": -30.0,
             "Tag": 3,
             "Children": [
               {
@@ -212,7 +79,7 @@
                 },
                 "Position": {
                   "X": 35.0,
-                  "Y": 60.0
+                  "Y": 41.0
                 },
                 "Scale": {
                   "ScaleX": 1.0,
@@ -222,7 +89,7 @@
                 "IconVisible": false,
                 "PrePosition": {
                   "X": 0.1167,
-                  "Y": 0.75
+                  "Y": 0.6833
                 },
                 "PreSize": {
                   "X": 0.0,
@@ -231,8 +98,8 @@
                 "VerticalEdge": "TopEdge",
                 "LeftMargin": 35.0,
                 "RightMargin": 143.0,
-                "TopMargin": 9.0,
-                "BottomMargin": 49.0,
+                "TopMargin": 8.0,
+                "BottomMargin": 30.0,
                 "Tag": 3,
                 "ActionTag": 1262623502,
                 "Size": {
@@ -258,7 +125,7 @@
                 },
                 "Position": {
                   "X": 20.0,
-                  "Y": 60.0
+                  "Y": 41.0
                 },
                 "Scale": {
                   "ScaleX": 1.25,
@@ -268,7 +135,7 @@
                 "IconVisible": false,
                 "PrePosition": {
                   "X": 0.0667,
-                  "Y": 0.75
+                  "Y": 0.6833
                 },
                 "PreSize": {
                   "X": 0.0,
@@ -277,8 +144,8 @@
                 "VerticalEdge": "TopEdge",
                 "LeftMargin": 15.0,
                 "RightMargin": 275.0,
-                "TopMargin": 13.0,
-                "BottomMargin": 53.0,
+                "TopMargin": 12.0,
+                "BottomMargin": 34.0,
                 "Tag": 4,
                 "ActionTag": -1518966636,
                 "Size": {
@@ -303,8 +170,54 @@
                   "ScaleY": 0.5
                 },
                 "Position": {
+                  "X": 45.0,
+                  "Y": 14.9999
+                },
+                "Scale": {
+                  "ScaleX": 0.7,
+                  "ScaleY": 0.7
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.15,
+                  "Y": 0.25
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 32.5,
+                "RightMargin": 242.5,
+                "TopMargin": 32.5001,
+                "BottomMargin": 2.4999,
+                "Tag": 7,
+                "ActionTag": -387411875,
+                "Size": {
                   "X": 25.0,
-                  "Y": 24.0
+                  "Y": 25.0
+                },
+                "Name": "icon_state",
+                "ctype": "SpriteObjectData"
+              },
+              {
+                "FileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/ball_owning.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "BlendFunc": {
+                  "Src": 1,
+                  "Dst": 771
+                },
+                "AnchorPoint": {
+                  "ScaleX": 0.5,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 20.0,
+                  "Y": 15.0
                 },
                 "Scale": {
                   "ScaleX": 1.0,
@@ -313,25 +226,26 @@
                 "CColor": {},
                 "IconVisible": false,
                 "PrePosition": {
-                  "X": 0.0833,
-                  "Y": 0.3
+                  "X": 0.0667,
+                  "Y": 0.25
                 },
                 "PreSize": {
                   "X": 0.0,
                   "Y": 0.0
                 },
+                "HorizontalEdge": "LeftEdge",
                 "VerticalEdge": "TopEdge",
-                "LeftMargin": 12.5,
-                "RightMargin": 262.5,
-                "TopMargin": 43.5,
-                "BottomMargin": 11.5,
-                "Tag": 7,
-                "ActionTag": -387411875,
+                "LeftMargin": 12.0,
+                "RightMargin": 272.0,
+                "TopMargin": 37.0,
+                "BottomMargin": 7.0,
+                "Tag": 25,
+                "ActionTag": 2115799280,
                 "Size": {
-                  "X": 25.0,
-                  "Y": 25.0
+                  "X": 16.0,
+                  "Y": 16.0
                 },
-                "Name": "icon_state",
+                "Name": "icon_ball",
                 "ctype": "SpriteObjectData"
               },
               {
@@ -363,7 +277,7 @@
                 },
                 "Position": {
                   "X": 285.0,
-                  "Y": 60.0
+                  "Y": 41.0
                 },
                 "Scale": {
                   "ScaleX": 1.0,
@@ -373,7 +287,7 @@
                 "IconVisible": false,
                 "PrePosition": {
                   "X": 0.95,
-                  "Y": 0.75
+                  "Y": 0.6833
                 },
                 "PreSize": {
                   "X": 0.0,
@@ -383,8 +297,8 @@
                 "VerticalEdge": "TopEdge",
                 "LeftMargin": 227.0,
                 "RightMargin": 15.0,
-                "TopMargin": 9.0,
-                "BottomMargin": 49.0,
+                "TopMargin": 8.0,
+                "BottomMargin": 30.0,
                 "Tag": 8,
                 "ActionTag": -408012991,
                 "Size": {
@@ -410,7 +324,7 @@
                 },
                 "Position": {
                   "X": 220.0,
-                  "Y": 35.0
+                  "Y": 15.0
                 },
                 "Scale": {
                   "ScaleX": 1.0,
@@ -454,7 +368,7 @@
                 },
                 "Position": {
                   "X": 220.0,
-                  "Y": 35.0
+                  "Y": 15.0
                 },
                 "Scale": {
                   "ScaleX": 1.0,
@@ -486,68 +400,6 @@
                 "ctype": "LoadingBarObjectData"
               },
               {
-                "FontSize": 18,
-                "LabelText": "9999 / 9999\n",
-                "FontResource": {
-                  "Type": "Normal",
-                  "Path": "../fonts/DFPYuanW7-GB.ttf",
-                  "Plist": ""
-                },
-                "HorizontalAlignmentType": "HT_Right",
-                "OutlineColor": {
-                  "R": 0,
-                  "G": 0,
-                  "B": 0
-                },
-                "ShadowColor": {
-                  "R": 110,
-                  "G": 110,
-                  "B": 110
-                },
-                "ShadowOffsetX": 2.0,
-                "ShadowOffsetY": -2.0,
-                "AnchorPoint": {
-                  "ScaleX": 1.0,
-                  "ScaleY": 0.5
-                },
-                "Position": {
-                  "X": 287.5,
-                  "Y": 16.3174
-                },
-                "Scale": {
-                  "ScaleX": 1.0,
-                  "ScaleY": 1.0
-                },
-                "CColor": {
-                  "R": 0,
-                  "G": 0,
-                  "B": 0
-                },
-                "IconVisible": false,
-                "PrePosition": {
-                  "X": 0.9583,
-                  "Y": 0.204
-                },
-                "PreSize": {
-                  "X": 0.0,
-                  "Y": 0.0
-                },
-                "HorizontalEdge": "RightEdge",
-                "VerticalEdge": "BottomEdge",
-                "LeftMargin": 190.5,
-                "RightMargin": 12.5,
-                "TopMargin": 54.6826,
-                "BottomMargin": 7.3174,
-                "Tag": 12,
-                "ActionTag": 528013667,
-                "Size": {
-                  "X": 97.0,
-                  "Y": 18.0
-                },
-                "Name": "hp_info",
-                "ctype": "TextObjectData"
-              },
-              {
                 "FontSize": 16,
                 "LabelText": "HP",
                 "OutlineColor": {
@@ -567,7 +419,7 @@
                 },
                 "Position": {
                   "X": 135.0,
-                  "Y": 34.0
+                  "Y": 14.0
                 },
                 "Scale": {
                   "ScaleX": 1.0,
@@ -581,7 +433,7 @@
                 "IconVisible": false,
                 "PrePosition": {
                   "X": 0.45,
-                  "Y": 0.425
+                  "Y": 0.2333
                 },
                 "PreSize": {
                   "X": 0.0,
@@ -590,9 +442,9 @@
                 "LeftMargin": 124.0,
                 "RightMargin": 154.0,
                 "TopMargin": 37.0,
-                "BottomMargin": 25.0,
-                "Tag": 26,
-                "ActionTag": -368930699,
+                "BottomMargin": 5.0,
+                "Tag": 27,
+                "ActionTag": 269599132,
                 "Size": {
                   "X": 22.0,
                   "Y": 18.0
@@ -604,7 +456,7 @@
             "ActionTag": -786491580,
             "Size": {
               "X": 300.0,
-              "Y": 80.0
+              "Y": 60.0
             },
             "Name": "board_bg",
             "ctype": "ImageViewObjectData"
@@ -619,8 +471,6 @@
       },
       "UsedResources": [
         "../fonts/DFPYuanW7-GB.ttf",
-        "../textures/battle.plist",
-        "../textures/battle.png",
         "../textures/common.plist",
         "../textures/common.png"
       ],

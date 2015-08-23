@@ -40,11 +40,11 @@
             <PlistImageFile Name="common_rocker.png" Key="common/rocker.png" />
             <PlistImageFile Name="common_selection_border.png" Key="common/selection_border.png" />
             <PlistImageFile Name="common_white_back.png" Key="common/white_back.png" />
+            <PlistImageFile Name="common_dialog_indice.png" Key="common/dialog_indice.png" />
           </PlistImageFolder>
           <PlistImageFolder Image="battle.png" PListFile="battle.plist" Name=".battle_PList.Dir">
             <PlistImageFile Name="battle_battle_bg.png" Key="battle/battle_bg.png" />
             <PlistImageFile Name="battle_battle_field1.png" Key="battle/battle_field1.png" />
-            <PlistImageFile Name="battle_dialog_indice.png" Key="battle/dialog_indice.png" />
             <PlistImageFile Name="battle_empty_ball.png" Key="battle/empty_ball.png" />
             <PlistImageFile Name="battle_exp_bar.png" Key="battle/exp_bar.png" />
             <PlistImageFile Name="battle_exp_progress.png" Key="battle/exp_progress.png" />
@@ -56,6 +56,7 @@
           <Project Name="battle_player_board_1.csd" Type="Node" />
           <Project Name="battle_player_board_2.csd" Type="Node" />
           <Project Name="dialog_board.csd" Type="Node" />
+          <Project Name="battle_board.csd" Type="Node" />
         </Folder>
         <Folder Name="fonts">
           <TTF Name="DFPYuanW7-GB.ttf" />

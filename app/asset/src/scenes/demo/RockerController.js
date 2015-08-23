@@ -8,20 +8,15 @@
 
 
 //摇杆控制器
-var RockerController = cc.Node.extend({
+var RockerController;
+
+RockerController = cc.Node.extend({
         _radius: 75,//摇杆半径
         _rocker_origin_point: cc.p(75, 75),//摇杆初始位置
         _rocker: null,//摇杆
         _rocker_bg: null,//摇杆背景图
         _delegate: null,//事件委托
         _lastDirection: null,//最后一次的方向
-        ROCKER_DIRECTION: {
-            RESET: 0,
-            UP: 1,
-            LEFT: 2,
-            DOWN: 3,
-            RIGHT: 4
-        },
         ctor: function () {
             this._super();
             this.setContentSize(150, 150);//固定大小
@@ -107,7 +102,7 @@ var RockerController = cc.Node.extend({
             //校验坐标
             if (pos.x===0&&pos.y===0) {
                 cc.log("Controller reset");
-                this._directionChanged(this.ROCKER_DIRECTION.RESET);
+                this._directionChanged(RockerController.ROCKER_DIRECTION.RESET);
                 //抛出事件
             } else {
                 var absX = Math.abs(pos.x);
@@ -115,17 +110,17 @@ var RockerController = cc.Node.extend({
                 if (absX > absY) {
                     //横向移动
                     if (pos.x > 0) {
-                        this._directionChanged(this.ROCKER_DIRECTION.RIGHT);
+                        this._directionChanged(RockerController.ROCKER_DIRECTION.RIGHT);
                     } else {
-                        this._directionChanged(this.ROCKER_DIRECTION.LEFT);
+                        this._directionChanged(RockerController.ROCKER_DIRECTION.LEFT);
                     }
                 }
                 else if (absY > absX) {
                     //纵向移动
                     if (pos.y > 0) {
-                        this._directionChanged(this.ROCKER_DIRECTION.UP);
+                        this._directionChanged(RockerController.ROCKER_DIRECTION.UP);
                     } else {
-                        this._directionChanged(this.ROCKER_DIRECTION.DOWN);
+                        this._directionChanged(RockerController.ROCKER_DIRECTION.DOWN);
                     }
                 }
             }

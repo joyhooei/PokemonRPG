@@ -342,6 +342,23 @@ bool js_mwframework_MWJsonArray_createWithFile(JSContext *cx, uint32_t argc, jsv
 bool js_mwframework_MWJsonArray_create(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWJsonArray_createWithString(JSContext *cx, uint32_t argc, jsval *vp);
 
+extern JSClass  *jsb_mwframework_MWCrypto_class;
+extern JSObject *jsb_mwframework_MWCrypto_prototype;
+
+bool js_mwframework_MWCrypto_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_mwframework_MWCrypto_finalize(JSContext *cx, JSObject *obj);
+void js_register_mwframework_MWCrypto(JSContext *cx, JS::HandleObject global);
+void register_all_mwframework(JSContext* cx, JS::HandleObject obj);
+bool js_mwframework_MWCrypto_encipherAes256(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWCrypto_decodeBase64(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWCrypto_md5String(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWCrypto_md5File(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWCrypto_getAes256KeyLength(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWCrypto_decipherAes256(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWCrypto_encodeBase64(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWCrypto_md5(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWCrypto_getInstance(JSContext *cx, uint32_t argc, jsval *vp);
+
 extern JSClass  *jsb_mwframework_MWUUIDGenerator_class;
 extern JSObject *jsb_mwframework_MWUUIDGenerator_prototype;
 

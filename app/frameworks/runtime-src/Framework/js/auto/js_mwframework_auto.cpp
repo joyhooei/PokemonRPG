@@ -1849,44 +1849,104 @@ bool js_mwframework_MWIOUtils_writeDataToFile(JSContext *cx, uint32_t argc, jsva
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    mwframework::MWIOUtils* cobj = (mwframework::MWIOUtils *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWIOUtils_writeDataToFile : Invalid Native Object");
-    if (argc == 3) {
-        const void* arg0;
-        unsigned long arg1;
-        std::string arg2;
-        #pragma warning NO CONVERSION TO NATIVE FOR void*
-		ok = false;
-        ok &= jsval_to_ulong(cx, args.get(1), &arg1);
-        ok &= jsval_to_std_string(cx, args.get(2), &arg2);
-        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWIOUtils_writeDataToFile : Error processing arguments");
-        bool ret = cobj->writeDataToFile(arg0, arg1, arg2);
-        jsval jsret = JSVAL_NULL;
-        jsret = BOOLEAN_TO_JSVAL(ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    if (argc == 4) {
-        const void* arg0;
-        unsigned long arg1;
-        std::string arg2;
-        bool arg3;
-        #pragma warning NO CONVERSION TO NATIVE FOR void*
-		ok = false;
-        ok &= jsval_to_ulong(cx, args.get(1), &arg1);
-        ok &= jsval_to_std_string(cx, args.get(2), &arg2);
-        arg3 = JS::ToBoolean(args.get(3));
-        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWIOUtils_writeDataToFile : Error processing arguments");
-        bool ret = cobj->writeDataToFile(arg0, arg1, arg2, arg3);
-        jsval jsret = JSVAL_NULL;
-        jsret = BOOLEAN_TO_JSVAL(ret);
-        args.rval().set(jsret);
-        return true;
-    }
 
-    JS_ReportError(cx, "js_mwframework_MWIOUtils_writeDataToFile : wrong number of arguments: %d, was expecting %d", argc, 3);
+    JS::RootedObject obj(cx);
+    mwframework::MWIOUtils* cobj = NULL;
+    obj = args.thisv().toObjectOrNull();
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    cobj = (mwframework::MWIOUtils *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWIOUtils_writeDataToFile : Invalid Native Object");
+    do {
+        if (argc == 2) {
+            mwframework::MWBinaryData* arg0;
+            do {
+                if (!args.get(0).isObject()) { ok = false; break; }
+                js_proxy_t *jsProxy;
+                JSObject *tmpObj = args.get(0).toObjectOrNull();
+                jsProxy = jsb_get_js_proxy(tmpObj);
+                arg0 = (mwframework::MWBinaryData*)(jsProxy ? jsProxy->ptr : NULL);
+                JSB_PRECONDITION2( arg0, cx, false, "Invalid Native Object");
+            } while (0);
+            if (!ok) { ok = true; break; }
+            std::string arg1;
+            ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+            if (!ok) { ok = true; break; }
+            bool ret = cobj->writeDataToFile(arg0, arg1);
+            jsval jsret = JSVAL_NULL;
+            jsret = BOOLEAN_TO_JSVAL(ret);
+            args.rval().set(jsret);
+            return true;
+        }
+    } while(0);
+
+    do {
+        if (argc == 3) {
+            mwframework::MWBinaryData* arg0;
+            do {
+                if (!args.get(0).isObject()) { ok = false; break; }
+                js_proxy_t *jsProxy;
+                JSObject *tmpObj = args.get(0).toObjectOrNull();
+                jsProxy = jsb_get_js_proxy(tmpObj);
+                arg0 = (mwframework::MWBinaryData*)(jsProxy ? jsProxy->ptr : NULL);
+                JSB_PRECONDITION2( arg0, cx, false, "Invalid Native Object");
+            } while (0);
+            if (!ok) { ok = true; break; }
+            std::string arg1;
+            ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+            if (!ok) { ok = true; break; }
+            bool arg2;
+            arg2 = JS::ToBoolean(args.get(2));
+            bool ret = cobj->writeDataToFile(arg0, arg1, arg2);
+            jsval jsret = JSVAL_NULL;
+            jsret = BOOLEAN_TO_JSVAL(ret);
+            args.rval().set(jsret);
+            return true;
+        }
+    } while(0);
+
+    do {
+        if (argc == 3) {
+            const void* arg0;
+            #pragma warning NO CONVERSION TO NATIVE FOR void*
+			ok = false;
+            if (!ok) { ok = true; break; }
+            unsigned long arg1;
+            ok &= jsval_to_ulong(cx, args.get(1), &arg1);
+            if (!ok) { ok = true; break; }
+            std::string arg2;
+            ok &= jsval_to_std_string(cx, args.get(2), &arg2);
+            if (!ok) { ok = true; break; }
+            bool ret = cobj->writeDataToFile(arg0, arg1, arg2);
+            jsval jsret = JSVAL_NULL;
+            jsret = BOOLEAN_TO_JSVAL(ret);
+            args.rval().set(jsret);
+            return true;
+        }
+    } while(0);
+
+    do {
+        if (argc == 4) {
+            const void* arg0;
+            #pragma warning NO CONVERSION TO NATIVE FOR void*
+			ok = false;
+            if (!ok) { ok = true; break; }
+            unsigned long arg1;
+            ok &= jsval_to_ulong(cx, args.get(1), &arg1);
+            if (!ok) { ok = true; break; }
+            std::string arg2;
+            ok &= jsval_to_std_string(cx, args.get(2), &arg2);
+            if (!ok) { ok = true; break; }
+            bool arg3;
+            arg3 = JS::ToBoolean(args.get(3));
+            bool ret = cobj->writeDataToFile(arg0, arg1, arg2, arg3);
+            jsval jsret = JSVAL_NULL;
+            jsret = BOOLEAN_TO_JSVAL(ret);
+            args.rval().set(jsret);
+            return true;
+        }
+    } while(0);
+
+    JS_ReportError(cx, "js_mwframework_MWIOUtils_writeDataToFile : wrong number of arguments");
     return false;
 }
 bool js_mwframework_MWIOUtils_getDataFromFile(JSContext *cx, uint32_t argc, jsval *vp)
@@ -2102,7 +2162,7 @@ void js_register_mwframework_MWIOUtils(JSContext *cx, JS::HandleObject global) {
     static JSFunctionSpec funcs[] = {
         JS_FN("fileExists", js_mwframework_MWIOUtils_fileExists, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("copyFile", js_mwframework_MWIOUtils_copyFile, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("writeDataToFile", js_mwframework_MWIOUtils_writeDataToFile, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("writeDataToFile", js_mwframework_MWIOUtils_writeDataToFile, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getDataFromFile", js_mwframework_MWIOUtils_getDataFromFile, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("splicePath", js_mwframework_MWIOUtils_splicePath, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("createFile", js_mwframework_MWIOUtils_createFile, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
@@ -5682,6 +5742,310 @@ void js_register_mwframework_MWJsonArray(JSContext *cx, JS::HandleObject global)
     }
 }
 
+JSClass  *jsb_mwframework_MWCrypto_class;
+JSObject *jsb_mwframework_MWCrypto_prototype;
+
+bool js_mwframework_MWCrypto_encipherAes256(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWCrypto* cobj = (mwframework::MWCrypto *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWCrypto_encipherAes256 : Invalid Native Object");
+    if (argc == 2) {
+        mwframework::MWBinaryData* arg0;
+        std::string arg1;
+        do {
+            if (!args.get(0).isObject()) { ok = false; break; }
+            js_proxy_t *jsProxy;
+            JSObject *tmpObj = args.get(0).toObjectOrNull();
+            jsProxy = jsb_get_js_proxy(tmpObj);
+            arg0 = (mwframework::MWBinaryData*)(jsProxy ? jsProxy->ptr : NULL);
+            JSB_PRECONDITION2( arg0, cx, false, "Invalid Native Object");
+        } while (0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWCrypto_encipherAes256 : Error processing arguments");
+        mwframework::MWBinaryData* ret = cobj->encipherAes256(arg0, arg1);
+        jsval jsret = JSVAL_NULL;
+        do {
+            if (ret) {
+                js_proxy_t *jsProxy = js_get_or_create_proxy<mwframework::MWBinaryData>(cx, (mwframework::MWBinaryData*)ret);
+                jsret = OBJECT_TO_JSVAL(jsProxy->obj);
+            } else {
+                jsret = JSVAL_NULL;
+            }
+        } while (0);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWCrypto_encipherAes256 : wrong number of arguments: %d, was expecting %d", argc, 2);
+    return false;
+}
+bool js_mwframework_MWCrypto_decodeBase64(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWCrypto* cobj = (mwframework::MWCrypto *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWCrypto_decodeBase64 : Invalid Native Object");
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWCrypto_decodeBase64 : Error processing arguments");
+        std::string ret = cobj->decodeBase64(arg0);
+        jsval jsret = JSVAL_NULL;
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWCrypto_decodeBase64 : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+bool js_mwframework_MWCrypto_md5String(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWCrypto* cobj = (mwframework::MWCrypto *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWCrypto_md5String : Invalid Native Object");
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWCrypto_md5String : Error processing arguments");
+        std::string ret = cobj->md5String(arg0);
+        jsval jsret = JSVAL_NULL;
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWCrypto_md5String : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+bool js_mwframework_MWCrypto_md5File(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWCrypto* cobj = (mwframework::MWCrypto *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWCrypto_md5File : Invalid Native Object");
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWCrypto_md5File : Error processing arguments");
+        std::string ret = cobj->md5File(arg0);
+        jsval jsret = JSVAL_NULL;
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWCrypto_md5File : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+bool js_mwframework_MWCrypto_getAes256KeyLength(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWCrypto* cobj = (mwframework::MWCrypto *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWCrypto_getAes256KeyLength : Invalid Native Object");
+    if (argc == 0) {
+        int ret = cobj->getAes256KeyLength();
+        jsval jsret = JSVAL_NULL;
+        jsret = int32_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWCrypto_getAes256KeyLength : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
+bool js_mwframework_MWCrypto_decipherAes256(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWCrypto* cobj = (mwframework::MWCrypto *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWCrypto_decipherAes256 : Invalid Native Object");
+    if (argc == 2) {
+        mwframework::MWBinaryData* arg0;
+        std::string arg1;
+        do {
+            if (!args.get(0).isObject()) { ok = false; break; }
+            js_proxy_t *jsProxy;
+            JSObject *tmpObj = args.get(0).toObjectOrNull();
+            jsProxy = jsb_get_js_proxy(tmpObj);
+            arg0 = (mwframework::MWBinaryData*)(jsProxy ? jsProxy->ptr : NULL);
+            JSB_PRECONDITION2( arg0, cx, false, "Invalid Native Object");
+        } while (0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWCrypto_decipherAes256 : Error processing arguments");
+        mwframework::MWBinaryData* ret = cobj->decipherAes256(arg0, arg1);
+        jsval jsret = JSVAL_NULL;
+        do {
+            if (ret) {
+                js_proxy_t *jsProxy = js_get_or_create_proxy<mwframework::MWBinaryData>(cx, (mwframework::MWBinaryData*)ret);
+                jsret = OBJECT_TO_JSVAL(jsProxy->obj);
+            } else {
+                jsret = JSVAL_NULL;
+            }
+        } while (0);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWCrypto_decipherAes256 : wrong number of arguments: %d, was expecting %d", argc, 2);
+    return false;
+}
+bool js_mwframework_MWCrypto_encodeBase64(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWCrypto* cobj = (mwframework::MWCrypto *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWCrypto_encodeBase64 : Invalid Native Object");
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWCrypto_encodeBase64 : Error processing arguments");
+        std::string ret = cobj->encodeBase64(arg0);
+        jsval jsret = JSVAL_NULL;
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWCrypto_encodeBase64 : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+bool js_mwframework_MWCrypto_md5(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWCrypto* cobj = (mwframework::MWCrypto *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWCrypto_md5 : Invalid Native Object");
+    if (argc == 1) {
+        mwframework::MWBinaryData* arg0;
+        do {
+            if (!args.get(0).isObject()) { ok = false; break; }
+            js_proxy_t *jsProxy;
+            JSObject *tmpObj = args.get(0).toObjectOrNull();
+            jsProxy = jsb_get_js_proxy(tmpObj);
+            arg0 = (mwframework::MWBinaryData*)(jsProxy ? jsProxy->ptr : NULL);
+            JSB_PRECONDITION2( arg0, cx, false, "Invalid Native Object");
+        } while (0);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWCrypto_md5 : Error processing arguments");
+        std::string ret = cobj->md5(arg0);
+        jsval jsret = JSVAL_NULL;
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWCrypto_md5 : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+bool js_mwframework_MWCrypto_getInstance(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+        mwframework::MWCrypto* ret = mwframework::MWCrypto::getInstance();
+        jsval jsret = JSVAL_NULL;
+        do {
+        if (ret) {
+            js_proxy_t *jsProxy = js_get_or_create_proxy<mwframework::MWCrypto>(cx, (mwframework::MWCrypto*)ret);
+            jsret = OBJECT_TO_JSVAL(jsProxy->obj);
+        } else {
+            jsret = JSVAL_NULL;
+        }
+    } while (0);
+        args.rval().set(jsret);
+        return true;
+    }
+    JS_ReportError(cx, "js_mwframework_MWCrypto_getInstance : wrong number of arguments");
+    return false;
+}
+
+
+
+void js_mwframework_MWCrypto_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (MWCrypto)", obj);
+}
+
+void js_register_mwframework_MWCrypto(JSContext *cx, JS::HandleObject global) {
+    jsb_mwframework_MWCrypto_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_mwframework_MWCrypto_class->name = "Crypto";
+    jsb_mwframework_MWCrypto_class->addProperty = JS_PropertyStub;
+    jsb_mwframework_MWCrypto_class->delProperty = JS_DeletePropertyStub;
+    jsb_mwframework_MWCrypto_class->getProperty = JS_PropertyStub;
+    jsb_mwframework_MWCrypto_class->setProperty = JS_StrictPropertyStub;
+    jsb_mwframework_MWCrypto_class->enumerate = JS_EnumerateStub;
+    jsb_mwframework_MWCrypto_class->resolve = JS_ResolveStub;
+    jsb_mwframework_MWCrypto_class->convert = JS_ConvertStub;
+    jsb_mwframework_MWCrypto_class->finalize = js_mwframework_MWCrypto_finalize;
+    jsb_mwframework_MWCrypto_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FN("encipherAes256", js_mwframework_MWCrypto_encipherAes256, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("decodeBase64", js_mwframework_MWCrypto_decodeBase64, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("md5String", js_mwframework_MWCrypto_md5String, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("md5File", js_mwframework_MWCrypto_md5File, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getAes256KeyLength", js_mwframework_MWCrypto_getAes256KeyLength, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("decipherAes256", js_mwframework_MWCrypto_decipherAes256, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("encodeBase64", js_mwframework_MWCrypto_encodeBase64, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("md5", js_mwframework_MWCrypto_md5, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("getInstance", js_mwframework_MWCrypto_getInstance, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_mwframework_MWCrypto_prototype = JS_InitClass(
+        cx, global,
+        JS::NullPtr(), // parent proto
+        jsb_mwframework_MWCrypto_class,
+        dummy_constructor<mwframework::MWCrypto>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "Crypto", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<mwframework::MWCrypto> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_mwframework_MWCrypto_class;
+        p->proto = jsb_mwframework_MWCrypto_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+
 JSClass  *jsb_mwframework_MWUUIDGenerator_class;
 JSObject *jsb_mwframework_MWUUIDGenerator_prototype;
 
@@ -6897,6 +7261,7 @@ void register_all_mwframework(JSContext* cx, JS::HandleObject obj) {
     js_register_mwframework_MWGameScene(cx, ns);
     js_register_mwframework_MWSvgSprite(cx, ns);
     js_register_mwframework_MWDictionary(cx, ns);
+    js_register_mwframework_MWNetHandler(cx, ns);
     js_register_mwframework_MWSystemHelper(cx, ns);
     js_register_mwframework_MWGifSprite(cx, ns);
     js_register_mwframework_MWBinaryData(cx, ns);
@@ -6910,7 +7275,7 @@ void register_all_mwframework(JSContext* cx, JS::HandleObject obj) {
     js_register_mwframework_MWArrayList(cx, ns);
     js_register_mwframework_MWJsonArray(cx, ns);
     js_register_mwframework_MWZipData(cx, ns);
-    js_register_mwframework_MWNetHandler(cx, ns);
+    js_register_mwframework_MWCrypto(cx, ns);
     js_register_mwframework_MWNetResponse(cx, ns);
     js_register_mwframework_MWJsonObject(cx, ns);
 }

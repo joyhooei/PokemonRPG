@@ -81,8 +81,6 @@
 		F559B80E1B6CBC9C00C90AC9 /* MWZipData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B6E11B6CBC9B00C90AC9 /* MWZipData.cpp */; };
 		F559B80F1B6CBC9C00C90AC9 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F559B6E71B6CBC9B00C90AC9 /* sqlite3.c */; };
 		F559B8101B6CBC9C00C90AC9 /* MWSqliteDb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B6EA1B6CBC9B00C90AC9 /* MWSqliteDb.cpp */; };
-		F559B8111B6CBC9C00C90AC9 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B6EE1B6CBC9B00C90AC9 /* md5.cpp */; };
-		F559B8121B6CBC9C00C90AC9 /* MWCipherMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B6F01B6CBC9B00C90AC9 /* MWCipherMachine.cpp */; };
 		F559B8131B6CBC9C00C90AC9 /* js_mwframework_auto_api.js in Resources */ = {isa = PBXBuildFile; fileRef = F559B6F51B6CBC9B00C90AC9 /* js_mwframework_auto_api.js */; };
 		F559B8141B6CBC9C00C90AC9 /* js_mwframework_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B6F61B6CBC9B00C90AC9 /* js_mwframework_auto.cpp */; };
 		F559B8151B6CBC9C00C90AC9 /* MWJsUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B6F81B6CBC9B00C90AC9 /* MWJsUtils.cpp */; };
@@ -138,6 +136,10 @@
 		F559B8751B6CBC9C00C90AC9 /* MWUUIDGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B8001B6CBC9C00C90AC9 /* MWUUIDGenerator.cpp */; };
 		F559B87A1B6CBE8700C90AC9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F559B8791B6CBE8700C90AC9 /* SystemConfiguration.framework */; };
 		F559B88C1B6CF3E700C90AC9 /* js_mwframework_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B88A1B6CF3E700C90AC9 /* js_mwframework_manual.cpp */; };
+		F58A04CC1B864D2700BB5229 /* libbase64.c in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C41B864D2700BB5229 /* libbase64.c */; };
+		F58A04CD1B864D2700BB5229 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C71B864D2700BB5229 /* md5.cpp */; };
+		F58A04CE1B864D2700BB5229 /* MWCrypto-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C91B864D2700BB5229 /* MWCrypto-ios.mm */; };
+		F58A04CF1B864D2700BB5229 /* MWCrypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A04CA1B864D2700BB5229 /* MWCrypto.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -297,10 +299,6 @@
 		F559B6E91B6CBC9B00C90AC9 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
 		F559B6EA1B6CBC9B00C90AC9 /* MWSqliteDb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWSqliteDb.cpp; sourceTree = "<group>"; };
 		F559B6EB1B6CBC9B00C90AC9 /* MWSqliteDb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSqliteDb.h; sourceTree = "<group>"; };
-		F559B6EE1B6CBC9B00C90AC9 /* md5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = md5.cpp; sourceTree = "<group>"; };
-		F559B6EF1B6CBC9B00C90AC9 /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
-		F559B6F01B6CBC9B00C90AC9 /* MWCipherMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWCipherMachine.cpp; sourceTree = "<group>"; };
-		F559B6F11B6CBC9B00C90AC9 /* MWCipherMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCipherMachine.h; sourceTree = "<group>"; };
 		F559B6F51B6CBC9B00C90AC9 /* js_mwframework_auto_api.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = js_mwframework_auto_api.js; sourceTree = "<group>"; };
 		F559B6F61B6CBC9B00C90AC9 /* js_mwframework_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_mwframework_auto.cpp; sourceTree = "<group>"; };
 		F559B6F71B6CBC9B00C90AC9 /* js_mwframework_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = js_mwframework_auto.hpp; sourceTree = "<group>"; };
@@ -425,6 +423,13 @@
 		F559B87B1B6CBE9800C90AC9 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../Framework/net/http/curl/prebuilt/ios/libcurl.a; sourceTree = "<group>"; };
 		F559B88A1B6CF3E700C90AC9 /* js_mwframework_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_mwframework_manual.cpp; sourceTree = "<group>"; };
 		F559B88B1B6CF3E700C90AC9 /* js_mwframework_manual.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = js_mwframework_manual.hpp; sourceTree = "<group>"; };
+		F58A04C41B864D2700BB5229 /* libbase64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = libbase64.c; sourceTree = "<group>"; };
+		F58A04C51B864D2700BB5229 /* libbase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libbase64.h; sourceTree = "<group>"; };
+		F58A04C71B864D2700BB5229 /* md5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = md5.cpp; sourceTree = "<group>"; };
+		F58A04C81B864D2700BB5229 /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		F58A04C91B864D2700BB5229 /* MWCrypto-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MWCrypto-ios.mm"; sourceTree = "<group>"; };
+		F58A04CA1B864D2700BB5229 /* MWCrypto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWCrypto.cpp; sourceTree = "<group>"; };
+		F58A04CB1B864D2700BB5229 /* MWCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCrypto.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -624,7 +629,7 @@
 				F559B6BF1B6CBC9B00C90AC9 /* base */,
 				F559B6D61B6CBC9B00C90AC9 /* compression */,
 				F559B6E31B6CBC9B00C90AC9 /* db */,
-				F559B6EC1B6CBC9B00C90AC9 /* encryption */,
+				F58A04C21B864D2700BB5229 /* encryption */,
 				F559B6F21B6CBC9B00C90AC9 /* js */,
 				F559B6FA1B6CBC9B00C90AC9 /* json */,
 				F559B7321B6CBC9B00C90AC9 /* net */,
@@ -709,25 +714,6 @@
 				F559B6E91B6CBC9B00C90AC9 /* sqlite3ext.h */,
 			);
 			path = libsqlite;
-			sourceTree = "<group>";
-		};
-		F559B6EC1B6CBC9B00C90AC9 /* encryption */ = {
-			isa = PBXGroup;
-			children = (
-				F559B6ED1B6CBC9B00C90AC9 /* libmd5 */,
-				F559B6F01B6CBC9B00C90AC9 /* MWCipherMachine.cpp */,
-				F559B6F11B6CBC9B00C90AC9 /* MWCipherMachine.h */,
-			);
-			path = encryption;
-			sourceTree = "<group>";
-		};
-		F559B6ED1B6CBC9B00C90AC9 /* libmd5 */ = {
-			isa = PBXGroup;
-			children = (
-				F559B6EE1B6CBC9B00C90AC9 /* md5.cpp */,
-				F559B6EF1B6CBC9B00C90AC9 /* md5.h */,
-			);
-			path = libmd5;
 			sourceTree = "<group>";
 		};
 		F559B6F21B6CBC9B00C90AC9 /* js */ = {
@@ -1055,6 +1041,36 @@
 			path = manual;
 			sourceTree = "<group>";
 		};
+		F58A04C21B864D2700BB5229 /* encryption */ = {
+			isa = PBXGroup;
+			children = (
+				F58A04C31B864D2700BB5229 /* base64 */,
+				F58A04C61B864D2700BB5229 /* md5 */,
+				F58A04C91B864D2700BB5229 /* MWCrypto-ios.mm */,
+				F58A04CA1B864D2700BB5229 /* MWCrypto.cpp */,
+				F58A04CB1B864D2700BB5229 /* MWCrypto.h */,
+			);
+			path = encryption;
+			sourceTree = "<group>";
+		};
+		F58A04C31B864D2700BB5229 /* base64 */ = {
+			isa = PBXGroup;
+			children = (
+				F58A04C41B864D2700BB5229 /* libbase64.c */,
+				F58A04C51B864D2700BB5229 /* libbase64.h */,
+			);
+			path = base64;
+			sourceTree = "<group>";
+		};
+		F58A04C61B864D2700BB5229 /* md5 */ = {
+			isa = PBXGroup;
+			children = (
+				F58A04C71B864D2700BB5229 /* md5.cpp */,
+				F58A04C81B864D2700BB5229 /* md5.h */,
+			);
+			path = md5;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1223,11 +1239,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F58A04CC1B864D2700BB5229 /* libbase64.c in Sources */,
 				F559B81B1B6CBC9C00C90AC9 /* JSONMemory.cpp in Sources */,
 				F559B81D1B6CBC9C00C90AC9 /* JSONNode_Mutex.cpp in Sources */,
 				F559B8751B6CBC9C00C90AC9 /* MWUUIDGenerator.cpp in Sources */,
 				F559B8591B6CBC9C00C90AC9 /* MWNetCenter.cpp in Sources */,
 				F559B8021B6CBC9C00C90AC9 /* FrameworkErrors.cpp in Sources */,
+				F58A04CF1B864D2700BB5229 /* MWCrypto.cpp in Sources */,
 				F559B85C1B6CBC9C00C90AC9 /* MWNetProtocol.cpp in Sources */,
 				F559B8581B6CBC9C00C90AC9 /* MWHttpPostService.cpp in Sources */,
 				F559B8641B6CBC9C00C90AC9 /* MWSystemHelper.cpp in Sources */,
@@ -1248,7 +1266,6 @@
 				F559B8601B6CBC9C00C90AC9 /* MWSystemHelperStrategyIOS.mm in Sources */,
 				F559B85D1B6CBC9C00C90AC9 /* MWNetRequest.cpp in Sources */,
 				F559B8191B6CBC9C00C90AC9 /* JSONDebug.cpp in Sources */,
-				F559B8111B6CBC9C00C90AC9 /* md5.cpp in Sources */,
 				F559B8551B6CBC9C00C90AC9 /* MWHttpDownloader.cpp in Sources */,
 				F559B8171B6CBC9C00C90AC9 /* JSONAllocator.cpp in Sources */,
 				F559B80B1B6CBC9C00C90AC9 /* mztools.c in Sources */,
@@ -1259,11 +1276,11 @@
 				F559B8161B6CBC9C00C90AC9 /* internalJSONNode.cpp in Sources */,
 				F559B8651B6CBC9C00C90AC9 /* MWGameScene.cpp in Sources */,
 				F559B81F1B6CBC9C00C90AC9 /* JSONStream.cpp in Sources */,
-				F559B8121B6CBC9C00C90AC9 /* MWCipherMachine.cpp in Sources */,
 				F559B80C1B6CBC9C00C90AC9 /* unzip.c in Sources */,
 				F559B8241B6CBC9C00C90AC9 /* MWJsonElement.cpp in Sources */,
 				F559B8201B6CBC9C00C90AC9 /* JSONValidator.cpp in Sources */,
 				F559B8221B6CBC9C00C90AC9 /* JSONWriter.cpp in Sources */,
+				F58A04CE1B864D2700BB5229 /* MWCrypto-ios.mm in Sources */,
 				F559B85F1B6CBC9C00C90AC9 /* MWIOUtilsStrategyIOS.mm in Sources */,
 				F559B8061B6CBC9C00C90AC9 /* MWException.cpp in Sources */,
 				F559B8081B6CBC9C00C90AC9 /* MWQueue.cpp in Sources */,
@@ -1278,6 +1295,7 @@
 				F559B86A1B6CBC9C00C90AC9 /* egif_lib.c in Sources */,
 				F559B80E1B6CBC9C00C90AC9 /* MWZipData.cpp in Sources */,
 				F559B8041B6CBC9C00C90AC9 /* MWBinaryData.cpp in Sources */,
+				F58A04CD1B864D2700BB5229 /* md5.cpp in Sources */,
 				F559B8071B6CBC9C00C90AC9 /* MWObject.cpp in Sources */,
 				F559B8091B6CBC9C00C90AC9 /* MWStack.cpp in Sources */,
 				F559B81E1B6CBC9C00C90AC9 /* JSONPreparse.cpp in Sources */,

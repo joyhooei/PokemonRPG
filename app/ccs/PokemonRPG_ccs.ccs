@@ -1,0 +1,13 @@
+<Solution>
+  <PropertyGroup Name="PokemonRPG_ccs" Version="2.3.1.1" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Folder Name="textures" />
+        <Folder Name="csb">
+          <Project Name="battle_player_board_1.csd" Type="Node" />
+        </Folder>
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>

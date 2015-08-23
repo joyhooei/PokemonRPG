@@ -10,7 +10,7 @@ var DemoScene=mw.GameScene.extend({
         this._super();
         //这里初始化Controller
         this.loadViewController(new DemoBGViewController(),"DemoBG_ViewController");
-        this.loadViewController(new DemoGameViewController(),"DemoGame_ViewController");
+        //this.loadViewController(new DemoGameViewController(),"DemoGame_ViewController");
     },
     onExit:function(){
         mw.log("DemoScene onExit");

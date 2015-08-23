@@ -14,7 +14,7 @@
         <key>quiet</key>
         <false/>
         <key>premultiplyAlpha</key>
-        <false/>
+        <true/>
         <key>shapeDebug</key>
         <false/>
         <key>dpi</key>
@@ -66,7 +66,7 @@
             <int>-1</int>
         </QSize>
         <key>reduceBorderArtifacts</key>
-        <true/>
+        <false/>
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
             <key>algorithm</key>
@@ -74,7 +74,7 @@
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
-            <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
+            <enum type="AlgorithmSettings::SizeConstraints">POT</enum>
             <key>forceSquared</key>
             <false/>
             <key>forceWordAligned</key>

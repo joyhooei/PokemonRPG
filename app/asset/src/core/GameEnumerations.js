@@ -152,6 +152,7 @@ var SKILL_TARGET_TYPES = {
 
 // 战斗状态
 var BATTLE_STATES = {
+    NORMAL: 0,          // 正常
     CONFUSED: 1,		// 混乱
     SCARED: 2,			// 害怕
     ATTRACTED: 3,		// 着迷

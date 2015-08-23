@@ -26,12 +26,15 @@
         "src/core/GameConstants.js",
         "src/core/GameEnumerations.js",
         "src/core/DataCenter.js",
+        "src/core/Sqlite3Helper.js",
 
+        "src/models/db/PokemonInfo.js",
         "src/models/Hero.js",
         "src/models/Pokemon.js",
 
         "src/views/HeroView.js",
         "src/views/battle/BattlePokemonView.js",
+        "src/views/battle/BattlePlayerBoardView.js",
 
         "src/segues/ModalViewSegue.js",
 
@@ -39,11 +42,13 @@
         "src/scenes/map/MapViewController.js",
         "src/scenes/map/OperationViewController.js",
 
+
         "src/scenes/demo/DemoScene.js",
         "src/scenes/demo/DemoBGViewController.js",
         "src/scenes/demo/DemoGameViewController.js",
         "src/scenes/demo/AnotherBGViewController.js",
         "src/scenes/demo/AnotherScene.js",
+        "src/scenes/demo/RockerController.js",
 
         "src/scenes/battle/BattleScene.js",
         "src/scenes/battle/BattleUIViewController.js",

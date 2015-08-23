@@ -639,16 +639,16 @@ str
 
 /**
  * @method writeDataToFile
- * @param {void} arg0
- * @param {unsigned long} arg1
- * @param {String} arg2
- * @param {bool} arg3
- * @return {bool}
- */
-writeDataToFile : function (
-void, 
-long, 
-str, 
+* @param {mw.BinaryData|void} mwbinarydata
+* @param {String|unsigned long} str
+* @param {bool|String} bool
+* @param {bool} bool
+* @return {bool|bool}
+*/
+writeDataToFile : function(
+void,
+long,
+str,
 bool 
 )
 {
@@ -1966,6 +1966,121 @@ str
 )
 {
     return mw.JsonArray;
+},
+
+};
+
+/**
+ * @class MWCrypto
+ */
+mw.Crypto = {
+
+/**
+ * @method encipherAes256
+ * @param {mw.BinaryData} arg0
+ * @param {String} arg1
+ * @return {mw.BinaryData}
+ */
+encipherAes256 : function (
+mwbinarydata, 
+str 
+)
+{
+    return mw.BinaryData;
+},
+
+/**
+ * @method decodeBase64
+ * @param {String} arg0
+ * @return {String}
+ */
+decodeBase64 : function (
+str 
+)
+{
+    return ;
+},
+
+/**
+ * @method md5String
+ * @param {String} arg0
+ * @return {String}
+ */
+md5String : function (
+str 
+)
+{
+    return ;
+},
+
+/**
+ * @method md5File
+ * @param {String} arg0
+ * @return {String}
+ */
+md5File : function (
+str 
+)
+{
+    return ;
+},
+
+/**
+ * @method getAes256KeyLength
+ * @return {int}
+ */
+getAes256KeyLength : function (
+)
+{
+    return 0;
+},
+
+/**
+ * @method decipherAes256
+ * @param {mw.BinaryData} arg0
+ * @param {String} arg1
+ * @return {mw.BinaryData}
+ */
+decipherAes256 : function (
+mwbinarydata, 
+str 
+)
+{
+    return mw.BinaryData;
+},
+
+/**
+ * @method encodeBase64
+ * @param {String} arg0
+ * @return {String}
+ */
+encodeBase64 : function (
+str 
+)
+{
+    return ;
+},
+
+/**
+ * @method md5
+ * @param {mw.BinaryData} arg0
+ * @return {String}
+ */
+md5 : function (
+mwbinarydata 
+)
+{
+    return ;
+},
+
+/**
+ * @method getInstance
+ * @return {mw.Crypto}
+ */
+getInstance : function (
+)
+{
+    return mw.Crypto;
 },
 
 };

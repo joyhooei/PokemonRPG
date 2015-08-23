@@ -16,13 +16,36 @@ var DemoBGViewController=mw.ViewController.extend({
 
         var rocker=new RockerController();
         rocker.setPosition(200,200);
+        rocker.setDelegate(MakeScriptHandler(this,this.rockerDirectionChanged));
         this.view().addChild(rocker);
-
-
 
     },
     viewDidUnload:function(){
         //卸载View
         mw.log("DemoBGViewController unload");
+    },
+    rockerDirectionChanged:function(direction){
+        switch(direction){
+            case RockerController.ROCKER_DIRECTION.RESET:{
+                cc.log("RESET");
+                break;
+            }
+            case RockerController.ROCKER_DIRECTION.LEFT:{
+                cc.log("LEFT");
+                break;
+            }
+            case RockerController.ROCKER_DIRECTION.RIGHT:{
+                cc.log("RIGHT");
+                break;
+            }
+            case RockerController.ROCKER_DIRECTION.UP:{
+                cc.log("UP");
+                break;
+            }
+            case RockerController.ROCKER_DIRECTION.DOWN:{
+                cc.log("DOWN");
+                break;
+            }
+        }
     }
 });

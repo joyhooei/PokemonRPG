@@ -186,63 +186,6 @@
             "Tag": 3,
             "Children": [
               {
-                "FontSize": 20,
-                "LabelText": "我的名字很长",
-                "FontResource": {
-                  "Type": "Normal",
-                  "Path": "../fonts/DFPYuanW7-GB.ttf",
-                  "Plist": ""
-                },
-                "OutlineColor": {
-                  "R": 0,
-                  "G": 0,
-                  "B": 0
-                },
-                "OutlineEnabled": true,
-                "ShadowColor": {
-                  "R": 110,
-                  "G": 110,
-                  "B": 110
-                },
-                "ShadowOffsetX": 2.0,
-                "ShadowOffsetY": -2.0,
-                "ShadowEnabled": true,
-                "AnchorPoint": {
-                  "ScaleY": 0.5
-                },
-                "Position": {
-                  "X": 10.0,
-                  "Y": 60.0
-                },
-                "Scale": {
-                  "ScaleX": 1.0,
-                  "ScaleY": 1.0
-                },
-                "CColor": {},
-                "IconVisible": false,
-                "PrePosition": {
-                  "X": 0.0333,
-                  "Y": 0.75
-                },
-                "PreSize": {
-                  "X": 0.0,
-                  "Y": 0.0
-                },
-                "VerticalEdge": "TopEdge",
-                "LeftMargin": 10.0,
-                "RightMargin": 168.0,
-                "TopMargin": 9.0,
-                "BottomMargin": 49.0,
-                "Tag": 3,
-                "ActionTag": 1262623502,
-                "Size": {
-                  "X": 122.0,
-                  "Y": 22.0
-                },
-                "Name": "pokemon_name",
-                "ctype": "TextObjectData"
-              },
-              {
                 "FileData": {
                   "Type": "PlistSubImage",
                   "Path": "common/icon_male.png",
@@ -335,66 +278,6 @@
                 "ctype": "SpriteObjectData"
               },
               {
-                "FontSize": 20,
-                "LabelText": "Lv.100",
-                "FontResource": {
-                  "Type": "Normal",
-                  "Path": "../fonts/DFPYuanW7-GB.ttf",
-                  "Plist": ""
-                },
-                "HorizontalAlignmentType": "HT_Right",
-                "OutlineColor": {
-                  "R": 0,
-                  "G": 0,
-                  "B": 0
-                },
-                "OutlineEnabled": true,
-                "ShadowColor": {
-                  "R": 110,
-                  "G": 110,
-                  "B": 110
-                },
-                "ShadowOffsetX": 2.0,
-                "ShadowOffsetY": -2.0,
-                "ShadowEnabled": true,
-                "AnchorPoint": {
-                  "ScaleX": 1.0,
-                  "ScaleY": 0.5
-                },
-                "Position": {
-                  "X": 285.0,
-                  "Y": 60.0
-                },
-                "Scale": {
-                  "ScaleX": 1.0,
-                  "ScaleY": 1.0
-                },
-                "CColor": {},
-                "IconVisible": false,
-                "PrePosition": {
-                  "X": 0.95,
-                  "Y": 0.75
-                },
-                "PreSize": {
-                  "X": 0.0,
-                  "Y": 0.0
-                },
-                "HorizontalEdge": "RightEdge",
-                "VerticalEdge": "TopEdge",
-                "LeftMargin": 227.0,
-                "RightMargin": 15.0,
-                "TopMargin": 9.0,
-                "BottomMargin": 49.0,
-                "Tag": 8,
-                "ActionTag": -408012991,
-                "Size": {
-                  "X": 58.0,
-                  "Y": 22.0
-                },
-                "Name": "pokemon_lv",
-                "ctype": "TextObjectData"
-              },
-              {
                 "FileData": {
                   "Type": "PlistSubImage",
                   "Path": "common/hp_back.png",
@@ -484,6 +367,123 @@
                 },
                 "Name": "hp_bar",
                 "ctype": "LoadingBarObjectData"
+              },
+              {
+                "FontSize": 20,
+                "LabelText": "我的名字很长",
+                "FontResource": {
+                  "Type": "Normal",
+                  "Path": "../fonts/DFPYuanW7-GB.ttf",
+                  "Plist": ""
+                },
+                "OutlineColor": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0
+                },
+                "OutlineEnabled": true,
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "ShadowEnabled": true,
+                "AnchorPoint": {
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 10.0,
+                  "Y": 60.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.0333,
+                  "Y": 0.75
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 10.0,
+                "RightMargin": 168.0,
+                "TopMargin": 9.0,
+                "BottomMargin": 49.0,
+                "Tag": 3,
+                "ActionTag": 1262623502,
+                "Size": {
+                  "X": 122.0,
+                  "Y": 22.0
+                },
+                "Name": "pokemon_name",
+                "ctype": "TextObjectData"
+              },
+              {
+                "FontSize": 20,
+                "LabelText": "Lv.100",
+                "FontResource": {
+                  "Type": "Normal",
+                  "Path": "../fonts/DFPYuanW7-GB.ttf",
+                  "Plist": ""
+                },
+                "HorizontalAlignmentType": "HT_Right",
+                "OutlineColor": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0
+                },
+                "OutlineEnabled": true,
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "ShadowEnabled": true,
+                "AnchorPoint": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 285.0,
+                  "Y": 60.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.95,
+                  "Y": 0.75
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "HorizontalEdge": "RightEdge",
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 227.0,
+                "RightMargin": 15.0,
+                "TopMargin": 9.0,
+                "BottomMargin": 49.0,
+                "Tag": 8,
+                "ActionTag": -408012991,
+                "Size": {
+                  "X": 58.0,
+                  "Y": 22.0
+                },
+                "Name": "pokemon_lv",
+                "ctype": "TextObjectData"
               },
               {
                 "FontSize": 18,

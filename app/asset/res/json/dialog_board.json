@@ -52,6 +52,53 @@
             "Tag": 25,
             "Children": [
               {
+                "FileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/dialog_indice.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "BlendFunc": {
+                  "Src": 1,
+                  "Dst": 771
+                },
+                "AnchorPoint": {
+                  "ScaleX": 0.5,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 1110.0,
+                  "Y": 20.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.9771,
+                  "Y": 0.125
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "HorizontalEdge": "RightEdge",
+                "VerticalEdge": "BottomEdge",
+                "LeftMargin": 1100.0,
+                "RightMargin": 16.0,
+                "TopMargin": 136.0,
+                "BottomMargin": 16.0,
+                "Tag": 17,
+                "ActionTag": 160773457,
+                "Size": {
+                  "X": 20.0,
+                  "Y": 8.0
+                },
+                "Name": "indice",
+                "ctype": "SpriteObjectData"
+              },
+              {
                 "IsCustomSize": true,
                 "FontSize": 24,
                 "LabelText": "这是一段描述",
@@ -90,7 +137,7 @@
                 "IconVisible": false,
                 "PrePosition": {
                   "X": 0.0158,
-                  "Y": 0.9167
+                  "Y": 0.9375
                 },
                 "PreSize": {
                   "X": 0.9683,
@@ -110,53 +157,6 @@
                 },
                 "Name": "message",
                 "ctype": "TextObjectData"
-              },
-              {
-                "FileData": {
-                  "Type": "PlistSubImage",
-                  "Path": "common/dialog_indice.png",
-                  "Plist": "../textures/common.plist"
-                },
-                "BlendFunc": {
-                  "Src": 1,
-                  "Dst": 771
-                },
-                "AnchorPoint": {
-                  "ScaleX": 0.5,
-                  "ScaleY": 0.5
-                },
-                "Position": {
-                  "X": 1110.0,
-                  "Y": 20.0
-                },
-                "Scale": {
-                  "ScaleX": 1.0,
-                  "ScaleY": 1.0
-                },
-                "CColor": {},
-                "IconVisible": false,
-                "PrePosition": {
-                  "X": 0.9771,
-                  "Y": 0.1667
-                },
-                "PreSize": {
-                  "X": 0.0,
-                  "Y": 0.0
-                },
-                "HorizontalEdge": "RightEdge",
-                "VerticalEdge": "BottomEdge",
-                "LeftMargin": 1100.0,
-                "RightMargin": 16.0,
-                "TopMargin": 96.0,
-                "BottomMargin": 16.0,
-                "Tag": 17,
-                "ActionTag": 160773457,
-                "Size": {
-                  "X": 20.0,
-                  "Y": 8.0
-                },
-                "Name": "indice",
-                "ctype": "SpriteObjectData"
               }
             ],
             "ActionTag": -323328483,

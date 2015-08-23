@@ -1,4 +1,5 @@
 #include "MWSqliteDb.h"
+#include "../../platform/MWIOUtils.h"
 #include "cocos2d.h"
 #include <new>
 
@@ -26,7 +27,20 @@ MWSqliteDb::~MWSqliteDb()
 
 MWSqliteDb *MWSqliteDb::openDb(const std::string &dbPath)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // assets is a zip file, so you can't locate to such file path.
+    Data fileData = FileUtils::getInstance()->getDataFromFile(dbPath);
+    string tmpPath = MWIOUtils::getInstance()->splicePath(FileUtils::getInstance()->getWritablePath(), "tmp");
+    auto filePath = MWIOUtils::getInstance()->splicePath(tmpPath, dbPath);
+    size_t found = filePath.find_last_of("/\\");
+    string tmpFilename = filePath.substr(found + 1);
+    MWIOUtils::getInstance()->createDirectory(filePath.substr(0, found + 1));
+    if (!MWIOUtils::getInstance()->writeDataToFile(fileData.getBytes(), fileData.getSize(), filePath)) {
+        return nullptr;
+    }
+#else
     std::string filePath = FileUtils::getInstance()->fullPathForFilename(dbPath.c_str());
+#endif
     // check from cache.
     MWSqliteDb *pSqlite = nullptr;
     if (g_dbCache.hasKey(filePath)) {
@@ -97,19 +111,15 @@ MWArrayList *MWSqliteDb::executeQuery(const std::string &sql)
                 {
                     // unknown type?
                     CCLOG("Unknown sqlite3 type");
-                    CC_SAFE_RELEASE(result);
-                    return nullptr;
+                    return MWArrayList::create();
                 }
                 columnDict->setObjectForKey(szName, pValue);
             }
             result->appendObject(columnDict);
         }
         sqlite3_finalize(pStmt);
-        
-        return result;
     }
-    CC_SAFE_RELEASE(result);
-    return nullptr;
+    return result;
 }
 
 bool MWSqliteDb::executeNonQuery(const std::string &sql)

@@ -1,0 +1,10 @@
+由于ccs只支持.png格式的纹理，然而项目使用的是pvr.ccz纹理，为了兼容，我做了一些处理。
+
+使用ccs的过程如下：
+1、先用tps打包一份.png的纹理，然后将plist和png文件拷贝到cocostudio/textures/下。（如果已经存在或者纹理未经修改，可以忽略此步骤）
+2、打开ccs，导入png纹理。（已经导入过该纹理，可以忽略此步骤）
+3、拼UI。
+4、发布成json（因为cocos2d-js不支持csb)。
+5、运行ccs目录下的parser.py脚本。
+6、将publish下的json文件夹拷贝到asset/res/目录下。
+7、用tps打包.pvr.ccz的纹理，拷贝到asset/res/textures/下。（如果已经存在或者纹理未经修改，可以忽略此步骤）

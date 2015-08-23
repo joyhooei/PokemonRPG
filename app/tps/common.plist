@@ -251,6 +251,19 @@
                 <key>sourceSize</key>
                 <string>{150,150}</string>
             </dict>
+            <key>common/dialog_indice.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{269,280},{20,8}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{20,8}}</string>
+                <key>sourceSize</key>
+                <string>{20,8}</string>
+            </dict>
             <key>common/hp_back.png</key>
             <dict>
                 <key>frame</key>
@@ -469,7 +482,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:fab2327f64f8fda478f6bea4b6874cc1:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:c7e1db5389dbea8adc29e69350240e18:1/1$</string>
             <key>textureFileName</key>
             <string>common.pvr.ccz</string>
         </dict>

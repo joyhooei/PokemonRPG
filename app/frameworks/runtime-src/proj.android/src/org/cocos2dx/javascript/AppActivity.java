@@ -30,6 +30,17 @@ import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
 public class AppActivity extends Cocos2dxActivity {
+	public static Activity getInstance() {
+		return _instance;
+	}
+	
+	private static Activity _instance = null;
+	
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		_instance = this;
+	}
 	
     @Override
     public Cocos2dxGLSurfaceView onCreateView() {

@@ -3,20 +3,42 @@
  */
 
 var Sqlite3Helper = {
+    executeQuery: function (sql) {
+        if (this._db == null) {
+            this._db = mw.SqliteDb.openDb(DB_PATH);
+        }
+        return this._db.executeQuery(sql);
+    },
     getPokemonInfo: function (id) {
+        if (this._db == null) {
+            this._db = mw.SqliteDb.openDb(DB_PATH);
+        }
         var sql = cc.formatStr("select * from [pet_info] where [id] = '%d';", parseInt(id));
         var query = this._db.executeQuery(sql);
         if (query && query.length > 0) {
             var data = query[0];
             var needParseIntList = [ "id", "height", "weight", "evolution" ];
             this._parseIntForData(data, needParseIntList);
-            var needSplitAndParseIntList = [ "property", "speciality", "racial", "levelUpSkills", "machineSkills", "heredSkills", "fixedSkills" ];
+            var needSplitAndParseIntList = [ "property", "speciality", "racial", "machineSkills", "heredSkills", "fixedSkills" ];
             this._splitAndParseIntForData(data, needSplitAndParseIntList);
-            data["hardValue"] = data["hardValue"].split(";").map(function (item, index, ary) {
+            // 升级技能 [ [lv, skillId], ... ]
+            data["levelUpSkills"] = data["levelUpSkills"].split(",").map(function (item, index, ary) {
+                return item.split(":").map(function (item2, index2, ary2) {
+                    return parseInt(item2);
+                })
+            });
+            // 努力值 { prop: val, ... }
+            var hardValueMap = new Object();
+            var ary = data["hardValue"].split(";").map(function (item, index, ary) {
                 return item.split(",").map(function (item2, index2, ary2) {
                     return parseInt(item2);
                 })
             });
+            for (var i in ary) {
+                var vals = ary[i];
+                hardValueMap[vals[0]] = vals[1];
+            }
+            data["hardValue"] = hardValueMap;
             return data;
         }
         return null;
@@ -43,5 +65,5 @@ var Sqlite3Helper = {
             }
         }
     },
-    _db: mw.SqliteDb.openDb(DB_PATH),
+    _db: null,
 };

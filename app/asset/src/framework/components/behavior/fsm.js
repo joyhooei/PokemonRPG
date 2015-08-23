@@ -155,20 +155,19 @@ var FiniteStateMachine = Component.extend({
             return FiniteStateMachine.FSM_RESULT.NO_TRANSITION;
         }
 
-        var self = this;
         event.transition = function () {
-            self._inTransition = false;
-            self._current = to;
-            self._enterState(event);
-            self._changeState(event);
-            self._afterEvent(event);
+            this._inTransition = false;
+            this._current = to;
+            this._enterState(event);
+            this._changeState(event);
+            this._afterEvent(event);
             return FiniteStateMachine.FSM_RESULT.SUCCEEDED;
-        }
+        }.bind(this);
         event.cancel = function () {
-            self._inTransition = false;
+            this._inTransition = false;
             event.transition = undefined;
-            self._afterEvent(event);
-        }
+            this._afterEvent(event);
+        }.bind(this);
 
         this._inTransition = true;
         var leave = this._leaveState(event);

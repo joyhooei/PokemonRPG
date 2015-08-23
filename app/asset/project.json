@@ -25,6 +25,7 @@
 
         "src/core/GameConstants.js",
         "src/core/GameEnumerations.js",
+        "src/core/GameEvents.js",
         "src/core/DataCenter.js",
         "src/core/Sqlite3Helper.js",
 
@@ -34,14 +35,15 @@
 
         "src/views/HeroView.js",
         "src/views/battle/BattlePokemonView.js",
+        "src/views/battle/BattleEnemyBoardView.js",
         "src/views/battle/BattlePlayerBoardView.js",
 
         "src/segues/ModalViewSegue.js",
 
+        "src/scenes/DialogBaseViewController.js",
         "src/scenes/map/PlayScene.js",
         "src/scenes/map/MapViewController.js",
         "src/scenes/map/OperationViewController.js",
-
 
         "src/scenes/demo/DemoScene.js",
         "src/scenes/demo/DemoBGViewController.js",
@@ -50,8 +52,10 @@
         "src/scenes/demo/AnotherScene.js",
         "src/scenes/demo/RockerController.js",
 
+        "src/scenes/battle/system/BattleProcessor.js",
         "src/scenes/battle/BattleScene.js",
         "src/scenes/battle/BattleUIViewController.js",
-        "src/scenes/battle/BattleDialogViewController.js"
+        "src/scenes/battle/BattleDialogViewController.js",
+        "src/scenes/battle/BattleOperationViewController.js"
     ]
 }

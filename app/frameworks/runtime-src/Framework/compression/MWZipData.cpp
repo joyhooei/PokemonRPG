@@ -30,7 +30,20 @@ MWZipData *MWZipData::createWithExistingFile(const std::string &filePath)
 
 bool MWZipData::initWithExistingFile(const std::string &filePath)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // assets is a zip file, so you can't locate to such file path.
+    Data fileData = FileUtils::getInstance()->getDataFromFile(filePath);
+    string tmpPath = MWIOUtils::getInstance()->splicePath(FileUtils::getInstance()->getWritablePath(), "tmp");
+    auto absolutePath = MWIOUtils::getInstance()->splicePath(tmpPath, filePath);
+    size_t found = absolutePath.find_last_of("/\\");
+    string tmpFilename = absolutePath.substr(found + 1);
+    MWIOUtils::getInstance()->createDirectory(absolutePath.substr(0, found + 1));
+    if (!MWIOUtils::getInstance()->writeDataToFile(fileData.getBytes(), fileData.getSize(), absolutePath)) {
+        return false;
+    }
+#else
     auto absolutePath = FileUtils::getInstance()->fullPathForFilename(filePath);
+#endif
     _filePath = absolutePath;
     g_hUnz = unzOpen64(absolutePath.c_str());
     if (!g_hUnz) {

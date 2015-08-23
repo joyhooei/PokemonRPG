@@ -3,7 +3,6 @@
 #include "../platform/MWIOUtils.h"
 #include "md5/md5.h"
 #include "base64/libbase64.h"
-#include "xxtea/xxtea.h"
 
 #define BUFFER_LENGTH 512
 

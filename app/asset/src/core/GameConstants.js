@@ -7,7 +7,9 @@
  */
 var DB_PATH = "icon.jpg";
 
+// ViewControllers的名称
 var MAP_VC_NAME = "MAP_VC";
 var OPERATION_VC_NAME = "OP_VC";
 var BATTLE_UI_VC_NAME = "BATTLE_UI_VC";
 var BATTLE_DIALOG_VC_NAME = "BATTLE_DLG_VC";
+var BATTLE_OPERATION_VC_NAME = "BATTLE_OP_VC";

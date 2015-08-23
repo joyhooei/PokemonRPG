@@ -1,0 +1,481 @@
+{
+  "ID": "2aab1d9d-a150-436b-982c-da66f782a6d6",
+  "Version": "2.3.1.1",
+  "Name": "battle_player_board_2",
+  "Content": {
+    "Content": {
+      "Animation": {
+        "Duration": 0,
+        "Speed": 1.0,
+        "Timelines": [],
+        "ctype": "TimelineActionData"
+      },
+      "AnimationList": [],
+      "ObjectData": {
+        "Children": [
+          {
+            "FileData": {
+              "Type": "PlistSubImage",
+              "Path": "common/back_gray.png",
+              "Plist": "../textures/common.plist"
+            },
+            "Scale9Enable": true,
+            "Scale9OriginX": 16,
+            "Scale9OriginY": 16,
+            "Scale9Width": 19,
+            "Scale9Height": 19,
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": -150.0,
+            "RightMargin": -150.0,
+            "TopMargin": -30.0,
+            "BottomMargin": -30.0,
+            "Tag": 3,
+            "Children": [
+              {
+                "FontSize": 20,
+                "LabelText": "我的名字很长",
+                "FontResource": {
+                  "Type": "Normal",
+                  "Path": "../fonts/DFPYuanW7-GB.ttf",
+                  "Plist": ""
+                },
+                "OutlineColor": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0
+                },
+                "OutlineEnabled": true,
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "ShadowEnabled": true,
+                "AnchorPoint": {
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 10.0,
+                  "Y": 41.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.0333,
+                  "Y": 0.6833
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 10.0,
+                "RightMargin": 168.0,
+                "TopMargin": 8.0,
+                "BottomMargin": 30.0,
+                "Tag": 3,
+                "ActionTag": 1262623502,
+                "Size": {
+                  "X": 122.0,
+                  "Y": 22.0
+                },
+                "Name": "pokemon_name",
+                "ctype": "TextObjectData"
+              },
+              {
+                "FileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/icon_male.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "BlendFunc": {
+                  "Src": 1,
+                  "Dst": 771
+                },
+                "AnchorPoint": {
+                  "ScaleX": 0.5,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 145.0,
+                  "Y": 41.0
+                },
+                "Scale": {
+                  "ScaleX": 1.25,
+                  "ScaleY": 1.25
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.4833,
+                  "Y": 0.6833
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 140.0,
+                "RightMargin": 150.0,
+                "TopMargin": 12.0,
+                "BottomMargin": 34.0,
+                "Tag": 4,
+                "ActionTag": -1518966636,
+                "Size": {
+                  "X": 10.0,
+                  "Y": 14.0
+                },
+                "Name": "icon_gender",
+                "ctype": "SpriteObjectData"
+              },
+              {
+                "FileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/icon_state_1.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "BlendFunc": {
+                  "Src": 1,
+                  "Dst": 771
+                },
+                "AnchorPoint": {
+                  "ScaleX": 0.5,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 45.0,
+                  "Y": 14.9999
+                },
+                "Scale": {
+                  "ScaleX": 0.7,
+                  "ScaleY": 0.7
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.15,
+                  "Y": 0.25
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 32.5,
+                "RightMargin": 242.5,
+                "TopMargin": 32.5001,
+                "BottomMargin": 2.4999,
+                "Tag": 7,
+                "ActionTag": -387411875,
+                "Size": {
+                  "X": 25.0,
+                  "Y": 25.0
+                },
+                "Name": "icon_state",
+                "ctype": "SpriteObjectData"
+              },
+              {
+                "FileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/ball_owning.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "BlendFunc": {
+                  "Src": 1,
+                  "Dst": 771
+                },
+                "AnchorPoint": {
+                  "ScaleX": 0.5,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 20.0,
+                  "Y": 15.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.0667,
+                  "Y": 0.25
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "HorizontalEdge": "LeftEdge",
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 12.0,
+                "RightMargin": 272.0,
+                "TopMargin": 37.0,
+                "BottomMargin": 7.0,
+                "Tag": 25,
+                "ActionTag": 2115799280,
+                "Size": {
+                  "X": 16.0,
+                  "Y": 16.0
+                },
+                "Name": "icon_ball",
+                "ctype": "SpriteObjectData"
+              },
+              {
+                "FontSize": 20,
+                "LabelText": "Lv.100",
+                "FontResource": {
+                  "Type": "Normal",
+                  "Path": "../fonts/DFPYuanW7-GB.ttf",
+                  "Plist": ""
+                },
+                "HorizontalAlignmentType": "HT_Right",
+                "OutlineColor": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0
+                },
+                "OutlineEnabled": true,
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "ShadowEnabled": true,
+                "AnchorPoint": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 285.0,
+                  "Y": 41.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.95,
+                  "Y": 0.6833
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "HorizontalEdge": "RightEdge",
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 227.0,
+                "RightMargin": 15.0,
+                "TopMargin": 8.0,
+                "BottomMargin": 30.0,
+                "Tag": 8,
+                "ActionTag": -408012991,
+                "Size": {
+                  "X": 58.0,
+                  "Y": 22.0
+                },
+                "Name": "pokemon_lv",
+                "ctype": "TextObjectData"
+              },
+              {
+                "FileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/hp_back.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "BlendFunc": {
+                  "Src": 1,
+                  "Dst": 771
+                },
+                "AnchorPoint": {
+                  "ScaleX": 0.5,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 220.0,
+                  "Y": 15.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.7333,
+                  "Y": 0.25
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "HorizontalEdge": "RightEdge",
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 150.5,
+                "RightMargin": 10.5,
+                "TopMargin": 38.5,
+                "BottomMargin": 8.5,
+                "Tag": 10,
+                "ActionTag": 188667858,
+                "Size": {
+                  "X": 139.0,
+                  "Y": 13.0
+                },
+                "Name": "hp_back",
+                "ctype": "SpriteObjectData"
+              },
+              {
+                "ProgressInfo": 100,
+                "ImageFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/hp_green.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "AnchorPoint": {
+                  "ScaleX": 0.5,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 220.0,
+                  "Y": 15.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.7333,
+                  "Y": 0.25
+                },
+                "PreSize": {
+                  "X": 0.4533,
+                  "Y": 0.1
+                },
+                "HorizontalEdge": "RightEdge",
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 152.0,
+                "RightMargin": 12.0,
+                "TopMargin": 40.0,
+                "BottomMargin": 10.0,
+                "Tag": 11,
+                "ActionTag": 1519541676,
+                "Size": {
+                  "X": 136.0,
+                  "Y": 10.0
+                },
+                "Name": "hp_bar",
+                "ctype": "LoadingBarObjectData"
+              },
+              {
+                "FontSize": 16,
+                "LabelText": "HP",
+                "OutlineColor": {
+                  "G": 0,
+                  "B": 0
+                },
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "AnchorPoint": {
+                  "ScaleX": 0.5,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 135.0,
+                  "Y": 14.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0
+                },
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.45,
+                  "Y": 0.2333
+                },
+                "PreSize": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "LeftMargin": 124.0,
+                "RightMargin": 154.0,
+                "TopMargin": 37.0,
+                "BottomMargin": 5.0,
+                "Tag": 27,
+                "ActionTag": 269599132,
+                "Size": {
+                  "X": 22.0,
+                  "Y": 18.0
+                },
+                "Name": "hp_text",
+                "ctype": "TextObjectData"
+              }
+            ],
+            "ActionTag": -786491580,
+            "Size": {
+              "X": 300.0,
+              "Y": 60.0
+            },
+            "Name": "board_bg",
+            "ctype": "ImageViewObjectData"
+          }
+        ],
+        "Size": {
+          "X": 0.0,
+          "Y": 0.0
+        },
+        "Name": "Node",
+        "ctype": "SingleNodeObjectData"
+      },
+      "UsedResources": [
+        "../fonts/DFPYuanW7-GB.ttf",
+        "../textures/common.plist",
+        "../textures/common.png"
+      ],
+      "ctype": "GameProjectData"
+    }
+  },
+  "Type": "Node"
+}

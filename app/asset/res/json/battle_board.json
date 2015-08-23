@@ -1,0 +1,397 @@
+{
+  "ID": "0c92452f-2240-4798-b453-38752357ce44",
+  "Version": "2.3.1.1",
+  "Name": "battle_board",
+  "Content": {
+    "Content": {
+      "Animation": {
+        "Duration": 0,
+        "Speed": 1.0,
+        "Timelines": [],
+        "ctype": "TimelineActionData"
+      },
+      "AnimationList": [],
+      "ObjectData": {
+        "Tag": 28,
+        "Children": [
+          {
+            "FileData": {
+              "Type": "PlistSubImage",
+              "Path": "common/border_gray.png",
+              "Plist": "../textures/common.plist"
+            },
+            "Scale9Enable": true,
+            "Scale9OriginX": 15,
+            "Scale9OriginY": 15,
+            "Scale9Width": 70,
+            "Scale9Height": 70,
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": -175.0,
+            "RightMargin": -175.0,
+            "TopMargin": -70.0,
+            "BottomMargin": -70.0,
+            "Tag": 33,
+            "Children": [
+              {
+                "FontSize": 36,
+                "ButtonText": "战斗",
+                "FontResource": {
+                  "Type": "Normal",
+                  "Path": "../fonts/DFPYuanW7-GB.ttf",
+                  "Plist": ""
+                },
+                "TextColor": {
+                  "R": 65,
+                  "G": 65,
+                  "B": 70
+                },
+                "DisabledFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_gray.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "PressedFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_orange.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "NormalFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_red.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "Scale9Enable": true,
+                "Scale9OriginX": 15,
+                "Scale9OriginY": 11,
+                "Scale9Width": 70,
+                "Scale9Height": 78,
+                "OutlineColor": {
+                  "G": 0,
+                  "B": 0
+                },
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "TouchEnable": true,
+                "AnchorPoint": {
+                  "ScaleY": 1.0
+                },
+                "Position": {
+                  "X": 0.0,
+                  "Y": 140.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.0,
+                  "Y": 1.0
+                },
+                "PreSize": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "HorizontalEdge": "LeftEdge",
+                "VerticalEdge": "TopEdge",
+                "RightMargin": 175.0,
+                "BottomMargin": 70.0,
+                "Tag": 34,
+                "ActionTag": -1547684972,
+                "Size": {
+                  "X": 175.0,
+                  "Y": 70.0
+                },
+                "Name": "btn_battle",
+                "ctype": "ButtonObjectData"
+              },
+              {
+                "FontSize": 36,
+                "ButtonText": "精灵",
+                "FontResource": {
+                  "Type": "Normal",
+                  "Path": "../fonts/DFPYuanW7-GB.ttf",
+                  "Plist": ""
+                },
+                "TextColor": {
+                  "R": 65,
+                  "G": 65,
+                  "B": 70
+                },
+                "DisabledFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_gray.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "PressedFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_orange.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "NormalFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_aqua.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "Scale9Enable": true,
+                "Scale9OriginX": 15,
+                "Scale9OriginY": 11,
+                "Scale9Width": 70,
+                "Scale9Height": 78,
+                "OutlineColor": {
+                  "G": 0,
+                  "B": 0
+                },
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "TouchEnable": true,
+                "AnchorPoint": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "Position": {
+                  "X": 350.0,
+                  "Y": 140.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 1.0,
+                  "Y": 1.0
+                },
+                "PreSize": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "HorizontalEdge": "RightEdge",
+                "VerticalEdge": "TopEdge",
+                "LeftMargin": 175.0,
+                "BottomMargin": 70.0,
+                "Tag": 35,
+                "ActionTag": -904647417,
+                "Size": {
+                  "X": 175.0,
+                  "Y": 70.0
+                },
+                "Name": "btn_pokemon",
+                "ctype": "ButtonObjectData"
+              },
+              {
+                "FontSize": 36,
+                "ButtonText": "道具",
+                "FontResource": {
+                  "Type": "Normal",
+                  "Path": "../fonts/DFPYuanW7-GB.ttf",
+                  "Plist": ""
+                },
+                "TextColor": {
+                  "R": 65,
+                  "G": 65,
+                  "B": 70
+                },
+                "DisabledFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_gray.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "PressedFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_orange.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "NormalFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_aqua.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "Scale9Enable": true,
+                "Scale9OriginX": 15,
+                "Scale9OriginY": 11,
+                "Scale9Width": 70,
+                "Scale9Height": 78,
+                "OutlineColor": {
+                  "G": 0,
+                  "B": 0
+                },
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "TouchEnable": true,
+                "AnchorPoint": {},
+                "Position": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.0,
+                  "Y": 0.0
+                },
+                "PreSize": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "HorizontalEdge": "LeftEdge",
+                "VerticalEdge": "BottomEdge",
+                "RightMargin": 175.0,
+                "TopMargin": 70.0,
+                "Tag": 36,
+                "ActionTag": -2009245969,
+                "Size": {
+                  "X": 175.0,
+                  "Y": 70.0
+                },
+                "Name": "btn_item",
+                "ctype": "ButtonObjectData"
+              },
+              {
+                "FontSize": 36,
+                "ButtonText": "逃跑",
+                "FontResource": {
+                  "Type": "Normal",
+                  "Path": "../fonts/DFPYuanW7-GB.ttf",
+                  "Plist": ""
+                },
+                "TextColor": {
+                  "R": 65,
+                  "G": 65,
+                  "B": 70
+                },
+                "DisabledFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_gray.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "PressedFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_orange.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "NormalFileData": {
+                  "Type": "PlistSubImage",
+                  "Path": "common/border_red.png",
+                  "Plist": "../textures/common.plist"
+                },
+                "Scale9Enable": true,
+                "Scale9OriginX": 15,
+                "Scale9OriginY": 11,
+                "Scale9Width": 70,
+                "Scale9Height": 78,
+                "OutlineColor": {
+                  "G": 0,
+                  "B": 0
+                },
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "TouchEnable": true,
+                "AnchorPoint": {
+                  "ScaleX": 1.0
+                },
+                "Position": {
+                  "X": 350.0,
+                  "Y": 0.0
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 1.0,
+                  "Y": 0.0
+                },
+                "PreSize": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "HorizontalEdge": "RightEdge",
+                "VerticalEdge": "BottomEdge",
+                "LeftMargin": 175.0,
+                "TopMargin": 70.0,
+                "Tag": 37,
+                "ActionTag": -698561841,
+                "Size": {
+                  "X": 175.0,
+                  "Y": 70.0
+                },
+                "Name": "btn_escape",
+                "ctype": "ButtonObjectData"
+              }
+            ],
+            "ActionTag": -1285863812,
+            "Size": {
+              "X": 350.0,
+              "Y": 140.0
+            },
+            "Name": "bg",
+            "ctype": "ImageViewObjectData"
+          }
+        ],
+        "Size": {
+          "X": 0.0,
+          "Y": 0.0
+        },
+        "Name": "Node",
+        "ctype": "SingleNodeObjectData"
+      },
+      "UsedResources": [
+        "../fonts/DFPYuanW7-GB.ttf",
+        "../textures/common.plist",
+        "../textures/common.png"
+      ],
+      "ctype": "GameProjectData"
+    }
+  },
+  "Type": "Node"
+}

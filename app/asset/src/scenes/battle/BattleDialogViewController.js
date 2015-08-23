@@ -2,31 +2,29 @@
  * Created by Maple on 8/19/15.
  */
 
-var BattleDialogViewController = mw.ViewController.extend({
-    TEXTURES_TO_LOAD: {
-    },
+/**
+ * 负责战斗对话框的控制 包括文字显示、对下一次文字的控制 等等
+ */
+var BattleDialogViewController = DialogBaseViewController.extend({
     ctor: function (segue) {
         this._super(segue);
     },
     viewDidLoad: function () {
-        this._loadTextures();
-        this._renderView();
+        this._super();
     },
     viewDidUnload: function () {
-        this._unloadTextures();
+        this._super();
     },
-    _loadTextures: function () {
-        for (var plist in this.TEXTURES_TO_LOAD) {
-            var tex = this.TEXTURES_TO_LOAD[plist];
-            TextureManager.loadTexture(plist, tex);
-        }
+    didReceiveMemoryWarning: function () {
+        this._super();
     },
-    _unloadTextures: function () {
-        for (var plist in this.TEXTURES_TO_LOAD) {
-            TextureManager.unloadTexture(plist);
-        }
+    _addObservers: function () {
+        this._super();
+    },
+    _removeObservers: function () {
+        this._super();
     },
     _renderView: function () {
-        this.segue().setEnabled(false);
+        this._super();
     },
 });

@@ -21,9 +21,7 @@ var PokemonInfo = ModelBase.extend({
                 return val instanceof Array;
             }],     // 种族值
             description: [ "string", null ],    // 图鉴描述
-            hardValue: [function (val) {
-                return val instanceof Array;
-            }],     // 可获取的努力值
+            hardValue: [ "object", {} ],     // 可获取的努力值
             levelUpSkills: [function (val) {
                 return val instanceof Array;
             }],     // 升级可学习的技能

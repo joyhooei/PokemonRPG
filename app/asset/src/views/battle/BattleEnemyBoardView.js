@@ -36,6 +36,7 @@ var BattleEnemyBoardView = cc.Node.extend({
         this._iconGender.setSpriteFrame(
             cc.SpriteFrameCache.getInstance().getSpriteFrame(cc.formatStr("common/icon_%s.png", maleMap[this._model.getGender()]))
         );
+        this._iconGender.setPositionX(this._lblName.getPositionX() + this._lblName.getContentSize().width - 25);
         this.updateState(this._model.getState());
         this.updateLevel(this._model.getLevel());
 

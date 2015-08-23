@@ -8,7 +8,7 @@ var Observer = cc.Class.extend({
         cc.assert(callback instanceof Function, "Invalid callback param.");
         this._sender = sender;
         this._callback = callback;
-        this._params = (args instanceof Array) || [];
+        this._params = args instanceof Array ? args : [];
     },
     call: function(args) {
         this._callback.apply(this._sender, this._params.concat(args));
@@ -69,11 +69,12 @@ var Notifier =  {
         var event = Array.prototype.shift.apply(arguments);
         var args = Array.prototype.slice.apply(arguments);
         cc.assert(typeof event == "string", "event必须是一个字符串");
+        cc.log("Notifier.notify: " + event);
         for (var ev in this._observerMap) {
             if (ev == event) {
                 for (var i in this._observerMap[ev]) {
                     var ob = this._observerMap[ev][i];
-                    ob.apply(null, args);
+                    ob.call(args)
                 }
                 break;
             }

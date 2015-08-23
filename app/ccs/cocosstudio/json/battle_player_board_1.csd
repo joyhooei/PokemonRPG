@@ -40,25 +40,25 @@
           <AbstractNodeData Name="board_bg" ActionTag="-786491580" Tag="3" IconVisible="False" LeftMargin="-150.0000" RightMargin="-150.0000" TopMargin="-40.0000" BottomMargin="-40.0000" Scale9Enable="True" LeftEage="16" RightEage="16" TopEage="16" BottomEage="16" Scale9OriginX="16" Scale9OriginY="16" Scale9Width="19" Scale9Height="19" ctype="ImageViewObjectData">
             <Size X="300.0000" Y="80.0000" />
             <Children>
-              <AbstractNodeData Name="pokemon_name" ActionTag="1262623502" Tag="3" IconVisible="False" VerticalEdge="TopEdge" LeftMargin="35.0000" RightMargin="143.0000" TopMargin="9.0000" BottomMargin="49.0000" FontSize="20" LabelText="我的名字很长" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
+              <AbstractNodeData Name="pokemon_name" ActionTag="1262623502" Tag="3" IconVisible="False" VerticalEdge="TopEdge" LeftMargin="10.0000" RightMargin="168.0000" TopMargin="9.0000" BottomMargin="49.0000" FontSize="20" LabelText="我的名字很长" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
                 <Size X="122.0000" Y="22.0000" />
                 <AnchorPoint ScaleY="0.5000" />
-                <Position X="35.0000" Y="60.0000" />
+                <Position X="10.0000" Y="60.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <CColor A="255" R="255" G="255" B="255" />
-                <PrePosition X="0.1167" Y="0.7500" />
+                <PrePosition X="0.0333" Y="0.7500" />
                 <PreSize X="0.0000" Y="0.0000" />
                 <FontResource Type="Normal" Path="fonts/DFPYuanW7-GB.ttf" Plist="" />
                 <OutlineColor A="255" R="0" G="0" B="0" />
                 <ShadowColor A="255" R="110" G="110" B="110" />
               </AbstractNodeData>
-              <AbstractNodeData Name="icon_gender" ActionTag="-1518966636" Tag="4" IconVisible="False" VerticalEdge="TopEdge" LeftMargin="15.0000" RightMargin="275.0000" TopMargin="13.0000" BottomMargin="53.0000" ctype="SpriteObjectData">
+              <AbstractNodeData Name="icon_gender" ActionTag="-1518966636" Tag="4" IconVisible="False" VerticalEdge="TopEdge" LeftMargin="140.0000" RightMargin="150.0000" TopMargin="13.0000" BottomMargin="53.0000" ctype="SpriteObjectData">
                 <Size X="10.0000" Y="14.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-                <Position X="20.0000" Y="60.0000" />
+                <Position X="145.0000" Y="60.0000" />
                 <Scale ScaleX="1.2500" ScaleY="1.2500" />
                 <CColor A="255" R="255" G="255" B="255" />
-                <PrePosition X="0.0667" Y="0.7500" />
+                <PrePosition X="0.4833" Y="0.7500" />
                 <PreSize X="0.0000" Y="0.0000" />
                 <FileData Type="PlistSubImage" Path="common/icon_male.png" Plist="textures/common.plist" />
                 <BlendFunc Src="1" Dst="771" />

@@ -4,4 +4,5 @@
 
 var DIALOG_EVENTS = {
     SHOW_DIALOG: "Dialog.ShowDialog",
+    SHOW_NEXT_DIALOG: 'Dialog.ShowNextDialog",'
 };

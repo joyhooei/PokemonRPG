@@ -60,16 +60,15 @@ var TextureManager = {
             ++this._textureMap[plist]["ref"];
             callback.call();
         } else {
-            var self = this;
             var realCallback = function () {
                 cc.SpriteFrameCache.getInstance().addSpriteFrames(plist, texture);
-                self._textureMap[plist] = {
+                this._textureMap[plist] = {
                     ref: 1,
                     texture: texture,
                 };
                 cc.log("Texture %s loaded, reference count: %d", plist, this._textureMap[plist]["ref"]);
                 callback.call();
-            };
+            }.bind(this);
             cc.director.getTextureCache().addImageAsync(texture, realCallback);
         }
     },

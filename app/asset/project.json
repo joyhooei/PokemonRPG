@@ -44,8 +44,10 @@
         "src/scenes/map/PlayScene.js",
         "src/scenes/map/MapViewController.js",
         "src/scenes/map/OperationViewController.js",
+        "src/scenes/battle/system/BattleProcessor.js",
         "src/scenes/battle/BattleScene.js",
         "src/scenes/battle/BattleUIViewController.js",
-        "src/scenes/battle/BattleDialogViewController.js"
+        "src/scenes/battle/BattleDialogViewController.js",
+        "src/scenes/battle/BattleOperationViewController.js"
     ]
 }

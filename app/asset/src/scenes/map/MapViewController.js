@@ -2,8 +2,6 @@
  * Created by Maple on 8/7/15.
  */
 
-var PLAYTIME_SCHEDULE_KEY = "PLAYTIME_TICK";
-
 /**
  * 地图控制器 只处理地图逻辑
   */
@@ -11,6 +9,7 @@ var MapViewController = mw.ViewController.extend({
     TEXTURES_TO_LOAD: {
         "textures/trainers.plist": "textures/trainers.pvr.ccz",
     },
+    PLAYTIME_SCHEDULE_KEY: "PLAYTIME_TICK",
     ctor: function (segue) {
         this._super(segue);
     },
@@ -19,12 +18,12 @@ var MapViewController = mw.ViewController.extend({
         this._renderView();
 
         // 开始积累游戏时间
-        cc.director.getScheduler().schedule(MakeScriptHandler(this, this._addTime), this.view(), 1, -1, 1, false, PLAYTIME_SCHEDULE_KEY);
+        cc.director.getScheduler().schedule(MakeScriptHandler(this, this._addTime), this.view(), 1, -1, 1, false, this.PLAYTIME_SCHEDULE_KEY);
     },
     viewDidUnload: function () {
         this._unloadTextures();
         // 关闭计时器
-        cc.director.getScheduler().unschedule(PLAYTIME_SCHEDULE_KEY, this.view());
+        cc.director.getScheduler().unschedule(this.PLAYTIME_SCHEDULE_KEY, this.view());
     },
     _loadTextures: function () {
         for (var plist in this.TEXTURES_TO_LOAD) {

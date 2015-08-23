@@ -211,7 +211,7 @@
                   "ScaleY": 0.5
                 },
                 "Position": {
-                  "X": 35.0,
+                  "X": 10.0,
                   "Y": 60.0
                 },
                 "Scale": {
@@ -221,7 +221,7 @@
                 "CColor": {},
                 "IconVisible": false,
                 "PrePosition": {
-                  "X": 0.1167,
+                  "X": 0.0333,
                   "Y": 0.75
                 },
                 "PreSize": {
@@ -229,8 +229,8 @@
                   "Y": 0.0
                 },
                 "VerticalEdge": "TopEdge",
-                "LeftMargin": 35.0,
-                "RightMargin": 143.0,
+                "LeftMargin": 10.0,
+                "RightMargin": 168.0,
                 "TopMargin": 9.0,
                 "BottomMargin": 49.0,
                 "Tag": 3,
@@ -257,7 +257,7 @@
                   "ScaleY": 0.5
                 },
                 "Position": {
-                  "X": 20.0,
+                  "X": 145.0,
                   "Y": 60.0
                 },
                 "Scale": {
@@ -267,7 +267,7 @@
                 "CColor": {},
                 "IconVisible": false,
                 "PrePosition": {
-                  "X": 0.0667,
+                  "X": 0.4833,
                   "Y": 0.75
                 },
                 "PreSize": {
@@ -275,8 +275,8 @@
                   "Y": 0.0
                 },
                 "VerticalEdge": "TopEdge",
-                "LeftMargin": 15.0,
-                "RightMargin": 275.0,
+                "LeftMargin": 140.0,
+                "RightMargin": 150.0,
                 "TopMargin": 13.0,
                 "BottomMargin": 53.0,
                 "Tag": 4,

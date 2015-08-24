@@ -50,6 +50,12 @@ Rocker=cc.Node.extend({
 
         return true;
     },//构造函数
+    setRadius: function (r) {
+        if (r < 0) {
+            r = 0;
+        }
+        this._radius = r;
+    },
     _onDirectionChanged:function(direction){
         if (this._delegate && this._delegate instanceof  Function && direction !== this._lastDirection) {
             this._lastDirection = direction;

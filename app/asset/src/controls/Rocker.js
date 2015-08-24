@@ -4,8 +4,8 @@
 //摇杆
 var Rocker;
 Rocker=cc.Node.extend({
-    _radius:75,//摇杆的移动半径
-    _collisionRect:cc.rect(-25,-25,50,50),//做碰撞检测的矩形 写死了 主要是省去计算步骤
+    _radius:0,//摇杆的移动半径
+    _collisionRect:null,//做碰撞检测的矩形 写死了 主要是省去计算步骤
     _rockerOriginPoint:cc.p(75,75),//摇杆距离屏幕的位置
     _rockerBG:null,//摇杆背景
     _rocker:null,//摇杆
@@ -17,16 +17,22 @@ Rocker=cc.Node.extend({
     },//设置事件委托
     ctor:function(bgTexture,rockerTexture){
         this._super();
-        this.setContentSize(150, 150);//固定大小
 
         //初始化摇杆背景与摇杆
-        this._rocker_bg = new cc.Sprite(bgTexture);
+        this._rockerBG = new cc.Sprite(bgTexture);
         this._rocker = new cc.Sprite(rockerTexture);
 
-        this._rocker_bg.setPosition(this._rockerOriginPoint);
+        var size = this._rockerBG.getContentSize();
+        this._radius = Math.min(size.width, size.height) * 0.5;
+        this._rockerOriginPoint = cc.p(this._radius, this._radius);
+        this._collisionRect = this._rocker.getBoundingBox();
+
+        this.setContentSize(this._radius * 2, this._radius * 2);
+
+        this._rockerBG.setPosition(this._rockerOriginPoint);
         this._rocker.setPosition(this._rockerOriginPoint);
 
-        this.addChild(this._rocker_bg);
+        this.addChild(this._rockerBG);
         this.addChild(this._rocker);
 
 
@@ -81,8 +87,7 @@ Rocker=cc.Node.extend({
 
     _onTouchBegan:function(touch,event){
         //触摸开始的坐标 相对于容器
-        var pos = this._rocker_bg.convertToNodeSpaceAR(touch.getLocation());
-
+        var pos = this._rockerBG.convertToNodeSpaceAR(touch.getLocation());
 
         if (cc.rectContainsPoint(this._collisionRect, pos)) {
 
@@ -96,7 +101,7 @@ Rocker=cc.Node.extend({
     },
     _onTouchMoved:function(touch,event) {
         //修正移动后摇杆的位置
-        var pos = this._rocker_bg.convertToNodeSpaceAR(touch.getLocation());
+        var pos = this._rockerBG.convertToNodeSpaceAR(touch.getLocation());
         var x = Math.abs(pos.x);
         var y = Math.abs(pos.y);
 

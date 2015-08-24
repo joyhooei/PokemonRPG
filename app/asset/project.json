@@ -50,12 +50,14 @@
         "src/scenes/demo/DemoGameViewController.js",
         "src/scenes/demo/AnotherBGViewController.js",
         "src/scenes/demo/AnotherScene.js",
-        "src/scenes/demo/RockerController.js",
+
 
         "src/scenes/battle/system/BattleProcessor.js",
         "src/scenes/battle/BattleScene.js",
         "src/scenes/battle/BattleUIViewController.js",
         "src/scenes/battle/BattleDialogViewController.js",
-        "src/scenes/battle/BattleOperationViewController.js"
+        "src/scenes/battle/BattleOperationViewController.js",
+
+        "src/controls/Rocker.js"
     ]
 }

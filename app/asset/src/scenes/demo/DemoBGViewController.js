@@ -44,6 +44,7 @@ var DemoBGViewController=mw.ViewController.extend({
 
 
     rockerDirectionChanged:function(direction){
+        cc.log("direction ChangedTo:");
         switch(direction){
             case Rocker.DIRECTIONS.RESET:{
                 cc.log("RESET");

@@ -6,7 +6,7 @@ var Rocker;
 Rocker=cc.Node.extend({
     _radius:0,//摇杆的移动半径
     _collisionRect:null,//做碰撞检测的矩形 写死了 主要是省去计算步骤
-    _rockerOriginPoint:cc.p(75,75),//摇杆距离屏幕的位置
+    _rockerOriginPoint:null,//摇杆距离屏幕的位置
     _rockerBG:null,//摇杆背景
     _rocker:null,//摇杆
     _lastDirection:0,//摇杆最后一次变化的方向 默认Reset

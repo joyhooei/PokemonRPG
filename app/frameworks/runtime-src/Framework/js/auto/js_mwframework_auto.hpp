@@ -136,8 +136,10 @@ bool js_mwframework_MWIOUtils_getDataFromFile(JSContext *cx, uint32_t argc, jsva
 bool js_mwframework_MWIOUtils_splicePath(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWIOUtils_createFile(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWIOUtils_resourcePath(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWIOUtils_directoryExists(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWIOUtils_removeFile(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWIOUtils_moveFile(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_mwframework_MWIOUtils_removeDirectory(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWIOUtils_createDirectory(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_mwframework_MWIOUtils_getInstance(JSContext *cx, uint32_t argc, jsval *vp);
 

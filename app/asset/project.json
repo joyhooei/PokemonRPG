@@ -51,7 +51,6 @@
         "src/scenes/demo/AnotherBGViewController.js",
         "src/scenes/demo/AnotherScene.js",
 
-
         "src/scenes/battle/system/BattleProcessor.js",
         "src/scenes/battle/BattleScene.js",
         "src/scenes/battle/BattleUIViewController.js",

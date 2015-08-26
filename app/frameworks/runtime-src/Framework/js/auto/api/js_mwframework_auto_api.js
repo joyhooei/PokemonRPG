@@ -706,6 +706,18 @@ str
 },
 
 /**
+ * @method directoryExists
+ * @param {String} arg0
+ * @return {bool}
+ */
+directoryExists : function (
+str 
+)
+{
+    return false;
+},
+
+/**
  * @method removeFile
  * @param {String} arg0
  * @return {bool}
@@ -725,6 +737,18 @@ str
  */
 moveFile : function (
 str, 
+str 
+)
+{
+    return false;
+},
+
+/**
+ * @method removeDirectory
+ * @param {String} arg0
+ * @return {bool}
+ */
+removeDirectory : function (
 str 
 )
 {

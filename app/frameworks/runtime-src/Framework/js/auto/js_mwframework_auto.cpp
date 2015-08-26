@@ -2046,6 +2046,28 @@ bool js_mwframework_MWIOUtils_resourcePath(JSContext *cx, uint32_t argc, jsval *
     JS_ReportError(cx, "js_mwframework_MWIOUtils_resourcePath : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
+bool js_mwframework_MWIOUtils_directoryExists(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWIOUtils* cobj = (mwframework::MWIOUtils *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWIOUtils_directoryExists : Invalid Native Object");
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWIOUtils_directoryExists : Error processing arguments");
+        bool ret = cobj->directoryExists(arg0);
+        jsval jsret = JSVAL_NULL;
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWIOUtils_directoryExists : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
 bool js_mwframework_MWIOUtils_removeFile(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -2090,6 +2112,28 @@ bool js_mwframework_MWIOUtils_moveFile(JSContext *cx, uint32_t argc, jsval *vp)
     }
 
     JS_ReportError(cx, "js_mwframework_MWIOUtils_moveFile : wrong number of arguments: %d, was expecting %d", argc, 2);
+    return false;
+}
+bool js_mwframework_MWIOUtils_removeDirectory(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWIOUtils* cobj = (mwframework::MWIOUtils *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWIOUtils_removeDirectory : Invalid Native Object");
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWIOUtils_removeDirectory : Error processing arguments");
+        bool ret = cobj->removeDirectory(arg0);
+        jsval jsret = JSVAL_NULL;
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWIOUtils_removeDirectory : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
 bool js_mwframework_MWIOUtils_createDirectory(JSContext *cx, uint32_t argc, jsval *vp)
@@ -2167,8 +2211,10 @@ void js_register_mwframework_MWIOUtils(JSContext *cx, JS::HandleObject global) {
         JS_FN("splicePath", js_mwframework_MWIOUtils_splicePath, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("createFile", js_mwframework_MWIOUtils_createFile, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("resourcePath", js_mwframework_MWIOUtils_resourcePath, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("directoryExists", js_mwframework_MWIOUtils_directoryExists, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("removeFile", js_mwframework_MWIOUtils_removeFile, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("moveFile", js_mwframework_MWIOUtils_moveFile, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("removeDirectory", js_mwframework_MWIOUtils_removeDirectory, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("createDirectory", js_mwframework_MWIOUtils_createDirectory, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };

@@ -1121,11 +1121,9 @@ mw.ZipData = {
 /**
  * @method getCompressedFileData
  * @param {String} arg0
- * @param {String} arg1
  * @return {mw.BinaryData}
  */
 getCompressedFileData : function (
-str, 
 str 
 )
 {
@@ -1136,14 +1134,12 @@ str
  * @method zipNewFile
  * @param {String} arg0
  * @param {mw.BinaryData} arg1
- * @param {String} arg2
- * @param {int} arg3
+ * @param {int} arg2
  * @return {bool}
  */
 zipNewFile : function (
 str, 
 mwbinarydata, 
-str, 
 int 
 )
 {
@@ -1185,9 +1181,11 @@ endZip : function (
 /**
  * @method createWithExistingFile
  * @param {String} arg0
+ * @param {String} arg1
  * @return {mw.ZipData}
  */
 createWithExistingFile : function (
+str, 
 str 
 )
 {
@@ -1197,9 +1195,11 @@ str
 /**
  * @method createWithNewFile
  * @param {String} arg0
+ * @param {String} arg1
  * @return {mw.ZipData}
  */
 createWithNewFile : function (
+str, 
 str 
 )
 {

@@ -3376,25 +3376,6 @@ bool js_mwframework_MWZipData_getCompressedFileData(JSContext *cx, uint32_t argc
         args.rval().set(jsret);
         return true;
     }
-    if (argc == 2) {
-        std::string arg0;
-        std::string arg1;
-        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
-        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWZipData_getCompressedFileData : Error processing arguments");
-        mwframework::MWBinaryData* ret = cobj->getCompressedFileData(arg0, arg1);
-        jsval jsret = JSVAL_NULL;
-        do {
-            if (ret) {
-                js_proxy_t *jsProxy = js_get_or_create_proxy<mwframework::MWBinaryData>(cx, (mwframework::MWBinaryData*)ret);
-                jsret = OBJECT_TO_JSVAL(jsProxy->obj);
-            } else {
-                jsret = JSVAL_NULL;
-            }
-        } while (0);
-        args.rval().set(jsret);
-        return true;
-    }
 
     JS_ReportError(cx, "js_mwframework_MWZipData_getCompressedFileData : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
@@ -3429,7 +3410,7 @@ bool js_mwframework_MWZipData_zipNewFile(JSContext *cx, uint32_t argc, jsval *vp
     if (argc == 3) {
         std::string arg0;
         mwframework::MWBinaryData* arg1;
-        std::string arg2;
+        int arg2;
         ok &= jsval_to_std_string(cx, args.get(0), &arg0);
         do {
             if (!args.get(1).isObject()) { ok = false; break; }
@@ -3439,32 +3420,9 @@ bool js_mwframework_MWZipData_zipNewFile(JSContext *cx, uint32_t argc, jsval *vp
             arg1 = (mwframework::MWBinaryData*)(jsProxy ? jsProxy->ptr : NULL);
             JSB_PRECONDITION2( arg1, cx, false, "Invalid Native Object");
         } while (0);
-        ok &= jsval_to_std_string(cx, args.get(2), &arg2);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
         JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWZipData_zipNewFile : Error processing arguments");
         bool ret = cobj->zipNewFile(arg0, arg1, arg2);
-        jsval jsret = JSVAL_NULL;
-        jsret = BOOLEAN_TO_JSVAL(ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    if (argc == 4) {
-        std::string arg0;
-        mwframework::MWBinaryData* arg1;
-        std::string arg2;
-        int arg3;
-        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
-        do {
-            if (!args.get(1).isObject()) { ok = false; break; }
-            js_proxy_t *jsProxy;
-            JSObject *tmpObj = args.get(1).toObjectOrNull();
-            jsProxy = jsb_get_js_proxy(tmpObj);
-            arg1 = (mwframework::MWBinaryData*)(jsProxy ? jsProxy->ptr : NULL);
-            JSB_PRECONDITION2( arg1, cx, false, "Invalid Native Object");
-        } while (0);
-        ok &= jsval_to_std_string(cx, args.get(2), &arg2);
-        ok &= jsval_to_int32(cx, args.get(3), (int32_t *)&arg3);
-        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWZipData_zipNewFile : Error processing arguments");
-        bool ret = cobj->zipNewFile(arg0, arg1, arg2, arg3);
         jsval jsret = JSVAL_NULL;
         jsret = BOOLEAN_TO_JSVAL(ret);
         args.rval().set(jsret);
@@ -3559,6 +3517,25 @@ bool js_mwframework_MWZipData_createWithExistingFile(JSContext *cx, uint32_t arg
         args.rval().set(jsret);
         return true;
     }
+    if (argc == 2) {
+        std::string arg0;
+        std::string arg1;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWZipData_createWithExistingFile : Error processing arguments");
+        mwframework::MWZipData* ret = mwframework::MWZipData::createWithExistingFile(arg0, arg1);
+        jsval jsret = JSVAL_NULL;
+        do {
+        if (ret) {
+            js_proxy_t *jsProxy = js_get_or_create_proxy<mwframework::MWZipData>(cx, (mwframework::MWZipData*)ret);
+            jsret = OBJECT_TO_JSVAL(jsProxy->obj);
+        } else {
+            jsret = JSVAL_NULL;
+        }
+    } while (0);
+        args.rval().set(jsret);
+        return true;
+    }
     JS_ReportError(cx, "js_mwframework_MWZipData_createWithExistingFile : wrong number of arguments");
     return false;
 }
@@ -3572,6 +3549,25 @@ bool js_mwframework_MWZipData_createWithNewFile(JSContext *cx, uint32_t argc, js
         ok &= jsval_to_std_string(cx, args.get(0), &arg0);
         JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWZipData_createWithNewFile : Error processing arguments");
         mwframework::MWZipData* ret = mwframework::MWZipData::createWithNewFile(arg0);
+        jsval jsret = JSVAL_NULL;
+        do {
+        if (ret) {
+            js_proxy_t *jsProxy = js_get_or_create_proxy<mwframework::MWZipData>(cx, (mwframework::MWZipData*)ret);
+            jsret = OBJECT_TO_JSVAL(jsProxy->obj);
+        } else {
+            jsret = JSVAL_NULL;
+        }
+    } while (0);
+        args.rval().set(jsret);
+        return true;
+    }
+    if (argc == 2) {
+        std::string arg0;
+        std::string arg1;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_mwframework_MWZipData_createWithNewFile : Error processing arguments");
+        mwframework::MWZipData* ret = mwframework::MWZipData::createWithNewFile(arg0, arg1);
         jsval jsret = JSVAL_NULL;
         do {
         if (ret) {

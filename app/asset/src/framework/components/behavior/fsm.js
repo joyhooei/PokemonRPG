@@ -202,7 +202,7 @@ var FiniteStateMachine = Component.extend({
         ]);
         return this._target;
     },
-    onBind: function () {
+    onBind: function (target) {
     },
     onUnbind: function () {
     },

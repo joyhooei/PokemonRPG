@@ -12,13 +12,13 @@
 function MakeScriptHandler() {
     if (arguments.length < 2) {
         mw.error("Wrong parameters count of MakeScriptHandler");
-        return;
+        return null;
     }
     var target = Array.prototype.shift.call(arguments);
     var selector = Array.prototype.shift.call(arguments);
     if (typeof selector != "function") {
         mw.error("Invalid parameters of MakeScriptHandler");
-        return;
+        return null;
     }
     var args = Array.prototype.slice.call(arguments);
 
@@ -83,18 +83,18 @@ function MakeBindable(target) {
     target.addComponent = function (name) {
         var component = Registry.newObject(name);
         this._components[name] = component;
-        component._bind(target);
+        component._bind(this);
         return component;
-    };
+    }.bind(target);
     target.removeComponent = function (name) {
         var component = this._components[name];
         if (component) {
             component._unbind();
         }
         this._components[name] = undefined;
-    };
+    }.bind(target);
     target.getComponent = function (name) {
         return this._components[name];
-    };
+    }.bind(target);
     return target;
 }

@@ -54,17 +54,6 @@ var MapViewController = mw.ViewController.extend({
             onTouchBegan: MakeScriptHandler(this, this._onTouchBegan),
         });
         cc.eventManager.addListener(listener, this.view());
-
-
-
-        // 开始积累游戏时间
-        cc.director.getScheduler().schedule(MakeScriptHandler(this, this.addTime), this.view(), 1, -1, 1, false, PLAYTIME_SCHEDULE_KEY);
-    },
-    viewDidUnload: function () {
-        // 关闭计时器
-        cc.director.getScheduler().unschedule(PLAYTIME_SCHEDULE_KEY, this.view());
-
-
     },
     _addTime: function () {
         var hero = DataCenter.getHero();

@@ -4,28 +4,27 @@
 
 /**
  * 全局注册表
+ * newObject只能是无参构造器
  * @type {Object|*}
  */
 var Registry = {
-    addDefinition: function (name, cls) {
-        if (Registry[name]) {
+    addClass: function (name, cls) {
+        if (this._classes[name]) {
             cc.log("注册表中已存在该key");
             return;
         }
-        Registry[name] = cls;
+        this._classes[name] = cls;
     },
-    removeDefinition: function (name) {
-        Registry[name] = undefined;
+    removeClass: function (name) {
+        this._classes[name] = undefined;
     },
-    newObject: function () {
-        var name = Array.prototype.shift.call(arguments);
-        var args = Array.prototype.slice.call(arguments);
-        if (Registry[name] === undefined) {
+    newObject: function (name) {
+        if (this._classes[name] === undefined) {
             cc.log("注册表中不存在该key");
             return;
         }
-        var obj = new Registry[name]();
-        obj.ctor.apply(obj, args);
+        var obj = new this._classes[name]();
         return obj;
     },
+    _classes: {},
 };

@@ -57,6 +57,25 @@ var BattleUIViewController = mw.ViewController.extend({
         this._pokemon2.setPosition(cc.director.getWinSize().width * 0.8, cc.director.getWinSize().height * 0.6);
         this.view().addChild(this._pokemon2);
 
+        //var com = MakeBindable(this._pokemon1).addComponent("LongTouch").exportMethods();
+        //com.setDelegate({
+        //    onLongTouchBegan: function (target, loc, delta) {
+        //        this._beginPos = target.convertToNodeSpace(loc);
+        //        mw.logWithTag("longtouch", "onLongTouched", loc.x, loc.y, delta);
+        //    },
+        //    onClick: function (target) {
+        //        mw.logWithTag("longtouch", "onClick");
+        //    },
+        //    onLongTouchPressed: function (target, loc, delta) {
+        //        var deltaPos = cc.pSub(target.convertToNodeSpace(loc), this._beginPos);
+        //        target.setPosition(cc.pAdd(target.getPosition(), deltaPos));
+        //        mw.logWithTag("longtouch", "onLongTouchMoved", loc.x, loc.y, delta);
+        //    },
+        //    onLongTouchEnded: function (target, loc, delta) {
+        //        mw.logWithTag("longtouch", "onLongTouchEnded", loc.x, loc.y, delta);
+        //    }
+        //});
+
         // 初始化信息面板
         this._playerBoard = new BattlePlayerBoardView(pokemon1Model);
         this._playerBoard.setPosition(cc.director.getWinSize().width * 0.8, cc.director.getWinSize().height * 0.35);

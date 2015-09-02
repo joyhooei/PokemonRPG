@@ -52,7 +52,7 @@ var TextureManager = {
         return this._textureMap[plist] !== undefined;
     },
     loadTextureAsync: function (plist, texture, callback) {
-        if (typeof plist != "string" || typeof texture != "string" || !callback instanceof Function) {
+        if (typeof plist != "string" || typeof texture != "string" || !(callback instanceof Function)) {
             mw.error("参数错误");
             return;
         }

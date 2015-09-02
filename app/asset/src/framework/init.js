@@ -2,10 +2,15 @@
  * Created by Maple on 7/20/15.
  */
 
+// 可继承的框架类
 mw.GameScene.extend = cc.Class.extend;
 mw.ViewController.extend = cc.Class.extend;
 mw.ViewSegue.extend = cc.Class.extend;
 mw.NetHandler.extend = cc.Class.extend;
+
+// 框架组件
+Registry.addClass("FiniteStateMachine", FiniteStateMachine);
+Registry.addClass("LongTouch", LongTouchComponent);
 
 var reportArgsError = function (className) {
     cc.assert(false, "Wrong number of arguments when creating " + className + ".");

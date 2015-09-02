@@ -21,11 +21,14 @@ var BattlePokemonView = cc.Node.extend({
         var gifPath = cc.formatStr("coredata/%s%s.gif", model.getFormatedId(), suffix);
         //mw.log(gifPath);
         this._gif = mw.GifSprite.createWithFile(gifPath);
+        this._gif.setPositionX(this._gif.getContentSize().width * 0.5);
         this._gif.setAnchorPoint(0.5, 0);
         this._gif.setSpeedRatio(1.5);
         this.addChild(this._gif);
 
         this.setScale(2.5);
+        this.setContentSize(this._gif.getContentSize().width, this._gif.getContentSize().height);
+        this.setAnchorPoint(0.5, 0);
     },
     setModel: function (model) {
         cc.assert(model instanceof ModelBase, "不合法的model参数");

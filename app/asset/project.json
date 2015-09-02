@@ -11,15 +11,16 @@
     "modules" : ["cocos2d"],
 
     "jsList" : [
-        "src/framework/init.js",
         "src/framework/registry.js",
         "src/framework/debug.js",
         "src/framework/basic.js",
         "src/framework/mvc/model.js",
         "src/framework/mvc/notifier.js",
         "src/framework/components/component.js",
+        "src/framework/components/ui/longtouch.js",
         "src/framework/components/behavior/fsm.js",
         "src/framework/texture/manager.js",
+        "src/framework/init.js",
 
         "src/app.js",
 

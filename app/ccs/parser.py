@@ -22,6 +22,8 @@ regex1 = '\\\"textures/(.*)\\.plist\\\"'
 pattern1 = re.compile(regex1)
 regex2 = '\\\"fonts/(.*)\\.ttf\\\"'
 pattern2 = re.compile(regex2)
+regex3 = '\\\"json/(.*)\\.json\\\"'
+pattern3 = re.compile(regex3)
 # png to pvr.ccz
 regex = '\\\"\\.\\.\\/textures/(.*)\\.png\\\"'
 pattern = re.compile(regex2)
@@ -45,6 +47,12 @@ for v in list:
 		new = old[:1] + "../" + old[1:]
 		text = text.replace(old, new)
 		match2 = pattern2.search(text)
+	match3 = pattern3.search(text)
+	while match3:
+		old = match3.group()
+		new = '\"' + old[6:]
+		text = text.replace(old, new)
+		match3 = pattern3.search(text)
 
 	match = pattern.search(text)
 	while match:

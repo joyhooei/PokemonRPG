@@ -10,7 +10,7 @@
  * - onLongTouchBegan(target, currentTouch, delta): 在target区域内, 长按时间到达后触发, 仅触发一次
  * - onClick(target): 在target区域内, 长按时间未到达时触发
  * - onLongTouchPressed(target, currentTouch, delta): 到达长按状态后, 只要还在target区域内, 每一帧都触发
- * - onLongTouchEnded(target, currentTouch, delta): 长按状态下松开屏幕时触发
+ * - onLongTouchEnded(target, currentTouch, delta): 长按状态下松开屏幕时或移出target范围时触发
  * - onLongTouchCancelled(target, currentTouch, delta): 长按状态下收到TouchCancelled时触发
  */
 var LongTouchComponent = Component.extend({
@@ -90,6 +90,9 @@ var LongTouchComponent = Component.extend({
         if (!cc.rectContainsPoint(bound, this._currentLoc)) {
             this._unscheduleUpdate();
             this._longTouching = false;
+            if (this._delegate && this._delegate.onLongTouchEnded instanceof Function) {
+                this._delegate.onLongTouchEnded(this._target, this._currentLoc, Date.now() - this._beginTs);
+            }
         }
     },
     _onTouchEnded: function (touch, event) {

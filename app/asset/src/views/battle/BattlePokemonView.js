@@ -5,20 +5,36 @@
 var BattlePokemonView = cc.Node.extend({
     ctor: function (model, isFriend) {
         this._super();
+        this._isFriend = isFriend;
         this.setModel(model);
 
+        this.setScale(2.5);
+        this.setAnchorPoint(0.5, 0);
+    },
+    setModel: function (model) {
+        cc.assert(model instanceof ModelBase, "不合法的model参数");
+        if (this._model == model) {
+            return;
+        }
+        this._model = model;
+        this._update();
+    },
+    _update: function () {
         var suffix = "";
-        if (isFriend) {
-            if (model.isShiny()) {
+        if (this._isFriend) {
+            if (this._model.isShiny()) {
                 suffix = "_sb";
             } else {
                 suffix = "_b";
             }
-        } else if (model.isShiny()) {
+        } else if (this._model.isShiny()) {
             suffix = "_s";
         }
 
-        var gifPath = cc.formatStr("coredata/%s%s.gif", model.getFormatedId(), suffix);
+        if (this._gif) {
+            this._gif.removeFromParent();
+        }
+        var gifPath = cc.formatStr("coredata/%s%s.gif", this._model.getFormatedId(), suffix);
         //mw.log(gifPath);
         this._gif = mw.GifSprite.createWithFile(gifPath);
         this._gif.setPositionX(this._gif.getContentSize().width * 0.5);
@@ -26,14 +42,9 @@ var BattlePokemonView = cc.Node.extend({
         this._gif.setSpeedRatio(1.5);
         this.addChild(this._gif);
 
-        this.setScale(2.5);
         this.setContentSize(this._gif.getContentSize().width, this._gif.getContentSize().height);
-        this.setAnchorPoint(0.5, 0);
-    },
-    setModel: function (model) {
-        cc.assert(model instanceof ModelBase, "不合法的model参数");
-        this._model = model;
     },
     _model: null,
     _gif: null,
+    _isFriend: false,
 });

@@ -43,6 +43,20 @@ var Sqlite3Helper = {
         }
         return null;
     },
+    getSkillInfo: function (id) {
+        if (this._db == null) {
+            this._db = mw.SqliteDb.openDb(DB_PATH);
+        }
+        var sql = cc.formatStr("select * from [skill_info] where [id] = '%d';", parseInt(id));
+        var query = this._db.executeQuery(sql);
+        if (query && query.length > 0) {
+            var data = query[0];
+            var needParseIntList = [ "id", "property", "type", "attack", "hitRate", "pp", "target" ];
+            this._parseIntForData(data, needParseIntList);
+            return data;
+        }
+        return null;
+    },
     _parseIntForData: function (data, propList) {
         for (var i = 0; i < propList.length; ++i) {
             var key = propList[i];

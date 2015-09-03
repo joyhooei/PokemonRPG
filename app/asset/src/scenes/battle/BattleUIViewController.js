@@ -8,7 +8,7 @@
 var BattleUIViewController = mw.ViewController.extend({
     TEXTURES_TO_LOAD: {
         "textures/battle.plist": "textures/battle.pvr.ccz",
-        "common/common.plist": "common/common.pvr.ccz",
+        "textures/common.plist": "textures/common.pvr.ccz",
     },
     ctor: function (segue) {
         this._super(segue);
@@ -42,12 +42,12 @@ var BattleUIViewController = mw.ViewController.extend({
         // 初始化精灵model
         var pokemon1Id = parseInt(this.scene().getParameter("pokemon1"));
         var pokemon2Id = parseInt(this.scene().getParameter("pokemon2"));
-        mw.logWithTag("mlgb", "Pokemon1: %d, Pokemon2: %d", pokemon1Id, pokemon2Id);
+        logBattle("Pokemon1: %d, Pokemon2: %d", pokemon1Id, pokemon2Id);
         var pokemon1Model = new Pokemon({ id: pokemon1Id, level: Math.ceil(Math.random() * 100) });
         var pokemon2Model = new Pokemon({ id: pokemon2Id, level: Math.ceil(Math.random() * 100) });
 
         // 初始化BattleProcessor
-        BattleProcessor.init(pokemon1Model, pokemon2Model);
+        this.scene().initBattleProcessor(pokemon1Model, pokemon2Model);
 
         // 初始化精灵sprite
         this._pokemon1 = new BattlePokemonView(pokemon1Model, true);
@@ -56,25 +56,6 @@ var BattleUIViewController = mw.ViewController.extend({
         this.view().addChild(this._pokemon1);
         this._pokemon2.setPosition(cc.director.getWinSize().width * 0.8, cc.director.getWinSize().height * 0.6);
         this.view().addChild(this._pokemon2);
-
-        //var com = MakeBindable(this._pokemon1).addComponent("LongTouch").exportMethods();
-        //com.setDelegate({
-        //    onLongTouchBegan: function (target, loc, delta) {
-        //        this._beginPos = target.convertToNodeSpace(loc);
-        //        mw.logWithTag("longtouch", "onLongTouched", loc.x, loc.y, delta);
-        //    },
-        //    onClick: function (target) {
-        //        mw.logWithTag("longtouch", "onClick");
-        //    },
-        //    onLongTouchPressed: function (target, loc, delta) {
-        //        var deltaPos = cc.pSub(target.convertToNodeSpace(loc), this._beginPos);
-        //        target.setPosition(cc.pAdd(target.getPosition(), deltaPos));
-        //        mw.logWithTag("longtouch", "onLongTouchMoved", loc.x, loc.y, delta);
-        //    },
-        //    onLongTouchEnded: function (target, loc, delta) {
-        //        mw.logWithTag("longtouch", "onLongTouchEnded", loc.x, loc.y, delta);
-        //    }
-        //});
 
         // 初始化信息面板
         this._playerBoard = new BattlePlayerBoardView(pokemon1Model);

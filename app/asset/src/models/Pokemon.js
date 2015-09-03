@@ -76,7 +76,7 @@ var Pokemon = ModelBase.extend({
             rd = Math.floor(Math.random() * 32);
             randomTalents.push(rd);
         }
-        cc.log("随机个体值: " + randomTalents.toString());
+        logBattle("随机个体值: %s", randomTalents.toString());
 
         // 初始化
         var lv = properties["level"] || 1;
@@ -93,7 +93,7 @@ var Pokemon = ModelBase.extend({
             shiny: isShiny,
         });
         var skills = properties["skills"] || this._genSkills();
-        var basicValues = this._calculateBasicValues(this._level);
+        var basicValues = this._genBasicValues(this._level);
         this._setProperties({
             basicValues: basicValues,
             skills: skills,
@@ -172,10 +172,10 @@ var Pokemon = ModelBase.extend({
             }
             this._personalityCorrection = val;
         }
-        cc.log("性格修正: " + this._personalityCorrection.toString());
+        logBattle("性格修正: %s", this._personalityCorrection.toString());
         return this._personalityCorrection;
     },
-    _calculateBasicValues: function (lv) {
+    _genBasicValues: function (lv) {
         var basicData = [];
         var racialValues = this.getInfo().getRacialValues();
         var personalityCorrection = this._getPersonalityCorrection();
@@ -192,7 +192,7 @@ var Pokemon = ModelBase.extend({
         basicData.push(satk);
         basicData.push(sdef);
         basicData.push(agi);
-        cc.log(cc.formatStr("Lv.%d的基础值: %s", lv, basicData.toString()));
+        logBattle("Lv.%d的基础值: %s", lv, basicData.toString());
         return basicData;
     },
     _randomSpeciality: function () {
@@ -200,13 +200,13 @@ var Pokemon = ModelBase.extend({
         var len = info.getSpecialities().length;
         var rd = Math.floor(Math.random() * len);
         var speciality = info.getSpecialities()[rd];
-        cc.log("随机特性: %d", speciality);
+        logBattle("随机特性: %d", speciality);
 
         return speciality;
     },
     _randomPersonality: function () {
         var personality = Math.floor(Math.random() * 25);
-        cc.log("随机性格: %s", PERSONALITY_NAMES[personality]);
+        logBattle("随机性格: %s", PERSONALITY_NAMES[personality]);
         return personality;
     },
     _genSkills: function () {
@@ -227,7 +227,7 @@ var Pokemon = ModelBase.extend({
                 skillData.push(pp);
                 skillData.push(0);
                 skills.push(skillData);
-                cc.log("生成技能: " + skillData.toString());
+                logBattle("生成技能: " + skillData.toString());
                 ++loaded;
                 if (loaded >= 4) {
                     break;

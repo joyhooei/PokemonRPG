@@ -16,4 +16,11 @@ var BattleScene = mw.GameScene.extend({
     onExit: function () {
         this._super();
     },
+    initBattleProcessor: function (pokemon1, pokemon2) {
+        this._battleProcessor = new BattleProcessor(pokemon1, pokemon2);
+    },
+    getBattleProcessor: function () {
+        return this._battleProcessor;
+    },
+    _battleProcessor: null,
 });

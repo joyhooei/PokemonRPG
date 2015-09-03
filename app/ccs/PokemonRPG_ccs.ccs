@@ -41,6 +41,42 @@
             <PlistImageFile Name="common_selection_border.png" Key="common/selection_border.png" />
             <PlistImageFile Name="common_white_back.png" Key="common/white_back.png" />
             <PlistImageFile Name="common_dialog_indice.png" Key="common/dialog_indice.png" />
+            <PlistImageFile Name="common_icon_prop_1.png" Key="common/icon_prop_1.png" />
+            <PlistImageFile Name="common_icon_prop_10.png" Key="common/icon_prop_10.png" />
+            <PlistImageFile Name="common_icon_prop_11.png" Key="common/icon_prop_11.png" />
+            <PlistImageFile Name="common_icon_prop_12.png" Key="common/icon_prop_12.png" />
+            <PlistImageFile Name="common_icon_prop_13.png" Key="common/icon_prop_13.png" />
+            <PlistImageFile Name="common_icon_prop_14.png" Key="common/icon_prop_14.png" />
+            <PlistImageFile Name="common_icon_prop_15.png" Key="common/icon_prop_15.png" />
+            <PlistImageFile Name="common_icon_prop_16.png" Key="common/icon_prop_16.png" />
+            <PlistImageFile Name="common_icon_prop_17.png" Key="common/icon_prop_17.png" />
+            <PlistImageFile Name="common_icon_prop_18.png" Key="common/icon_prop_18.png" />
+            <PlistImageFile Name="common_icon_prop_2.png" Key="common/icon_prop_2.png" />
+            <PlistImageFile Name="common_icon_prop_3.png" Key="common/icon_prop_3.png" />
+            <PlistImageFile Name="common_icon_prop_4.png" Key="common/icon_prop_4.png" />
+            <PlistImageFile Name="common_icon_prop_5.png" Key="common/icon_prop_5.png" />
+            <PlistImageFile Name="common_icon_prop_6.png" Key="common/icon_prop_6.png" />
+            <PlistImageFile Name="common_icon_prop_7.png" Key="common/icon_prop_7.png" />
+            <PlistImageFile Name="common_icon_prop_8.png" Key="common/icon_prop_8.png" />
+            <PlistImageFile Name="common_icon_prop_9.png" Key="common/icon_prop_9.png" />
+            <PlistImageFile Name="common_prop_bg_1.png" Key="common/prop_bg_1.png" />
+            <PlistImageFile Name="common_prop_bg_10.png" Key="common/prop_bg_10.png" />
+            <PlistImageFile Name="common_prop_bg_11.png" Key="common/prop_bg_11.png" />
+            <PlistImageFile Name="common_prop_bg_12.png" Key="common/prop_bg_12.png" />
+            <PlistImageFile Name="common_prop_bg_13.png" Key="common/prop_bg_13.png" />
+            <PlistImageFile Name="common_prop_bg_14.png" Key="common/prop_bg_14.png" />
+            <PlistImageFile Name="common_prop_bg_15.png" Key="common/prop_bg_15.png" />
+            <PlistImageFile Name="common_prop_bg_16.png" Key="common/prop_bg_16.png" />
+            <PlistImageFile Name="common_prop_bg_17.png" Key="common/prop_bg_17.png" />
+            <PlistImageFile Name="common_prop_bg_18.png" Key="common/prop_bg_18.png" />
+            <PlistImageFile Name="common_prop_bg_2.png" Key="common/prop_bg_2.png" />
+            <PlistImageFile Name="common_prop_bg_3.png" Key="common/prop_bg_3.png" />
+            <PlistImageFile Name="common_prop_bg_4.png" Key="common/prop_bg_4.png" />
+            <PlistImageFile Name="common_prop_bg_5.png" Key="common/prop_bg_5.png" />
+            <PlistImageFile Name="common_prop_bg_6.png" Key="common/prop_bg_6.png" />
+            <PlistImageFile Name="common_prop_bg_7.png" Key="common/prop_bg_7.png" />
+            <PlistImageFile Name="common_prop_bg_8.png" Key="common/prop_bg_8.png" />
+            <PlistImageFile Name="common_prop_bg_9.png" Key="common/prop_bg_9.png" />
           </PlistImageFolder>
           <PlistImageFolder Image="battle.png" PListFile="battle.plist" Name=".battle_PList.Dir">
             <PlistImageFile Name="battle_battle_bg.png" Key="battle/battle_bg.png" />
@@ -57,6 +93,8 @@
           <Project Name="battle_player_board_2.csd" Type="Node" />
           <Project Name="dialog_board.csd" Type="Node" />
           <Project Name="battle_board.csd" Type="Node" />
+          <Project Name="skill_cell.csd" Type="Node" />
+          <Project Name="battle_skill_board.csd" Type="Node" />
         </Folder>
         <Folder Name="fonts">
           <TTF Name="DFPYuanW7-GB.ttf" />

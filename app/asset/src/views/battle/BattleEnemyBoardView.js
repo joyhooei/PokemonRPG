@@ -17,7 +17,7 @@ var BattleEnemyBoardView = cc.Node.extend({
 
         this._model = model;
 
-        var node = ccs.load(cc.formatStr("res/json/battle_player_board_%d.json", this._type)).node;
+        var node = ccs.load(cc.formatStr("json/battle_player_board_%d.json", this._type)).node;
         this.addChild(node);
         this._ccsNode = node;
 

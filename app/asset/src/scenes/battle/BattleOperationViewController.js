@@ -48,13 +48,23 @@ var BattleOperationViewController = mw.ViewController.extend({
         }
     },
     _addObservers: function () {
+        Notifier.addObserver(BATTLE_EVENTS.TURN_ENDED, this, this._onTurnEnded);
     },
     _removeObservers: function () {
+        Notifier.removeObserver(BATTLE_EVENTS.TURN_ENDED, this);
     },
     _renderView: function () {
+        // 初始化技能菜单
+        var battleProcessor = this.scene().getBattleProcessor();
+        var pokemon = battleProcessor.getFriendPokemon();
+        this._skillBoard = new BattleSkillBoardView(pokemon, this);
+        this._skillBoard.setPosition(cc.director.getWinSize().width * 0.8, 80);
+        this._skillBoard.setScale(0);
+        this.view().addChild(this._skillBoard);
+
         // 初始化战斗菜单
         this._battleBoard = ccs.load("json/battle_board.json").node;
-        this._battleBoard.setPosition(cc.director.getWinSize().width * 0.8, 80);
+        this._battleBoard.setPosition(this._skillBoard.getPosition());
         this._battleBoard.setScale(0);
         this.view().addChild(this._battleBoard);
 
@@ -68,18 +78,7 @@ var BattleOperationViewController = mw.ViewController.extend({
         var btnEscape = bg.getChildByName(this.CCS_NAMES.BTN_ESCAPE);
         btnEscape.addClickEventListener(MakeScriptHandler(this, this._onBtnClicked));
         // 记录board的bound 用来做取消操作
-        this._boardBound = bg.getBoundingBox();
-        var worldPos = bg.convertToWorldSpace(cc.p(0, 0));
-        this._boardBound.x = worldPos.x;
-        this._boardBound.y = worldPos.y;
-
-        // 初始化技能菜单
-        var battleProcessor = this.scene().getBattleProcessor();
-        var pokemon = battleProcessor.getFriendPokemon();
-        this._skillBoard = new BattleSkillBoardView(pokemon);
-        this._skillBoard.setPosition(this._battleBoard.getPosition());
-        this._skillBoard.setScale(0);
-        this.view().addChild(this._skillBoard);
+        this._boardBound = bg.getBoundingBoxToWorld();
 
         this.segue().setDelegate(this);
 
@@ -148,6 +147,9 @@ var BattleOperationViewController = mw.ViewController.extend({
         this._skillBoard.runAction(action);
     },
     _onBtnClicked: function (sender) {
+        if (this._state == this.STATES.PENDING) {
+            return;
+        }
         var btnName = sender.getName();
         if (btnName == this.CCS_NAMES.BTN_BATTLE) {
             // 战斗
@@ -166,6 +168,51 @@ var BattleOperationViewController = mw.ViewController.extend({
         if (this._state == this.STATES.SKILL_MENU && !cc.rectContainsPoint(this._boardBound, loc)) {
             this._hideSkillBoard(MakeScriptHandler(this, this._showBattleBoard));
         }
+    },
+    onLongTouchBegan: function (target, loc, delta) {
+        if (!this._isVisible(target)) {
+            return;
+        }
+        target.getChildByName("detail_bg").setVisible(true);
+    },
+    onClick: function (target) {
+        if (!this._isVisible(target)) {
+            return;
+        }
+        var battleProcessor = this.scene().getBattleProcessor();
+        var friendPokemon = battleProcessor.getFriendPokemon();
+        var skills = friendPokemon.getSkills();
+        var skillId = skills[target.getIndex()][0];
+        logBattle("使用技能: %d", skillId);
+        var skillInfo = new SkillInfo(skillId);
+        var behavior = new SkillBehavior(friendPokemon, skillInfo);
+        battleProcessor.prepareForTurn(behavior);
+
+        this._hideSkillBoard(function () {
+            battleProcessor.process();
+        });
+    },
+    onLongTouchEnded: function (target, loc, delta) {
+        if (!this._isVisible(target)) {
+            return;
+        }
+        target.getChildByName("detail_bg").setVisible(false);
+    },
+    _isVisible: function (node) {
+        var visible = true;
+        var current = node;
+        do {
+            if (!current.isVisible()) {
+                visible = false;
+                break;
+            }
+            current = current.getParent();
+        } while (current);
+        return visible;
+    },
+    // event handlers
+    _onTurnEnded: function () {
+        this._showBattleBoard();
     },
     _battleBoard: null,
     _skillBoard: null,

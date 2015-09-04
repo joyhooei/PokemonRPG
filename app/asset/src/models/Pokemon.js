@@ -12,7 +12,8 @@ var Pokemon = ModelBase.extend({
      * personality: 性格
      * skills: 学会的技能
      * shiny: 是否闪光
-     * owner: 捕获者id
+     * catcher: 捕获者id
+     * owner: 拥有者id
      * @param properties
      */
     ctor: function (properties) {
@@ -54,7 +55,8 @@ var Pokemon = ModelBase.extend({
                 return val instanceof Array;
             }, [ 0, 0, 0, 0, 0, 0 ]],     // 努力值
             shiny: [ "boolean", false ],    // 闪光
-            owner: [ "string", DataCenter.getHero().getId() ],  // 捕获者id
+            catcher: [ "string", null ],   // 捕获者id
+            owner: [ "string", null ],  // 拥有者id
         });
 
         // 需要先设置id
@@ -91,6 +93,8 @@ var Pokemon = ModelBase.extend({
             personality: personality,
             talentValues: randomTalents,
             shiny: isShiny,
+            owner: properties["owner"] || null,
+            catcher: properties["catcher"] || null,
         });
         var skills = properties["skills"] || this._genSkills();
         var basicValues = this._genBasicValues(this._level);
@@ -148,8 +152,14 @@ var Pokemon = ModelBase.extend({
     isShiny: function () {
         return this._shiny;
     },
-    getOwnerId: function () {
+    getCatcher: function () {
+        return this._catcher;
+    },
+    getOwner: function () {
         return this._owner;
+    },
+    ownBySelf: function () {
+        return this._owner == DataCenter.getHero().getId();
     },
     getExpPercent: function () {
         return (this._exp - this._getExpAtLv(this._level)) / (this._getExpAtLv(this._level + 1) - this._getExpAtLv(this._level)) * 100;

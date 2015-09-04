@@ -4,7 +4,7 @@
 
 var DialogBaseViewController = mw.ViewController.extend({
     TEXTURES_TO_LOAD: {
-        "texture/common.plist": "texture/common.pvr.ccz",
+        "textures/common.plist": "textures/common.pvr.ccz",
     },
     CCS_NAMES: {
         BG: "bg",
@@ -36,6 +36,9 @@ var DialogBaseViewController = mw.ViewController.extend({
     show: function () {
         this._ccsNode.setVisible(true);
         this.segue().setEnable(true);
+    },
+    clearText: function () {
+        this._lblMsg.setString("");
     },
     _loadTextures: function () {
         for (var plist in this.TEXTURES_TO_LOAD) {
@@ -76,7 +79,7 @@ var DialogBaseViewController = mw.ViewController.extend({
 
         this.segue().setDelegate(this);
     },
-    _onShowDialog: function (dialog) {
+    _showDialogWithCallback: function (dialog, callback) {
         if (this._showingDialog) {
             mw.error("上次dialog尚未显示完成");
             return;
@@ -97,7 +100,8 @@ var DialogBaseViewController = mw.ViewController.extend({
             this._lblMsg.setString(text);
             if (index == generatedDialogs.length - 1) {
                 this._showingDialog = null;     // 置空
-                this._indice.setVisible(true);
+                callback();
+                //this._indice.setVisible(true);
                 // 关闭计时器
                 cc.director.getScheduler().unschedule(this.DIALOG_SCHEDULE_KEY, this.view());
                 return;
@@ -107,7 +111,11 @@ var DialogBaseViewController = mw.ViewController.extend({
         // 开始积累游戏时间
         cc.director.getScheduler().schedule(onDialogTick, this.view(), this.DIALOG_SPEED, -1, 0, false, this.DIALOG_SCHEDULE_KEY);
     },
+    // segue delegate
     onTouchEnded: function (touch, event) {
+        if (!this._canSkip) {
+            return;
+        }
         if (this._showingDialog) {
             // 关闭计时器
             cc.director.getScheduler().unschedule(this.DIALOG_SCHEDULE_KEY, this.view());
@@ -118,8 +126,16 @@ var DialogBaseViewController = mw.ViewController.extend({
             Notifier.notify(DIALOG_EVENTS.SHOW_NEXT_DIALOG);
         }
     },
+    // event handlers
+    _onShowDialog: function (dialog) {
+        this._canSkip = true;
+        this._showDialogWithCallback(dialog, function () {
+            this._indice.setVisible(true);
+        }.bind(this));
+    },
     _ccsNode: null,
     _lblMsg: null,
     _indice: null,
     _showingDialog: null,
+    _canSkip: false,
 });

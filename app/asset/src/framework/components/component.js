@@ -8,7 +8,9 @@
  * 先通过MakeBindable函数使对象获得绑定组件的能力 再通过addComponent和removeComponent来控制绑定的组件
  * e.g.
  * var target = new cc.Node();
- * MakeBindable(target).addComponent(
+ * var com = MakeBindable(target).addComponent(COMPONENT_NAME);
+ * com.COMPONENT_METHOD();
+ * target.getComponent(COMPONENT_NAME).COMPONENT_METHOD();
  * @type {Function}
  */
 var Component = cc.Class.extend({
@@ -27,26 +29,6 @@ var Component = cc.Class.extend({
     },
     getTarget: function () {
         return this._target;
-    },
-    exportMethods: function (methods) {
-        if (!methods || !(methods instanceof Array)) {
-            methods = [];
-        }
-        this._exportMethods = methods;
-        for (var i in methods) {
-            var methodName = methods[i];
-            if (this._target[methodName]) {
-                cc.assert(!this._target[methodName], "绑定组件失败 重复的组件函数");
-            }
-            var method = this[methodName];
-            if (!(method instanceof Function)) {
-                continue;
-            }
-            this._target[methodName] = function() {
-                return method.apply(this, Array.prototype.slice.call(arguments));
-            }.bind(this);
-        }
-        return this;
     },
     _bind: function (target) {
         this._target = target;
@@ -72,5 +54,4 @@ var Component = cc.Class.extend({
     _target: null,
     _name: null,
     _depends: null,
-    _exportMethods: null,
 });

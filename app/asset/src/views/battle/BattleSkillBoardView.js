@@ -2,48 +2,6 @@
  * Created by Maple on 9/4/15.
  */
 
-var SkillCellLongTouchDelegate = cc.Class.extend({
-    ctor: function (detailBg, model, index) {
-        this._detailBg = detailBg;
-        this._model = model;
-        this._index = index;
-    },
-    onLongTouchBegan: function (target, loc, delta) {
-        if (!this._isVisible(target)) {
-            return;
-        }
-        this._detailBg.setVisible(true);
-    },
-    onClick: function (target) {
-        if (!this._isVisible(target)) {
-            return;
-        }
-        var skills = this._model.getSkills();
-        logBattle("使用技能: %d", skills[this._index][0]);
-    },
-    onLongTouchEnded: function (target, loc, delta) {
-        if (!this._isVisible(target)) {
-            return;
-        }
-        this._detailBg.setVisible(false);
-    },
-    _isVisible: function (node) {
-        var visible = true;
-        var current = node;
-        do {
-            if (!current.isVisible()) {
-                visible = false;
-                break;
-            }
-            current = current.getParent();
-        } while (current);
-        return visible;
-    },
-    _detailBg: null,
-    _model: null,
-    _index: null,
-});
-
 var BattleSkillBoardView = cc.Node.extend({
     SKILL_TYPE_MAP: {
         1: "物理",
@@ -62,10 +20,10 @@ var BattleSkillBoardView = cc.Node.extend({
             SKILL_NAME: "skill_name",
             PP_INFO: "pp_info",
             SKILL_TYPE: "skill_type",
-        DETAIL_BG: "detail_bg",
-            SKILL_DESC: "skill_desc",
+            DETAIL_BG: "detail_bg",
+                SKILL_DESC: "skill_desc",
     },
-    ctor: function(model) {
+    ctor: function(model, delegate) {
         this._super();
 
         this._ccsNode = ccs.load("json/battle_skill_board.json").node;
@@ -80,9 +38,12 @@ var BattleSkillBoardView = cc.Node.extend({
         for (var i = 1; i <= 4; ++i) {
             var skillNode = this["_skill" + i.toString() + "Node"];
             var skillBg = skillNode.getChildByName(this.CELL_CCS_NAMES.SKILL_BG);
-            var detailBg = skillNode.getChildByName(this.CELL_CCS_NAMES.DETAIL_BG);
-            var com = MakeBindable(skillBg).addComponent("LongTouch").exportMethods();
-            com.setDelegate(new SkillCellLongTouchDelegate(detailBg, model, i - 1));
+            // 这种处理方式不太好 有待优化 todo
+            skillBg.getIndex = function () {
+                return parseInt(this.getParent().getName()[this.getParent().getName().length - 1]) - 1;
+            };
+            var com = MakeBindable(skillBg).addComponent("LongTouch");
+            com.setDelegate(delegate);
         }
 
         this.setModel(model);
@@ -104,7 +65,7 @@ var BattleSkillBoardView = cc.Node.extend({
                 var skillInfo = new SkillInfo(skills[i][0]);
                 var skillBg = node.getChildByName(this.CELL_CCS_NAMES.SKILL_BG);
                 skillBg.loadTexture(cc.formatStr("common/prop_bg_%d.png", skillInfo.getProperty()), ccui.Widget.PLIST_TEXTURE);
-                var detailBg = node.getChildByName(this.CELL_CCS_NAMES.DETAIL_BG);
+                var detailBg = skillBg.getChildByName(this.CELL_CCS_NAMES.DETAIL_BG);
                 skillBg.getChildByName(this.CELL_CCS_NAMES.SKILL_NAME).setString(skillInfo.getName());
                 skillBg.getChildByName(this.CELL_CCS_NAMES.SKILL_TYPE).setString(this.SKILL_TYPE_MAP[skillInfo.getType()]);
                 var ppLimit = skillInfo.getPP() * (1 + 0.2 * skills[i][2]);

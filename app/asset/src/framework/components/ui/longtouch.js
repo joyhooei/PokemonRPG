@@ -36,13 +36,6 @@ var LongTouchComponent = Component.extend({
         }
         this._delegate = delegate;
     },
-    exportMethods: function () {
-        this._super([
-            "setLongTouchDelta",
-            "setDelegate",
-        ]);
-        return this._target;
-    },
     onBind: function (target) {
         if (!(target instanceof cc.Node)) {
             mw.error("不合法的绑定对象 LongTouch组件必须绑定在cc.Node上");
@@ -67,10 +60,7 @@ var LongTouchComponent = Component.extend({
     },
     _onTouchBegan: function (touch, event) {
         this._currentLoc = touch.getLocation();
-        var bound = this._target.getBoundingBox();
-        var worldPos = this._target.convertToWorldSpace(cc.p(0, 0));
-        bound.x = worldPos.x;
-        bound.y = worldPos.y;
+        var bound = this._target.getBoundingBoxToWorld();
         if (cc.rectContainsPoint(bound, this._currentLoc)) {
             this._beginTs = Date.now();
             this._scheduleUpdate();
@@ -83,10 +73,7 @@ var LongTouchComponent = Component.extend({
         if (!this._longTouching) {
             return;
         }
-        var bound = this._target.getBoundingBox();
-        var worldPos = this._target.convertToWorldSpace(cc.p(0, 0));
-        bound.x = worldPos.x;
-        bound.y = worldPos.y;
+        var bound = this._target.getBoundingBoxToWorld();
         if (!cc.rectContainsPoint(bound, this._currentLoc)) {
             this._unscheduleUpdate();
             this._longTouching = false;
@@ -103,10 +90,7 @@ var LongTouchComponent = Component.extend({
                 this._delegate.onLongTouchEnded(this._target, this._currentLoc, Date.now() - this._beginTs);
             }
         } else {
-            var bound = this._target.getBoundingBox();
-            var worldPos = this._target.convertToWorldSpace(cc.p(0, 0));
-            bound.x = worldPos.x;
-            bound.y = worldPos.y;
+            var bound = this._target.getBoundingBoxToWorld();
             if (cc.rectContainsPoint(bound, touch.getLocation()) &&
                 Date.now() - this._beginTs < this._touchTs &&
                 this._delegate && this._delegate.onClick instanceof Function) {

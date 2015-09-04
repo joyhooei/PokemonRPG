@@ -159,3 +159,11 @@ var BATTLE_STATES = {
     BOUND: 4,			// 束缚
     TIRED: 5,			// 无法动弹
 };
+
+// 战斗行为
+var BATTLE_BEHAVIORS = {
+    BATTLE: 1,      // 战斗
+    CHANGE_POKEMON: 2,  // 更换精灵
+    USE_ITEM: 3,    // 使用道具
+    ESCAPE: 4,      // 逃跑
+};

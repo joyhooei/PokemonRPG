@@ -151,6 +151,8 @@
                   "X": 0.0,
                   "Y": 0.0
                 },
+                "HorizontalEdge": "RightEdge",
+                "VerticalEdge": "BottomEdge",
                 "LeftMargin": 110.5,
                 "RightMargin": 7.5,
                 "TopMargin": 43.5,
@@ -206,6 +208,8 @@
                   "X": 0.0,
                   "Y": 0.0
                 },
+                "HorizontalEdge": "RightEdge",
+                "VerticalEdge": "TopEdge",
                 "LeftMargin": 131.5,
                 "RightMargin": 7.5,
                 "TopMargin": 8.5,
@@ -270,7 +274,7 @@
               {
                 "IsCustomSize": true,
                 "FontSize": 16,
-                "LabelText": "Text Label",
+                "LabelText": "这是技能描述",
                 "FontResource": {
                   "Type": "Normal",
                   "Path": "../fonts/DFPYuanW7-GB.ttf",
@@ -293,7 +297,7 @@
                 },
                 "Position": {
                   "X": 87.5,
-                  "Y": 51.5
+                  "Y": 50.0
                 },
                 "Scale": {
                   "ScaleX": 1.0,
@@ -307,7 +311,7 @@
                 "IconVisible": false,
                 "PrePosition": {
                   "X": 0.5,
-                  "Y": 0.515
+                  "Y": 0.5
                 },
                 "PreSize": {
                   "X": 0.8571,
@@ -317,8 +321,8 @@
                 "VerticalEdge": "BothEdge",
                 "LeftMargin": 12.5,
                 "RightMargin": 12.5,
-                "TopMargin": 11.0,
-                "BottomMargin": 14.0,
+                "TopMargin": 12.5,
+                "BottomMargin": 12.5,
                 "Tag": 143,
                 "ActionTag": 1653311979,
                 "Size": {

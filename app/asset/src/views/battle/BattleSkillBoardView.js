@@ -76,9 +76,6 @@ var BattleSkillBoardView = cc.Node.extend({
         this._skill3Node = bg.getChildByName(this.BOARD_CCS_NAMES.SKILL3);
         this._skill4Node = bg.getChildByName(this.BOARD_CCS_NAMES.SKILL4);
 
-        //this.setContentSize(bg.getContentSize());
-        //this._ccsNode.setPosition(this.getContentSize().width * 0.5, this.getContentSize().height * 0.5);
-
         // 绑定longtouch组件
         for (var i = 1; i <= 4; ++i) {
             var skillNode = this["_skill" + i.toString() + "Node"];
@@ -114,8 +111,14 @@ var BattleSkillBoardView = cc.Node.extend({
                 skillBg.getChildByName(this.CELL_CCS_NAMES.PP_INFO).setString(skills[i][1].toString() + " / " + ppLimit.toString());
                 var lblDesc = detailBg.getChildByName(this.CELL_CCS_NAMES.SKILL_DESC);
                 lblDesc.setString(skillInfo.getDescription());
-                //var autoSize = lblDesc.getAutoRenderSize();
-                //mw.dump(autoSize);
+                // 自动适配高度
+                var lblSize = lblDesc.getContentSize();
+                var autoSize = lblDesc.getAutoRenderSize();
+                var rows = Math.ceil(autoSize.width / lblSize.width);
+                var height = rows * autoSize.height;
+                lblDesc.setContentSize(lblSize.width, height);
+                detailBg.setContentSize(detailBg.getContentSize().width, height + 25);
+                lblDesc.setPosition(detailBg.getContentSize().width * 0.5, detailBg.getContentSize().height * 0.5);
             } else {
                 node.setVisible(false);
             }

@@ -4,7 +4,7 @@
 
 var DialogBaseViewController = mw.ViewController.extend({
     TEXTURES_TO_LOAD: {
-        "common/common.plist": "common/common.pvr.ccz",
+        "texture/common.plist": "texture/common.pvr.ccz",
     },
     CCS_NAMES: {
         BG: "bg",

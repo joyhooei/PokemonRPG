@@ -21,7 +21,7 @@
                 <OutlineColor A="255" R="255" G="0" B="0" />
                 <ShadowColor A="255" R="110" G="110" B="110" />
               </AbstractNodeData>
-              <AbstractNodeData Name="pp_info" ActionTag="-1442759850" Tag="43" IconVisible="False" LeftMargin="110.5000" RightMargin="7.5000" TopMargin="43.5000" BottomMargin="8.5000" FontSize="18" LabelText="70 / 70" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
+              <AbstractNodeData Name="pp_info" ActionTag="-1442759850" Tag="43" IconVisible="False" HorizontalEdge="RightEdge" VerticalEdge="BottomEdge" LeftMargin="110.5000" RightMargin="7.5000" TopMargin="43.5000" BottomMargin="8.5000" FontSize="18" LabelText="70 / 70" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
                 <Size X="57.0000" Y="18.0000" />
                 <AnchorPoint ScaleX="1.0000" ScaleY="0.5000" />
                 <Position X="167.5000" Y="17.5000" />
@@ -33,7 +33,7 @@
                 <OutlineColor A="255" R="255" G="0" B="0" />
                 <ShadowColor A="255" R="110" G="110" B="110" />
               </AbstractNodeData>
-              <AbstractNodeData Name="skill_type" ActionTag="-29900464" Tag="57" IconVisible="False" LeftMargin="131.5000" RightMargin="7.5000" TopMargin="8.5000" BottomMargin="43.5000" FontSize="18" LabelText="特殊" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
+              <AbstractNodeData Name="skill_type" ActionTag="-29900464" Tag="57" IconVisible="False" HorizontalEdge="RightEdge" VerticalEdge="TopEdge" LeftMargin="131.5000" RightMargin="7.5000" TopMargin="8.5000" BottomMargin="43.5000" FontSize="18" LabelText="特殊" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
                 <Size X="36.0000" Y="18.0000" />
                 <AnchorPoint ScaleX="1.0000" ScaleY="0.5000" />
                 <Position X="167.5000" Y="52.5000" />
@@ -57,13 +57,13 @@
           <AbstractNodeData Name="detail_bg" ActionTag="-789752780" Tag="110" VisibleForFrame="False" IconVisible="False" LeftMargin="-87.5000" RightMargin="-87.5000" TopMargin="-136.0000" BottomMargin="36.0000" Scale9Enable="True" LeftEage="33" RightEage="33" TopEage="33" BottomEage="33" Scale9OriginX="33" Scale9OriginY="33" Scale9Width="34" Scale9Height="34" ctype="ImageViewObjectData">
             <Size X="175.0000" Y="100.0000" />
             <Children>
-              <AbstractNodeData Name="skill_desc" ActionTag="1653311979" Tag="143" IconVisible="False" HorizontalEdge="BothEdge" VerticalEdge="BothEdge" LeftMargin="12.5000" RightMargin="12.5000" TopMargin="11.0000" BottomMargin="14.0000" IsCustomSize="True" FontSize="16" LabelText="Text Label" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+              <AbstractNodeData Name="skill_desc" ActionTag="1653311979" Tag="143" IconVisible="False" HorizontalEdge="BothEdge" VerticalEdge="BothEdge" LeftMargin="12.5000" RightMargin="12.5000" TopMargin="12.5000" BottomMargin="12.5000" IsCustomSize="True" FontSize="16" LabelText="这是技能描述" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
                 <Size X="150.0000" Y="75.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-                <Position X="87.5000" Y="51.5000" />
+                <Position X="87.5000" Y="50.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <CColor A="255" R="0" G="0" B="0" />
-                <PrePosition X="0.5000" Y="0.5150" />
+                <PrePosition X="0.5000" Y="0.5000" />
                 <PreSize X="0.8571" Y="0.7500" />
                 <FontResource Type="Normal" Path="fonts/DFPYuanW7-GB.ttf" Plist="" />
                 <OutlineColor A="255" R="255" G="0" B="0" />

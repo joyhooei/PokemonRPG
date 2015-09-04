@@ -53,6 +53,8 @@ var Sqlite3Helper = {
             var data = query[0];
             var needParseIntList = [ "id", "property", "type", "attack", "hitRate", "pp", "target" ];
             this._parseIntForData(data, needParseIntList);
+            // 不知为何会有换行符 把它去掉
+            data["description"] = data["description"].trim();
             return data;
         }
         return null;

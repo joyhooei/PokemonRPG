@@ -129,7 +129,7 @@ var LongTouchComponent = Component.extend({
         }
     },
     _scheduleUpdate: function () {
-        cc.director.getScheduler().schedule(MakeScriptHandler(this, this._update), this, 0, -1, 0, false, this.UPDATE_SCHEDULER_KEY);
+        cc.director.getScheduler().schedule(MakeScriptHandler(this, this._update), this, 0, cc.REPEAT_FOREVER, 0, false, this.UPDATE_SCHEDULER_KEY);
     },
     _unscheduleUpdate: function () {
         cc.director.getScheduler().unschedule(this.UPDATE_SCHEDULER_KEY, this);

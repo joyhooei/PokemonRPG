@@ -18,7 +18,7 @@ var MapViewController = mw.ViewController.extend({
         this._renderView();
 
         // 开始积累游戏时间
-        cc.director.getScheduler().schedule(MakeScriptHandler(this, this._addTime), this.view(), 1, -1, 1, false, this.PLAYTIME_SCHEDULE_KEY);
+        cc.director.getScheduler().schedule(MakeScriptHandler(this, this._addTime), this.view(), 1, cc.REPEAT_FOREVER, 1, false, this.PLAYTIME_SCHEDULE_KEY);
     },
     viewDidUnload: function () {
         this._unloadTextures();

@@ -116,8 +116,10 @@ var LongTouchComponent = Component.extend({
     _update: function () {
         var delta = Date.now() - this._beginTs;
         if (delta >= this._touchTs) {
-            if (this._longTouching && this._delegate && this._delegate.onLongTouchPressed instanceof Function) {
-                this._delegate.onLongTouchPressed(this._target, this._currentLoc, delta);
+            if (this._longTouching) {
+                if (this._delegate && this._delegate.onLongTouchPressed instanceof Function) {
+                    this._delegate.onLongTouchPressed(this._target, this._currentLoc, delta);
+                }
             } else {
                 this._longTouching = true;
                 if (this._delegate && this._delegate.onLongTouchBegan instanceof Function) {

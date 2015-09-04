@@ -109,7 +109,7 @@ var DialogBaseViewController = mw.ViewController.extend({
             ++index;
         }.bind(this);
         // 开始积累游戏时间
-        cc.director.getScheduler().schedule(onDialogTick, this.view(), this.DIALOG_SPEED, -1, 0, false, this.DIALOG_SCHEDULE_KEY);
+        cc.director.getScheduler().schedule(onDialogTick, this.view(), this.DIALOG_SPEED, cc.REPEAT_FOREVER, 0, false, this.DIALOG_SCHEDULE_KEY);
     },
     // segue delegate
     onTouchEnded: function (touch, event) {

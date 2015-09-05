@@ -82,7 +82,7 @@ var BattleUIViewController = mw.ViewController.extend({
         this._enemyBoard.setPosition(cc.director.getWinSize().width * 0.2, cc.director.getWinSize().height * 0.85);
         this.view().addChild(this._enemyBoard);
     },
-    _onPlaySkill: function (pokemonModel, skillInfo) {
+    _onPlaySkill: function (pokemonModel, skillInfo, dmg) {
         var particle = new cc.ParticleSystem("particles/particle1.plist");
         particle.setAutoRemoveOnFinish(true);
         var duration = particle.getDuration();
@@ -93,12 +93,14 @@ var BattleUIViewController = mw.ViewController.extend({
             particle.setPosition(this._pokemon1.getContentSize().width * 0.5, this._pokemon1.getContentSize().height * 0.5);
             this._pokemon1.addChild(particle);
         }
-        CallFunctionAsync(this, this._playSkillEnd, duration + 0.1, pokemonModel);
+        CallFunctionAsync(this, this._playSkillEnd, duration + 0.1, pokemonModel, dmg);
     },
-    _playSkillEnd: function (pokemonModel) {
+    _playSkillEnd: function (pokemonModel, dmg) {
         var targetNode = pokemonModel.ownBySelf() ? this._pokemon2 : this._pokemon1;
+        var hpBarAction = pokemonModel.ownBySelf() ? this._enemyBoard.getHpBarAction(dmg) : this._playerBoard.getHpBarAction(dmg);
         this.view().runAction(new cc.Sequence(
             new cc.TargetedAction(targetNode, new cc.Blink(0.5, 3)),
+            hpBarAction,
             new cc.CallFunc(MakeScriptHandler(this, this._processNextBehavior))
         ));
     },

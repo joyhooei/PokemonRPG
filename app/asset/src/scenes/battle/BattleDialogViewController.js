@@ -34,11 +34,11 @@ var BattleDialogViewController = DialogBaseViewController.extend({
         this._super();
     },
     // event handlers
-    _onShowDialogWithBattleAnimation: function (pokemonModel, skillInfo) {
-        var text = cc.formatStr("%s使用了技能%s。", pokemonModel.getInfo().getName(), skillInfo.getName());
+    _onShowDialogWithBattleAnimation: function (pokemonModel, skillInfo, dmg) {
+        var text = cc.formatStr("%s使用了技能%s", pokemonModel.getInfo().getName(), skillInfo.getName());
         this._canSkip = false;
         this._showDialogWithCallback(text, function () {
-            Notifier.notify(BATTLE_UI_EVENTS.PLAY_SKILL, pokemonModel, skillInfo);
+            Notifier.notify(BATTLE_UI_EVENTS.PLAY_SKILL, pokemonModel, skillInfo, dmg);
         });
     },
     _onTurnEnded: function () {

@@ -29,11 +29,14 @@ var SkillBehavior = BattleBehavior.extend({
 
         this._skill = skillInfo;
     },
+    getSkill: function () {
+        return this._skill;
+    },
     getPriority: function () {
         return 0 * 1000 + this._owner.getBasicValues()[5];
     },
-    process: function () {
-        Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITH_BATTLE_ANIMATION, this._owner, this._skill);
+    process: function (dmg) {
+        Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITH_BATTLE_ANIMATION, this._owner, this._skill, dmg);
     },
     _skill: null,
 });

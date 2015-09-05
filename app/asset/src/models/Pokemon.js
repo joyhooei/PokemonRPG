@@ -39,9 +39,6 @@ var Pokemon = ModelBase.extend({
             state: [function (val) {
                 return val >= POKEMON_STATES.NORMAL && val <= POKEMON_STATES.DEAD;
             }, POKEMON_STATES.NORMAL ],     // 异常状态
-            battleState: [function (val) {
-                return val >= BATTLE_STATES.NORMAL && val <= BATTLE_STATES.TIRED;
-            }, BATTLE_STATES.NORMAL ],     // 战斗状态
             personality: [function (val) {
                 return val >= POKEMON_PERSONALITIES.HARDY && val <= POKEMON_PERSONALITIES.CAREFUL;
             }, POKEMON_PERSONALITIES.HARDY ],     // 性格
@@ -133,9 +130,6 @@ var Pokemon = ModelBase.extend({
     },
     getState: function () {
         return this._state;
-    },
-    getBattleState: function () {
-        return this._battleState;
     },
     getPersonality: function () {
         return this._personality;

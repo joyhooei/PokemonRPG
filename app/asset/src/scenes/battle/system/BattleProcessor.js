@@ -39,12 +39,21 @@ var BattleProcessor = cc.Class.extend({
     process: function () {
         var behavior = this._behaviorQueue.shift();
         if (behavior) {
-            behavior.process();
+            // 如果是伤害技能需要计算伤害
+            if (behavior.getType() == BATTLE_BEHAVIORS.BATTLE) {
+                behavior.process(20);
+            } else {
+                behavior.process();
+            }
         } else {
             this.endTurn();
         }
     },
     _pokemon1: null,
     _pokemon2: null,
+    _pokemon1AbilityLevels: [ 0, 0, 0, 0, 0 ],     // [ 攻击, 防御, 特攻, 特防, 速度 ]
+    _pokemon2AbilityLevels: [ 0, 0, 0, 0, 0 ],
+    _pokemon1BattleState: BATTLE_STATES.NORMAL,
+    _pokemon2BattleState: BATTLE_STATES.NORMAL,
     _behaviorQueue: [],
 });

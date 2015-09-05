@@ -46,6 +46,9 @@ var BattleEnemyBoardView = cc.Node.extend({
             this._iconBall.setVisible(true);
         }
     },
+    getHpBarAction: function (dmg) {
+        return new cc.DelayTime(0);
+    },
     updateState: function (state) {
         if (state == POKEMON_STATES.NORMAL) {
             this._iconState.setVisible(false);

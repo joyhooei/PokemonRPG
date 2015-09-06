@@ -7,6 +7,7 @@ mw.GameScene.extend = cc.Class.extend;
 mw.ViewController.extend = cc.Class.extend;
 mw.ViewSegue.extend = cc.Class.extend;
 mw.NetHandler.extend = cc.Class.extend;
+mw.NetFilter.extend = cc.Class.extend;
 
 // 框架组件
 Registry.addClass("FiniteStateMachine", FiniteStateMachine);

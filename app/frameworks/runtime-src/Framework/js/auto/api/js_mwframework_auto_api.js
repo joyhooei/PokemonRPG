@@ -2154,6 +2154,23 @@ create : function (
 };
 
 /**
+ * @class MWNetFilter
+ */
+mw.NetFilter = {
+
+/**
+ * @method create
+ * @return {mw.NetFilter}
+ */
+create : function (
+)
+{
+    return mw.NetFilter;
+},
+
+};
+
+/**
  * @class MWNetRequest
  */
 mw.NetRequest = {

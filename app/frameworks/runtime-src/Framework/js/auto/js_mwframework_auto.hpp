@@ -380,6 +380,15 @@ void js_register_mwframework_MWNetHandler(JSContext *cx, JS::HandleObject global
 void register_all_mwframework(JSContext* cx, JS::HandleObject obj);
 bool js_mwframework_MWNetHandler_create(JSContext *cx, uint32_t argc, jsval *vp);
 
+extern JSClass  *jsb_mwframework_MWNetFilter_class;
+extern JSObject *jsb_mwframework_MWNetFilter_prototype;
+
+bool js_mwframework_MWNetFilter_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_mwframework_MWNetFilter_finalize(JSContext *cx, JSObject *obj);
+void js_register_mwframework_MWNetFilter(JSContext *cx, JS::HandleObject global);
+void register_all_mwframework(JSContext* cx, JS::HandleObject obj);
+bool js_mwframework_MWNetFilter_create(JSContext *cx, uint32_t argc, jsval *vp);
+
 extern JSClass  *jsb_mwframework_MWNetRequest_class;
 extern JSObject *jsb_mwframework_MWNetRequest_prototype;
 

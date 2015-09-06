@@ -6297,6 +6297,94 @@ void js_register_mwframework_MWNetHandler(JSContext *cx, JS::HandleObject global
     }
 }
 
+JSClass  *jsb_mwframework_MWNetFilter_class;
+JSObject *jsb_mwframework_MWNetFilter_prototype;
+
+bool js_mwframework_MWNetFilter_create(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    mwframework::MWNetFilter* cobj = (mwframework::MWNetFilter *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_mwframework_MWNetFilter_create : Invalid Native Object");
+    if (argc == 0) {
+        mwframework::MWNetFilter* ret = cobj->create();
+        jsval jsret = JSVAL_NULL;
+        do {
+            if (ret) {
+                js_proxy_t *jsProxy = js_get_or_create_proxy<mwframework::MWNetFilter>(cx, (mwframework::MWNetFilter*)ret);
+                jsret = OBJECT_TO_JSVAL(jsProxy->obj);
+            } else {
+                jsret = JSVAL_NULL;
+            }
+        } while (0);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_mwframework_MWNetFilter_create : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
+
+extern JSObject *jsb_mwframework_MWObject_prototype;
+
+void js_mwframework_MWNetFilter_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (MWNetFilter)", obj);
+}
+
+void js_register_mwframework_MWNetFilter(JSContext *cx, JS::HandleObject global) {
+    jsb_mwframework_MWNetFilter_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_mwframework_MWNetFilter_class->name = "NetFilter";
+    jsb_mwframework_MWNetFilter_class->addProperty = JS_PropertyStub;
+    jsb_mwframework_MWNetFilter_class->delProperty = JS_DeletePropertyStub;
+    jsb_mwframework_MWNetFilter_class->getProperty = JS_PropertyStub;
+    jsb_mwframework_MWNetFilter_class->setProperty = JS_StrictPropertyStub;
+    jsb_mwframework_MWNetFilter_class->enumerate = JS_EnumerateStub;
+    jsb_mwframework_MWNetFilter_class->resolve = JS_ResolveStub;
+    jsb_mwframework_MWNetFilter_class->convert = JS_ConvertStub;
+    jsb_mwframework_MWNetFilter_class->finalize = js_mwframework_MWNetFilter_finalize;
+    jsb_mwframework_MWNetFilter_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FN("create", js_mwframework_MWNetFilter_create, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    JSFunctionSpec *st_funcs = NULL;
+
+    jsb_mwframework_MWNetFilter_prototype = JS_InitClass(
+        cx, global,
+        JS::RootedObject(cx, jsb_mwframework_MWObject_prototype),
+        jsb_mwframework_MWNetFilter_class,
+        dummy_constructor<mwframework::MWNetFilter>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "NetFilter", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<mwframework::MWNetFilter> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_mwframework_MWNetFilter_class;
+        p->proto = jsb_mwframework_MWNetFilter_prototype;
+        p->parentProto = jsb_mwframework_MWObject_prototype;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+
 JSClass  *jsb_mwframework_MWNetRequest_class;
 JSObject *jsb_mwframework_MWNetRequest_prototype;
 
@@ -7317,6 +7405,7 @@ void register_all_mwframework(JSContext* cx, JS::HandleObject obj) {
     js_register_mwframework_MWArrayList(cx, ns);
     js_register_mwframework_MWJsonArray(cx, ns);
     js_register_mwframework_MWZipData(cx, ns);
+    js_register_mwframework_MWNetFilter(cx, ns);
     js_register_mwframework_MWCrypto(cx, ns);
     js_register_mwframework_MWNetResponse(cx, ns);
     js_register_mwframework_MWJsonObject(cx, ns);

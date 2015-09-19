@@ -140,6 +140,8 @@
 		F58A04CD1B864D2700BB5229 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C71B864D2700BB5229 /* md5.cpp */; };
 		F58A04CE1B864D2700BB5229 /* MWCrypto-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C91B864D2700BB5229 /* MWCrypto-ios.mm */; };
 		F58A04CF1B864D2700BB5229 /* MWCrypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A04CA1B864D2700BB5229 /* MWCrypto.cpp */; };
+		F5E6E5AA1BAD42D00009F247 /* UIProgressActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E6E5A81BAD42D00009F247 /* UIProgressActions.cpp */; settings = {ASSET_TAGS = (); }; };
+		F5E6E5B31BAD528D0009F247 /* js_game_ext_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E6E5B01BAD528D0009F247 /* js_game_ext_auto.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -430,6 +432,12 @@
 		F58A04C91B864D2700BB5229 /* MWCrypto-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MWCrypto-ios.mm"; sourceTree = "<group>"; };
 		F58A04CA1B864D2700BB5229 /* MWCrypto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWCrypto.cpp; sourceTree = "<group>"; };
 		F58A04CB1B864D2700BB5229 /* MWCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCrypto.h; sourceTree = "<group>"; };
+		F5E6E5A81BAD42D00009F247 /* UIProgressActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIProgressActions.cpp; sourceTree = "<group>"; };
+		F5E6E5A91BAD42D00009F247 /* UIProgressActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIProgressActions.h; sourceTree = "<group>"; };
+		F5E6E5AB1BAD4A5A0009F247 /* game-ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "game-ext.h"; sourceTree = "<group>"; };
+		F5E6E5B01BAD528D0009F247 /* js_game_ext_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_game_ext_auto.cpp; sourceTree = "<group>"; };
+		F5E6E5B11BAD528D0009F247 /* js_game_ext_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = js_game_ext_auto.hpp; sourceTree = "<group>"; };
+		F5E6E5B41BAD54960009F247 /* GameMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMacros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -616,8 +624,12 @@
 		D4545214156E28EF00887EB5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F5E6E5A71BAD415A0009F247 /* actions */,
+				F5E6E5AC1BAD528D0009F247 /* bindings */,
 				D4545215156E28EF00887EB5 /* AppDelegate.cpp */,
 				D4545216156E28EF00887EB5 /* AppDelegate.h */,
+				F5E6E5AB1BAD4A5A0009F247 /* game-ext.h */,
+				F5E6E5B41BAD54960009F247 /* GameMacros.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -1071,6 +1083,32 @@
 			path = md5;
 			sourceTree = "<group>";
 		};
+		F5E6E5A71BAD415A0009F247 /* actions */ = {
+			isa = PBXGroup;
+			children = (
+				F5E6E5A81BAD42D00009F247 /* UIProgressActions.cpp */,
+				F5E6E5A91BAD42D00009F247 /* UIProgressActions.h */,
+			);
+			path = actions;
+			sourceTree = "<group>";
+		};
+		F5E6E5AC1BAD528D0009F247 /* bindings */ = {
+			isa = PBXGroup;
+			children = (
+				F5E6E5AD1BAD528D0009F247 /* auto */,
+			);
+			path = bindings;
+			sourceTree = "<group>";
+		};
+		F5E6E5AD1BAD528D0009F247 /* auto */ = {
+			isa = PBXGroup;
+			children = (
+				F5E6E5B01BAD528D0009F247 /* js_game_ext_auto.cpp */,
+				F5E6E5B11BAD528D0009F247 /* js_game_ext_auto.hpp */,
+			);
+			path = auto;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1284,7 +1322,9 @@
 				F559B85F1B6CBC9C00C90AC9 /* MWIOUtilsStrategyIOS.mm in Sources */,
 				F559B8061B6CBC9C00C90AC9 /* MWException.cpp in Sources */,
 				F559B8081B6CBC9C00C90AC9 /* MWQueue.cpp in Sources */,
+				F5E6E5B31BAD528D0009F247 /* js_game_ext_auto.cpp in Sources */,
 				F559B80D1B6CBC9C00C90AC9 /* zip.c in Sources */,
+				F5E6E5AA1BAD42D00009F247 /* UIProgressActions.cpp in Sources */,
 				F559B8561B6CBC9C00C90AC9 /* MWHttpForm.cpp in Sources */,
 				F559B8661B6CBC9C00C90AC9 /* MWGameView.cpp in Sources */,
 				F559B8031B6CBC9C00C90AC9 /* MWArrayList.cpp in Sources */,

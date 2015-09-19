@@ -29,6 +29,7 @@
 #endif
 
 #include "mwframework.h"
+#include "game-ext.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -57,12 +58,12 @@ bool AppDelegate::applicationDidFinishLaunching()
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-        glview = cocos2d::GLViewImpl::create("GameFramework");
+        glview = cocos2d::GLViewImpl::create("Pokemon");
 #else
-        glview = cocos2d::GLViewImpl::createWithRect("GameFramework", Rect(0, 0, 1136, 640));
+        glview = cocos2d::GLViewImpl::createWithRect("Pokemon", Rect(0, 0, 1136, 640));
 #endif
         director->setOpenGLView(glview);
-}
+    }
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
@@ -117,6 +118,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 #if MW_ENABLE_SCRIPT_BINDING
     sc->addRegisterCallback(register_all_mwframework);
     sc->addRegisterCallback(register_all_mwframework_manual);
+    
+    sc->addRegisterCallback(register_all_game_ext);
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

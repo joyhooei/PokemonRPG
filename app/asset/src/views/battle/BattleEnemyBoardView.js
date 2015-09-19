@@ -12,6 +12,8 @@ var BattleEnemyBoardView = cc.Node.extend({
             HP_BAR: "hp_bar",
             ICON_BALL: "icon_ball",
     },
+    HP_CHANGE_SPEED: 0.01,
+    UPDATE_SCHEDULER_KEY: "battle_board_update",
     ctor: function (model) {
         this._super();
 
@@ -27,6 +29,7 @@ var BattleEnemyBoardView = cc.Node.extend({
         this._iconState = boardBg.getChildByName(this.CCS_NAMES.ICON_STATE);
         this._lblLv = boardBg.getChildByName(this.CCS_NAMES.POKEMON_LEVEL);
         this._hpBar = boardBg.getChildByName(this.CCS_NAMES.HP_BAR);
+        this._currentHpState = 3;
 
         this._lblName.setString(this._model.getInfo().getName());
         var maleMap = {
@@ -39,7 +42,8 @@ var BattleEnemyBoardView = cc.Node.extend({
         this._iconGender.setPositionX(this._lblName.getPositionX() + this._lblName.getContentSize().width - 25);
         this.updateState(this._model.getState());
         this.updateLevel(this._model.getLevel());
-
+        this._hpBar.setPercent(this._model.getHpPercent());
+        this._checkHpState();
         if (this._type == 2) {
             this._iconBall = boardBg.getChildByName(this.CCS_NAMES.ICON_BALL);
             // 只有捕获过的精灵才显示这个球 todo
@@ -47,7 +51,18 @@ var BattleEnemyBoardView = cc.Node.extend({
         }
     },
     getHpBarAction: function (dmg) {
-        return new cc.DelayTime(0);
+        var hpBarAction = null;
+        if (dmg >= this._model.getHp()) {
+            hpBarAction = new cc.TargetedAction(this._hpBar, ex.UIProgressTo.create(this._model.getHp() * this.HP_CHANGE_SPEED, 0));
+        } else {
+            hpBarAction = new cc.TargetedAction(this._hpBar, ex.UIProgressBy.create(dmg * this.HP_CHANGE_SPEED, -dmg / this._model.getBasicValues()[0] * 100));
+        }
+        var action = new cc.Sequence(
+            new cc.CallFunc(MakeScriptHandler(this, this._scheduleUpdate)),
+            hpBarAction,
+            new cc.CallFunc(MakeScriptHandler(this, this._unscheduleUpdate))
+        );
+        return action;
     },
     updateState: function (state) {
         if (state == POKEMON_STATES.NORMAL) {
@@ -62,6 +77,32 @@ var BattleEnemyBoardView = cc.Node.extend({
     updateLevel: function (lv) {
         this._lblLv.setString("Lv." + lv.toString());
     },
+    _checkHpState: function () {
+        var percent = this._hpBar.getPercent();
+        var frameSuffix = "hp_green.png";
+        var newHpState = 3;
+        if (percent < 15) {
+            newHpState = 1;
+            frameSuffix = "hp_red.png";
+        } else if (percent < 50) {
+            newHpState = 2;
+            frameSuffix = "hp_yellow.png";
+        }
+        if (this._currentHpState != newHpState) {
+            this._currentHpState = newHpState;
+            this._hpBar.loadTexture(cc.formatStr("common/%s", frameSuffix), ccui.Widget.PLIST_TEXTURE);
+        }
+    },
+    _update: function (dt) {
+        // hp bar color
+        this._checkHpState();
+    },
+    _scheduleUpdate: function () {
+        cc.director.getScheduler().schedule(MakeScriptHandler(this, this._update), this, 0, cc.REPEAT_FOREVER, 0, false, this.UPDATE_SCHEDULER_KEY);
+    },
+    _unscheduleUpdate: function () {
+        cc.director.getScheduler().unschedule(this.UPDATE_SCHEDULER_KEY, this);
+    },
     _type: 2,
     _model: null,
     _ccsNode: null,
@@ -71,4 +112,5 @@ var BattleEnemyBoardView = cc.Node.extend({
     _lblLv: null,
     _hpBar: null,
     _iconBall: null,
+    _currentHpState: null,     // 1. hp 15%以下  2. hp 50%以下  3. hp 100%以下
 });

@@ -21,7 +21,7 @@ var Pokemon = ModelBase.extend({
         this._defineScheme({
             id: [ "number", 0 ],        // id
             hp: [function (val) {
-                return typeof val == "number" && val > 0;
+                return typeof val == "number" && val >= 0;
             }, 0],      // 当前hp
             gender: [function (val) {
                 return (typeof val == "number" && val >= GENDER.MALE && val <= GENDER.FEMALE) || val === null;
@@ -30,7 +30,7 @@ var Pokemon = ModelBase.extend({
                 return typeof val == "number" && val > 0;
             }, 1],     // 等级
             exp: [function (val) {
-                return typeof val == "number" && val > 0;
+                return typeof val == "number" && val >= 0;
             }, 0],     // 经验值
             speciality: [ "number", 1 ],    // 特性
             skills: [function (val) {
@@ -152,6 +152,9 @@ var Pokemon = ModelBase.extend({
     getOwner: function () {
         return this._owner;
     },
+    getHpPercent: function () {
+        return this._hp / this._basicValues[0] * 100;
+    },
     ownBySelf: function () {
         return this._owner == DataCenter.getHero().getId();
     },
@@ -160,6 +163,15 @@ var Pokemon = ModelBase.extend({
     },
     getRestExpToLvUp: function () {
         return this._getExpAtLv(this._level + 1) - this._exp;
+    },
+    hurt: function (dmg) {
+        var newHp = this._hp - dmg;
+        if (newHp < 0) {
+            newHp = 0;
+        }
+        this._setProperties({
+            hp: newHp
+        });
     },
     _getExpAtLv: function (lv) {
         return lv * lv * lv;

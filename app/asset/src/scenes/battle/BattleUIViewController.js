@@ -83,6 +83,7 @@ var BattleUIViewController = mw.ViewController.extend({
         this.view().addChild(this._enemyBoard);
     },
     _onPlaySkill: function (pokemonModel, skillInfo, dmg) {
+        dmg = dmg || 0;
         var particle = new cc.ParticleSystem("particles/particle1.plist");
         particle.setAutoRemoveOnFinish(true);
         var duration = particle.getDuration();
@@ -98,6 +99,9 @@ var BattleUIViewController = mw.ViewController.extend({
     _playSkillEnd: function (pokemonModel, dmg) {
         var targetNode = pokemonModel.ownBySelf() ? this._pokemon2 : this._pokemon1;
         var hpBarAction = pokemonModel.ownBySelf() ? this._enemyBoard.getHpBarAction(dmg) : this._playerBoard.getHpBarAction(dmg);
+        if (dmg > 0) {
+            targetNode.getModel().hurt(dmg);
+        }
         this.view().runAction(new cc.Sequence(
             new cc.TargetedAction(targetNode, new cc.Blink(0.5, 3)),
             hpBarAction,

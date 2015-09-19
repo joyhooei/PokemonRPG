@@ -10,5 +10,6 @@ var App = cc.Class.extend({
         scene.addParameter("pokemon1", "644");
         scene.addParameter("pokemon2", "643");
         cc.director.runScene(scene);
+        cc.ProgressTo.create
     }
 });

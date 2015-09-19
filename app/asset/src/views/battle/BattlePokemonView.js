@@ -11,6 +11,9 @@ var BattlePokemonView = cc.Node.extend({
         this.setScale(2.5);
         this.setAnchorPoint(0.5, 0);
     },
+    getModel: function () {
+        return this._model;
+    },
     setModel: function (model) {
         cc.assert(model instanceof ModelBase, "不合法的model参数");
         if (this._model == model) {

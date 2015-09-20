@@ -53,13 +53,13 @@ var BattleUIViewController = mw.ViewController.extend({
         logBattle("Pokemon1: %d, Pokemon2: %d", pokemon1Id, pokemon2Id);
         var pokemon1Model = new Pokemon({
             id: pokemon1Id,
-            level: Math.ceil(Math.random() * 100),
+            level: 100,
             catcher: DataCenter.getHero().getId(),
             owner: DataCenter.getHero().getId(),
         });
         var pokemon2Model = new Pokemon({
             id: pokemon2Id,
-            level: Math.ceil(Math.random() * 100)
+            level: 100,
         });
 
         // 初始化BattleProcessor
@@ -82,8 +82,7 @@ var BattleUIViewController = mw.ViewController.extend({
         this._enemyBoard.setPosition(cc.director.getWinSize().width * 0.2, cc.director.getWinSize().height * 0.85);
         this.view().addChild(this._enemyBoard);
     },
-    _onPlaySkill: function (pokemonModel, skillInfo, dmg) {
-        dmg = dmg || 0;
+    _onPlaySkill: function (pokemonModel, skillInfo, hurtInfo) {
         var particle = new cc.ParticleSystem("particles/particle1.plist");
         particle.setAutoRemoveOnFinish(true);
         var duration = particle.getDuration();
@@ -94,22 +93,57 @@ var BattleUIViewController = mw.ViewController.extend({
             particle.setPosition(this._pokemon1.getContentSize().width * 0.5, this._pokemon1.getContentSize().height * 0.5);
             this._pokemon1.addChild(particle);
         }
-        CallFunctionAsync(this, this._playSkillEnd, duration + 0.1, pokemonModel, dmg);
+        CallFunctionAsync(this, this._playSkillEnd, duration + 0.1, pokemonModel, hurtInfo);
     },
-    _playSkillEnd: function (pokemonModel, dmg) {
+    _playSkillEnd: function (pokemonModel, hurtInfo) {
+        var dmg = hurtInfo ? hurtInfo["hurt"] : 0;
         var targetNode = pokemonModel.ownBySelf() ? this._pokemon2 : this._pokemon1;
-        var hpBarAction = pokemonModel.ownBySelf() ? this._enemyBoard.getHpBarAction(dmg) : this._playerBoard.getHpBarAction(dmg);
+        var sequenceAry = [ new cc.TargetedAction(targetNode, new cc.Blink(0.5, 3)) ];
         if (dmg > 0) {
+            var hpBarAction = pokemonModel.ownBySelf() ? this._enemyBoard.getHpBarAction(dmg) : this._playerBoard.getHpBarAction(dmg);
+            sequenceAry.push(hpBarAction);
             targetNode.getModel().hurt(dmg);
         }
-        this.view().runAction(new cc.Sequence(
-            new cc.TargetedAction(targetNode, new cc.Blink(0.5, 3)),
-            hpBarAction,
-            new cc.CallFunc(MakeScriptHandler(this, this._processNextBehavior))
-        ));
+        if (hurtInfo) {
+            if (hurtInfo["criticalCorrection"] > 1.0) {
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(new cc.CallFunc(function () {
+                    Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE,
+                        "命中要害", MakeScriptHandler(this, this._propertyCorrectionCallback, null, hurtInfo));
+                }.bind(this)))
+            } else {
+                sequenceAry.push(new cc.CallFunc(MakeScriptHandler(this, this._propertyCorrectionCallback, hurtInfo)))
+            }
+            this.view().runAction(new cc.Sequence(sequenceAry));
+        } else {
+            sequenceAry.push(new cc.CallFunc(MakeScriptHandler(this, this._processNextBehavior)));
+            this.view().runAction(new cc.Sequence(sequenceAry));
+        }
+    },
+    _propertyCorrectionCallback: function (sender, hurtInfo) {
+        if (hurtInfo["propertyCorrection"] != 1.0) {
+            var action = new cc.Sequence(
+                new cc.DelayTime(1),
+                new cc.CallFunc(function () {
+                    Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE,
+                        (hurtInfo["propertyCorrection"] > 1.0 ? "效果拔群" : "效果很小"),
+                        MakeScriptHandler(this, this._processNextBehavior));
+                }.bind(this))
+            );
+            this.view().runAction(action);
+        } else {
+            this.view().runAction(
+                new cc.CallFunc(MakeScriptHandler(this, this._processNextBehavior))
+            );
+        }
     },
     _processNextBehavior: function () {
-        this.scene().getBattleProcessor().process();
+        this.view().runAction(new cc.Sequence(
+            new cc.DelayTime(1),
+            new cc.CallFunc(function () {
+                this.scene().getBattleProcessor().process();
+            }.bind(this))
+        ));
     },
     _pokemon1: null,
     _pokemon2: null,

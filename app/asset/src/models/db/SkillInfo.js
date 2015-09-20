@@ -15,10 +15,10 @@ var SkillInfo = ModelBase.extend({
                 return typeof val == "number" && val >= SKILL_TYPES.PHYSICAL && val <= SKILL_TYPES.VARIATION;
             }, SKILL_TYPES.VARIATION],  // 技能类型
             attack: [function (val) {
-                return typeof val == "number" && val >= 0;
+                return (typeof val == "number" && val >= 0) || val == null;
             }, 0],  // 技能攻击力
             hitRate: [function (val) {
-                return typeof val == "number" && val >= 0;
+                return (typeof val == "number" && val >= 0) || val == null;
             }, 0],  // 技能命中率
             pp: [ "number", 0 ],    // 默认pp
             target: [function (val) {

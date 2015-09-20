@@ -35,8 +35,8 @@ var SkillBehavior = BattleBehavior.extend({
     getPriority: function () {
         return 0 * 1000 + this._owner.getBasicValues()[5];
     },
-    process: function (dmg) {
-        Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITH_BATTLE_ANIMATION, this._owner, this._skill, dmg);
+    process: function (hurtInfo) {
+        Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITH_BATTLE_ANIMATION, this._owner, this._skill, hurtInfo);
     },
     _skill: null,
 });
@@ -46,6 +46,9 @@ var ChangePokemonBehavior = BattleBehavior.extend({
         this._super(BATTLE_BEHAVIORS.CHANGE_POKEMON, pokemon);
 
         this._newPokemon = newPokemon;
+    },
+    getNewPokemon: function () {
+        return this._newPokemon;
     },
     getPriority: function () {
         return 10000;
@@ -58,6 +61,9 @@ var UseItemBehavior = BattleBehavior.extend({
         this._super(BATTLE_BEHAVIORS.USE_ITEM, pokemon);
 
         this._item = item;
+    },
+    getItem: function () {
+        return this._item;
     },
     getPriority: function () {
         return 10000;

@@ -11,7 +11,7 @@ var DialogBaseViewController = mw.ViewController.extend({
             MESSAGE: "message",
             INDICE: "indice",
     },
-    DIALOG_SPEED: 0.125,
+    DIALOG_SPEED: 0.1,
     DIALOG_SCHEDULE_KEY: "DIALOG_TICK",
     ctor: function (segue) {
         this._super(segue);
@@ -52,10 +52,12 @@ var DialogBaseViewController = mw.ViewController.extend({
         }
     },
     _addObservers: function () {
-        Notifier.addObserver(DIALOG_EVENTS.SHOW_DIALOG, this, this._onShowDialog);
+        Notifier.addObserver(DIALOG_EVENTS.SHOW_DIALOG_WITH_INDICE, this, this._onShowDialogWithIndice);
+        Notifier.addObserver(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE, this, this._onShowDialogWithoutIndice);
     },
     _removeObservers: function () {
-        Notifier.removeObserver(DIALOG_EVENTS.SHOW_DIALOG, this);
+        Notifier.removeObserver(DIALOG_EVENTS.SHOW_DIALOG_WITH_INDICE, this);
+        Notifier.removeObserver(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE, this);
     },
     _renderView: function () {
         this._ccsNode = ccs.load("json/dialog_board.json").node;
@@ -100,15 +102,15 @@ var DialogBaseViewController = mw.ViewController.extend({
             this._lblMsg.setString(text);
             if (index == generatedDialogs.length - 1) {
                 this._showingDialog = null;     // 置空
-                callback();
-                //this._indice.setVisible(true);
                 // 关闭计时器
                 cc.director.getScheduler().unschedule(this.DIALOG_SCHEDULE_KEY, this.view());
+                if (callback instanceof Function) {
+                    callback();
+                }
                 return;
             }
             ++index;
         }.bind(this);
-        // 开始积累游戏时间
         cc.director.getScheduler().schedule(onDialogTick, this.view(), this.DIALOG_SPEED, cc.REPEAT_FOREVER, 0, false, this.DIALOG_SCHEDULE_KEY);
     },
     // segue delegate
@@ -127,11 +129,15 @@ var DialogBaseViewController = mw.ViewController.extend({
         }
     },
     // event handlers
-    _onShowDialog: function (dialog) {
+    _onShowDialogWithIndice: function (dialog) {
         this._canSkip = true;
         this._showDialogWithCallback(dialog, function () {
             this._indice.setVisible(true);
         }.bind(this));
+    },
+    _onShowDialogWithoutIndice: function (dialog, callback) {
+        this._canSkip = false;
+        this._showDialogWithCallback(dialog, callback);
     },
     _ccsNode: null,
     _lblMsg: null,

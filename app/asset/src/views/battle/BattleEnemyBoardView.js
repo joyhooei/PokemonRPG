@@ -102,6 +102,8 @@ var BattleEnemyBoardView = cc.Node.extend({
     },
     _unscheduleUpdate: function () {
         cc.director.getScheduler().unschedule(this.UPDATE_SCHEDULER_KEY, this);
+        // 防止掉帧发生意外
+        this._checkHpState();
     },
     _type: 2,
     _model: null,

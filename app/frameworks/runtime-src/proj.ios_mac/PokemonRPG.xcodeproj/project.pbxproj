@@ -141,7 +141,6 @@
 		F58A04CE1B864D2700BB5229 /* MWCrypto-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C91B864D2700BB5229 /* MWCrypto-ios.mm */; };
 		F58A04CF1B864D2700BB5229 /* MWCrypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A04CA1B864D2700BB5229 /* MWCrypto.cpp */; };
 		F5A6D6C21BAE6A8B00F4FE1D /* UIProgressActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A6D6B81BAE6A8B00F4FE1D /* UIProgressActions.cpp */; settings = {ASSET_TAGS = (); }; };
-		F5A6D6C31BAE6A8B00F4FE1D /* js_game_ext_auto_api.js in Resources */ = {isa = PBXBuildFile; fileRef = F5A6D6BD1BAE6A8B00F4FE1D /* js_game_ext_auto_api.js */; settings = {ASSET_TAGS = (); }; };
 		F5A6D6C41BAE6A8B00F4FE1D /* js_game_ext_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A6D6BE1BAE6A8B00F4FE1D /* js_game_ext_auto.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -435,7 +434,6 @@
 		F58A04CB1B864D2700BB5229 /* MWCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCrypto.h; sourceTree = "<group>"; };
 		F5A6D6B81BAE6A8B00F4FE1D /* UIProgressActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIProgressActions.cpp; sourceTree = "<group>"; };
 		F5A6D6B91BAE6A8B00F4FE1D /* UIProgressActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIProgressActions.h; sourceTree = "<group>"; };
-		F5A6D6BD1BAE6A8B00F4FE1D /* js_game_ext_auto_api.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = js_game_ext_auto_api.js; sourceTree = "<group>"; };
 		F5A6D6BE1BAE6A8B00F4FE1D /* js_game_ext_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_game_ext_auto.cpp; sourceTree = "<group>"; };
 		F5A6D6BF1BAE6A8B00F4FE1D /* js_game_ext_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = js_game_ext_auto.hpp; sourceTree = "<group>"; };
 		F5A6D6C01BAE6A8B00F4FE1D /* game-ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "game-ext.h"; sourceTree = "<group>"; };
@@ -1113,19 +1111,10 @@
 		F5A6D6BB1BAE6A8B00F4FE1D /* auto */ = {
 			isa = PBXGroup;
 			children = (
-				F5A6D6BC1BAE6A8B00F4FE1D /* api */,
 				F5A6D6BE1BAE6A8B00F4FE1D /* js_game_ext_auto.cpp */,
 				F5A6D6BF1BAE6A8B00F4FE1D /* js_game_ext_auto.hpp */,
 			);
 			path = auto;
-			sourceTree = "<group>";
-		};
-		F5A6D6BC1BAE6A8B00F4FE1D /* api */ = {
-			isa = PBXGroup;
-			children = (
-				F5A6D6BD1BAE6A8B00F4FE1D /* js_game_ext_auto_api.js */,
-			);
-			path = api;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1269,7 +1258,6 @@
 				509D4AC317EBB2AB00697056 /* Icon-114.png in Resources */,
 				509D4ABD17EBB2AB00697056 /* Default-568h@2x.png in Resources */,
 				509D4ABF17EBB2AB00697056 /* Default@2x.png in Resources */,
-				F5A6D6C31BAE6A8B00F4FE1D /* js_game_ext_auto_api.js in Resources */,
 				509D4AC217EBB2AB00697056 /* Icon-76.png in Resources */,
 				5091731B17ECDF7A00D62437 /* Icon-40.png in Resources */,
 				5091731C17ECDF7A00D62437 /* Icon-50.png in Resources */,

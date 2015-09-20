@@ -35,7 +35,7 @@ var BattleDialogViewController = DialogBaseViewController.extend({
     },
     // event handlers
     _onShowDialogWithBattleAnimation: function (pokemonModel, skillInfo, dmg) {
-        var text = cc.formatStr("%s使用了技能%s", pokemonModel.getInfo().getName(), skillInfo.getName());
+        var text = cc.formatStr("%s%s使用了技能%s", (pokemonModel.ownBySelf() ? "我方" : "敌方"), pokemonModel.getInfo().getName(), skillInfo.getName());
         this._canSkip = false;
         this._showDialogWithCallback(text, function () {
             Notifier.notify(BATTLE_UI_EVENTS.PLAY_SKILL, pokemonModel, skillInfo, dmg);

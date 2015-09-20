@@ -4,8 +4,9 @@
 
 var DIALOG_EVENTS = {
     // common
-    SHOW_DIALOG: "Dialog.ShowDialog",
+    SHOW_DIALOG_WITH_INDICE: "Dialog.ShowDialogWithIndice",
     SHOW_NEXT_DIALOG: "Dialog.ShowNextDialog",
+    SHOW_DIALOG_WITHOUT_INDICE: "Dialog.ShowDialogWithoutIndice",
 
     // battle
     SHOW_DIALOG_WITH_BATTLE_ANIMATION: "Dialog.ShowDialogWithBattleAnimation",

@@ -132,7 +132,7 @@ def main():
     try:
 
         tojs_root = '%s/tools/tojs' % project_root
-        output_dir = '%s/../runtime-src/Classes/bindings/auto' % project_root
+        output_dir = '%s/../runtime-src/Classes/extensions/bindings/auto' % project_root
 
         cmd_args = {'game_ext.ini' : ('game_ext', 'js_game_ext_auto')
                     }

@@ -29,7 +29,7 @@
 #endif
 
 #include "mwframework.h"
-#include "game-ext.h"
+#include "extensions/game-ext.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;

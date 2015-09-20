@@ -22,9 +22,7 @@ public:
     //
     // Overrides
     //
-    virtual UIProgressBy *clone() const override;
-    virtual UIProgressBy *reverse(void) const  override;
-    virtual void startWithTarget(cocos2d::Node *target) override;
+    ACTION_INTERVAL_OVERRIDES(UIProgressBy);
     /**
      * @param time in seconds
      */
@@ -46,9 +44,7 @@ public:
     //
     // Overrides
     //
-    virtual UIProgressTo *clone() const override;
-    virtual UIProgressTo *reverse(void) const  override;
-    virtual void startWithTarget(cocos2d::Node *target) override;
+    ACTION_INTERVAL_OVERRIDES(UIProgressTo);
     
 protected:
     bool init(float duration, float to);

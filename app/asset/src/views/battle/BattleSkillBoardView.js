@@ -55,6 +55,9 @@ var BattleSkillBoardView = cc.Node.extend({
         this._model = model;
         this._update();
     },
+    refresh: function () {
+        this._update();
+    },
     _update: function () {
         var skills = this._model.getSkills();
         for (var i = 0; i < 4; ++i) {

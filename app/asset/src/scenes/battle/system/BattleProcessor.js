@@ -54,8 +54,15 @@ var BattleProcessor = cc.Class.extend({
                 behavior.process();
             }
         } else {
-            this.endTurn();
+            if (this._pokemon1.isDead() || this._pokemon2.isDead()) {
+                Notifier.notify(BATTLE_EVENTS.ALL_ENDED);
+            } else {
+                this.endTurn();
+            }
         }
+    },
+    clear: function () {
+        this._behaviorQueue = [];
     },
     _calculateHurt: function (pokemon, skillInfo) {
         var skillAtk = skillInfo.getAttack();

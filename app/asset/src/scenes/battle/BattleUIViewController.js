@@ -38,9 +38,11 @@ var BattleUIViewController = mw.ViewController.extend({
     },
     _addObservers: function () {
         Notifier.addObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this, this._onPlaySkill);
+        Notifier.addObserver(BATTLE_EVENTS.ALL_ENDED, this, this._onAllEnded);
     },
     _removeObservers: function () {
         Notifier.removeObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this);
+        Notifier.removeObserver(BATTLE_EVENTS.ALL_ENDED, this);
     },
     _renderView: function () {
         var bg = new cc.Sprite("#battle/battle_bg.png");
@@ -82,6 +84,9 @@ var BattleUIViewController = mw.ViewController.extend({
         this._enemyBoard.setPosition(cc.director.getWinSize().width * 0.2, cc.director.getWinSize().height * 0.85);
         this.view().addChild(this._enemyBoard);
     },
+    _onAllEnded: function () {
+        cc.director.runScene(new cc.TransitionFade(0.5, new PlayScene()));
+    },
     _onPlaySkill: function (pokemonModel, skillInfo, hurtInfo) {
         var particle = new cc.ParticleSystem("particles/particle1.plist");
         particle.setAutoRemoveOnFinish(true);
@@ -97,19 +102,27 @@ var BattleUIViewController = mw.ViewController.extend({
     },
     _playSkillEnd: function (pokemonModel, hurtInfo) {
         var dmg = hurtInfo ? hurtInfo["hurt"] : 0;
-        var targetNode = pokemonModel.ownBySelf() ? this._pokemon2 : this._pokemon1;
-        var sequenceAry = [ new cc.TargetedAction(targetNode, new cc.Blink(0.5, 3)) ];
+        var attackerNode = pokemonModel.ownBySelf() ? this._pokemon1 : this._pokemon2;
+        var defenderNode = pokemonModel.ownBySelf() ? this._pokemon2 : this._pokemon1;
+        var attacker = attackerNode.getModel();
+        var defender = defenderNode.getModel();
+        this._currentAttacker = attacker;
+        this._currentDefender = defender;
+        var sequenceAry = [ new cc.TargetedAction(defenderNode, new cc.Blink(0.5, 3)) ];
         if (dmg > 0) {
             var hpBarAction = pokemonModel.ownBySelf() ? this._enemyBoard.getHpBarAction(dmg) : this._playerBoard.getHpBarAction(dmg);
             sequenceAry.push(hpBarAction);
-            targetNode.getModel().hurt(dmg);
+            defender.hurt(dmg);
+            if (defender.isDead()) {
+                this._shouldInterupt = true;
+            }
         }
         if (hurtInfo) {
             if (hurtInfo["criticalCorrection"] > 1.0) {
                 sequenceAry.push(new cc.DelayTime(0.5));
                 sequenceAry.push(new cc.CallFunc(function () {
                     Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE,
-                        "命中要害", MakeScriptHandler(this, this._propertyCorrectionCallback, null, hurtInfo));
+                        "命中要害", MakeScriptHandler(this, this._propertyCorrectionCallback, null, hurtInfo)); // 这里的null是因为cc.CallFunc传递的sender参数
                 }.bind(this)))
             } else {
                 sequenceAry.push(new cc.CallFunc(MakeScriptHandler(this, this._propertyCorrectionCallback, hurtInfo)))
@@ -121,25 +134,43 @@ var BattleUIViewController = mw.ViewController.extend({
         }
     },
     _propertyCorrectionCallback: function (sender, hurtInfo) {
+        var endHandler = MakeScriptHandler(this, (this._shouldInterupt ? this._targetDeadCallback : this._processNextBehavior));
         if (hurtInfo["propertyCorrection"] != 1.0) {
             var action = new cc.Sequence(
-                new cc.DelayTime(1),
+                new cc.DelayTime(0.5),
                 new cc.CallFunc(function () {
                     Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE,
                         (hurtInfo["propertyCorrection"] > 1.0 ? "效果拔群" : "效果很小"),
-                        MakeScriptHandler(this, this._processNextBehavior));
-                }.bind(this))
+                        endHandler);
+                })
             );
             this.view().runAction(action);
         } else {
             this.view().runAction(
-                new cc.CallFunc(MakeScriptHandler(this, this._processNextBehavior))
+                new cc.CallFunc(endHandler)
             );
         }
     },
+    _targetDeadCallback: function () {
+        var ownByPlayer = this._currentDefender.ownBySelf();
+        var action = new cc.Sequence(
+            new cc.DelayTime(0.5),
+            new cc.CallFunc(function () {
+                Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE,
+                    cc.formatStr("%s%s倒下了", (ownByPlayer ? "我方" : "敌方"), this._currentDefender.getInfo().getName()),
+                    MakeScriptHandler(this, this._processNextBehavior));
+            }.bind(this))
+        );
+        this.view().runAction(action);
+    },
     _processNextBehavior: function () {
+        if (this._shouldInterupt) {
+            this.scene().getBattleProcessor().clear();
+            this._shouldInterupt = false;
+        }
+        this._currentAttacker = this._currentDefender = null;
         this.view().runAction(new cc.Sequence(
-            new cc.DelayTime(1),
+            new cc.DelayTime(0.5),
             new cc.CallFunc(function () {
                 this.scene().getBattleProcessor().process();
             }.bind(this))
@@ -149,4 +180,7 @@ var BattleUIViewController = mw.ViewController.extend({
     _pokemon2: null,
     _playerBoard: null,
     _enemyBoard: null,
+    _shouldInterupt: false,
+    _currentAttacker: null,
+    _currentDefender: null,
 });

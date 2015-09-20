@@ -75,5 +75,5 @@ var SkillInfo = ModelBase.extend({
     },
     getParams: function () {
         return this._params;
-    }
+    },
 });

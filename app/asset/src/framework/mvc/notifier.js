@@ -46,7 +46,7 @@ var Notifier =  {
         var callback = Array.prototype.shift.apply(arguments);
         cc.assert(typeof event == "string", "event必须是一个字符串");
         cc.assert(sender instanceof Object, "sender必须是一个对象");
-        cc.assert(callback instanceof Function, "callback必须是一个函数");
+        cc.assert(callback instanceof Function || callback === undefined, "callback必须为undefined/function");
 
         if (this._observerMap[event] == undefined || this._observerMap[event].length <= 0) {
             return;
@@ -54,7 +54,7 @@ var Notifier =  {
         var i = 0;
         while (true) {
             var ob = this._observerMap[event][i];
-            if (ob._sender == sender && (ob._callback == callback || callback == undefined)) {
+            if (ob._sender == sender && (ob._callback == callback || callback === undefined)) {
                 this._observerMap[event].splice(i, 1);
                 --i;
             }

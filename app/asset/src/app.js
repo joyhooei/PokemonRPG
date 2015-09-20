@@ -9,6 +9,6 @@ var App = cc.Class.extend({
         var scene = new BattleScene();
         scene.addParameter("pokemon1", "644");
         scene.addParameter("pokemon2", "643");
-        cc.director.runScene(scene);
+        cc.director.runScene(new cc.TransitionFade(0.5, scene));
     }
 });

@@ -36,6 +36,8 @@ var SkillBehavior = BattleBehavior.extend({
         return 0 * 1000 + this._owner.getBasicValues()[5];
     },
     process: function (hurtInfo) {
+        // 减去pp 压迫特性-2 todo
+        this._owner.reducePP(this._skill.getId());
         Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITH_BATTLE_ANIMATION, this._owner, this._skill, hurtInfo);
     },
     _skill: null,

@@ -152,8 +152,22 @@ var Pokemon = ModelBase.extend({
     getOwner: function () {
         return this._owner;
     },
+    // model行为
     getHpPercent: function () {
         return this._hp / this._basicValues[0] * 100;
+    },
+    isDead: function () {
+        return this._state == POKEMON_STATES.DEAD;
+    },
+    reducePP: function (skillId, count) {
+        count = count || 1;
+        for (var i in this._skills) {
+            var skillData = this._skills[i];
+            if (skillData[0] == skillId) {
+                skillData[1]--;
+                break;
+            }
+        }
     },
     ownBySelf: function () {
         return this._owner == DataCenter.getHero().getId();
@@ -169,8 +183,10 @@ var Pokemon = ModelBase.extend({
         if (newHp < 0) {
             newHp = 0;
         }
+        var state = newHp == 0 ? POKEMON_STATES.DEAD : this._state;
         this._setProperties({
-            hp: newHp
+            hp: newHp,
+            state: state,
         });
     },
     _getExpAtLv: function (lv) {

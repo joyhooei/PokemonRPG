@@ -21,7 +21,7 @@ var BattleOperationViewController = mw.ViewController.extend({
         SKILL_MENU: 2,
         PENDING: 10,
     },
-    ACTION_INTERVAL: 0.5,
+    ACTION_INTERVAL: 0.25,
     ctor: function (segue) {
         this._super(segue);
     },
@@ -116,6 +116,8 @@ var BattleOperationViewController = mw.ViewController.extend({
         this._battleBoard.runAction(action);
     },
     _showSkillBoard: function () {
+        // 刷新
+        this._skillBoard.refresh();
         this._state = this.STATES.PENDING;
         this._skillBoard.runAction(new cc.Sequence(
             new cc.Spawn(

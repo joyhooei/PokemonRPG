@@ -19,4 +19,5 @@ var BATTLE_UI_EVENTS = {
 var BATTLE_EVENTS = {
     TURN_BEGAN: "Battle.TurnBegan",
     TURN_ENDED: "Battle.TurnEnded",
+    ALL_ENDED: "Battle.BattleEnded",
 };

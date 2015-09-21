@@ -20,7 +20,7 @@ var Registry = {
     },
     newObject: function (name) {
         if (this._classes[name] === undefined) {
-            cc.log("注册表中不存在该key");
+            cc.log("注册表中不存在该key: %s", name);
             return;
         }
         var obj = new this._classes[name]();

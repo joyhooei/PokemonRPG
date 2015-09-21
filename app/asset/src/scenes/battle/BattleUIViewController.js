@@ -16,9 +16,11 @@ var BattleUIViewController = mw.ViewController.extend({
     viewDidLoad: function () {
         this._loadTextures();
         this._addObservers();
+        this._musicId = ex.GameAudioEngine.getInstance().play2d("music/battle/giratina.mp3", true);
         this._renderView();
     },
     viewDidUnload: function () {
+        ex.GameAudioEngine.getInstance().stop(this._musicId);
         this._removeObservers();
         this._unloadTextures();
     },
@@ -115,6 +117,9 @@ var BattleUIViewController = mw.ViewController.extend({
             defender.hurt(dmg);
             if (defender.isDead()) {
                 this._shouldInterupt = true;
+                sequenceAry.push(new cc.CallFunc(function () {
+                    defenderNode.stop();
+                }));
             }
         }
         if (hurtInfo) {
@@ -152,9 +157,21 @@ var BattleUIViewController = mw.ViewController.extend({
         }
     },
     _targetDeadCallback: function () {
-        var ownByPlayer = this._currentDefender.ownBySelf();
         var action = new cc.Sequence(
             new cc.DelayTime(0.5),
+            new cc.CallFunc(function () {
+                var audioId = ex.GameAudioEngine.getInstance().play2d(cc.formatStr("sounds/cries/%s.wav", this._currentDefender.getFormatedId()));
+                ex.GameAudioEngine.getInstance().setFinishCallback(audioId, function (id, name) {
+                    ex.GameAudioEngine.getInstance().uncache(audioId);
+                    this._targetDeadCallback2();
+                }.bind(this));
+            }.bind(this))
+        );
+        this.view().runAction(action);
+    },
+    _targetDeadCallback2: function () {
+        var ownByPlayer = this._currentDefender.ownBySelf();
+        var action = new cc.Sequence(
             new cc.CallFunc(function () {
                 Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE,
                     cc.formatStr("%s%s倒下了", (ownByPlayer ? "我方" : "敌方"), this._currentDefender.getInfo().getName()),
@@ -168,7 +185,7 @@ var BattleUIViewController = mw.ViewController.extend({
             this.scene().getBattleProcessor().clear();
             this._shouldInterupt = false;
         }
-        this._currentAttacker = this._currentDefender = null;
+        this._currentAttacker = this._currentDefender = this._currentDefenderSprite = null;
         this.view().runAction(new cc.Sequence(
             new cc.DelayTime(0.5),
             new cc.CallFunc(function () {
@@ -183,4 +200,5 @@ var BattleUIViewController = mw.ViewController.extend({
     _shouldInterupt: false,
     _currentAttacker: null,
     _currentDefender: null,
+    _musicId: -1,
 });

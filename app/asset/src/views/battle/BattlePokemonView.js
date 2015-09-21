@@ -22,6 +22,9 @@ var BattlePokemonView = cc.Node.extend({
         this._model = model;
         this._update();
     },
+    stop: function () {
+        this._gif.stop();
+    },
     _update: function () {
         var suffix = "";
         if (this._isFriend) {
@@ -45,7 +48,7 @@ var BattlePokemonView = cc.Node.extend({
         this._gif.setSpeedRatio(1.5);
         this.addChild(this._gif);
 
-        this.setContentSize(this._gif.getContentSize().width, this._gif.getContentSize().height);
+        this.setContentSize(this._gif.getBoundingBox().width, this._gif.getBoundingBox().height);
     },
     _model: null,
     _gif: null,

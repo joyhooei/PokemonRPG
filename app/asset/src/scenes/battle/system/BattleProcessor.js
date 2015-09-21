@@ -103,12 +103,22 @@ var BattleProcessor = cc.Class.extend({
             var prop = defenderProps[index];
             propertyCorrection *= PROPERTY_MULTIPLIER[skillProp][prop];
         }
+        // 本系属性修正
+        var pokemonPropCorrection = 1;
+        var attackerProps = attacker.getInfo().getProperties();
+        for (var i in attackerProps) {
+            if (attackerProps[i] === skillProp) {
+                pokemonPropCorrection = 1.2;
+                break;
+            }
+        }
         // 烧伤修正 todo
         // 实际伤害修正 todo
-        basicHurt = Math.floor(basicHurt * randomCorrection * criticalCorrection * propertyCorrection);
+        basicHurt = Math.floor(basicHurt * randomCorrection * criticalCorrection * propertyCorrection * pokemonPropCorrection);
 
         logBattle("会心一击修正: " + criticalCorrection.toString());
         logBattle("属性修正: " + propertyCorrection.toString());
+        logBattle("本系属性修正: " + pokemonPropCorrection.toString());
         logBattle("伤害: %d", basicHurt);
         var hurtInfo = {
             hurt: basicHurt,

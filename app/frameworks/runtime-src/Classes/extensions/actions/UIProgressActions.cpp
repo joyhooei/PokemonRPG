@@ -109,6 +109,7 @@ UIProgressTo *UIProgressTo::clone() const
 UIProgressTo *UIProgressTo::reverse() const
 {
     CCASSERT(false, "UIProgressTo doesn't support reverse.");
+    return nullptr;
 }
 
 void UIProgressTo::startWithTarget(cocos2d::Node *target)

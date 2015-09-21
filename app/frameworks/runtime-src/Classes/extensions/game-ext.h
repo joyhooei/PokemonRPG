@@ -11,6 +11,8 @@
 
 #include "actions/UIProgressActions.h"
 
+#include "audio/GameAudioEngine.h"
+
 #if MW_ENABLE_SCRIPT_BINDING
 #include "bindings/auto/js_game_ext_auto.hpp"
 #endif

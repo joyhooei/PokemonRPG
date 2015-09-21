@@ -136,6 +136,7 @@
 		F559B8751B6CBC9C00C90AC9 /* MWUUIDGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B8001B6CBC9C00C90AC9 /* MWUUIDGenerator.cpp */; };
 		F559B87A1B6CBE8700C90AC9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F559B8791B6CBE8700C90AC9 /* SystemConfiguration.framework */; };
 		F559B88C1B6CF3E700C90AC9 /* js_mwframework_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F559B88A1B6CF3E700C90AC9 /* js_mwframework_manual.cpp */; };
+		F562ADED1BB05C1E00478BD4 /* GameAudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F562ADEB1BB05C1E00478BD4 /* GameAudioEngine.cpp */; settings = {ASSET_TAGS = (); }; };
 		F58A04CC1B864D2700BB5229 /* libbase64.c in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C41B864D2700BB5229 /* libbase64.c */; };
 		F58A04CD1B864D2700BB5229 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C71B864D2700BB5229 /* md5.cpp */; };
 		F58A04CE1B864D2700BB5229 /* MWCrypto-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C91B864D2700BB5229 /* MWCrypto-ios.mm */; };
@@ -425,6 +426,8 @@
 		F559B87B1B6CBE9800C90AC9 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../Framework/net/http/curl/prebuilt/ios/libcurl.a; sourceTree = "<group>"; };
 		F559B88A1B6CF3E700C90AC9 /* js_mwframework_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_mwframework_manual.cpp; sourceTree = "<group>"; };
 		F559B88B1B6CF3E700C90AC9 /* js_mwframework_manual.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = js_mwframework_manual.hpp; sourceTree = "<group>"; };
+		F562ADEB1BB05C1E00478BD4 /* GameAudioEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameAudioEngine.cpp; sourceTree = "<group>"; };
+		F562ADEC1BB05C1E00478BD4 /* GameAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameAudioEngine.h; sourceTree = "<group>"; };
 		F58A04C41B864D2700BB5229 /* libbase64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = libbase64.c; sourceTree = "<group>"; };
 		F58A04C51B864D2700BB5229 /* libbase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libbase64.h; sourceTree = "<group>"; };
 		F58A04C71B864D2700BB5229 /* md5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = md5.cpp; sourceTree = "<group>"; };
@@ -1050,6 +1053,15 @@
 			path = manual;
 			sourceTree = "<group>";
 		};
+		F562ADEA1BB05C0E00478BD4 /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				F562ADEB1BB05C1E00478BD4 /* GameAudioEngine.cpp */,
+				F562ADEC1BB05C1E00478BD4 /* GameAudioEngine.h */,
+			);
+			path = audio;
+			sourceTree = "<group>";
+		};
 		F58A04C21B864D2700BB5229 /* encryption */ = {
 			isa = PBXGroup;
 			children = (
@@ -1084,6 +1096,7 @@
 			isa = PBXGroup;
 			children = (
 				F5A6D6B71BAE6A8B00F4FE1D /* actions */,
+				F562ADEA1BB05C0E00478BD4 /* audio */,
 				F5A6D6BA1BAE6A8B00F4FE1D /* bindings */,
 				F5A6D6C01BAE6A8B00F4FE1D /* game-ext.h */,
 				F5A6D6C11BAE6A8B00F4FE1D /* GameMacros.h */,
@@ -1325,6 +1338,7 @@
 				F559B81F1B6CBC9C00C90AC9 /* JSONStream.cpp in Sources */,
 				F559B80C1B6CBC9C00C90AC9 /* unzip.c in Sources */,
 				F559B8241B6CBC9C00C90AC9 /* MWJsonElement.cpp in Sources */,
+				F562ADED1BB05C1E00478BD4 /* GameAudioEngine.cpp in Sources */,
 				F559B8201B6CBC9C00C90AC9 /* JSONValidator.cpp in Sources */,
 				F559B8221B6CBC9C00C90AC9 /* JSONWriter.cpp in Sources */,
 				F58A04CE1B864D2700BB5229 /* MWCrypto-ios.mm in Sources */,

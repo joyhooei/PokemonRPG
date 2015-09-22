@@ -87,4 +87,22 @@ public class AndroidUtils {
             e.printStackTrace();
         }
         return null;
+    }
+	
+	private static SecretKeySpec getKey(String password) throws UnsupportedEncodingException {
+	    
+	    // You can change it to 128 if you wish
+	    int keyLength = 256;
+	    byte[] keyBytes = new byte[keyLength / 8];
+	    // explicitly fill with zeros
+	    Arrays.fill(keyBytes, (byte) 0x0);
+	    
+	    // if password is shorter then key length, it will be zero-padded
+	    // to key length
+	    byte[] passwordBytes = password.getBytes("UTF-8");
+	    int length = passwordBytes.length < keyBytes.length ? passwordBytes.length : keyBytes.length;
+	    System.arraycopy(passwordBytes, 0, keyBytes, 0, length);
+	    SecretKeySpec key = new SecretKeySpec(keyBytes, "AES");
+	    return key;
+	}
 }

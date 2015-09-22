@@ -10,7 +10,10 @@
 #include <vector>
 #include <fstream>
 
+#include "cocos2d.h"
+
 using namespace std;
+using namespace cocos2d;
 
 MW_FRAMEWORK_BEGIN
 

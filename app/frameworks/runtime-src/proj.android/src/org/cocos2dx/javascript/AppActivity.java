@@ -29,6 +29,9 @@ package org.cocos2dx.javascript;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
+import android.app.Activity;
+import android.os.Bundle;
+
 public class AppActivity extends Cocos2dxActivity {
 	public static Activity getInstance() {
 		return _instance;

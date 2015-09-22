@@ -6,19 +6,19 @@
     ],
     "copy_resources": [
         {
-            "from": "../../../src",
+            "from": "../../../asset/src",
             "to": "src"
         },
         {
-            "from": "../../../res",
+            "from": "../../../asset/res",
             "to": "res"
         },
         {
-            "from": "../../../main.js",
+            "from": "../../../asset/main.js",
             "to": ""
         },
         {
-            "from": "../../../project.json",
+            "from": "../../../asset/project.json",
             "to": ""
         },
         {

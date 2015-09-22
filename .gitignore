@@ -1,3 +1,4 @@
+# common
 *~
 Debug.win32
 Release.win32
@@ -7,9 +8,10 @@ runtime
 *.sdf
 *.suo
 *.opensdf
-Pokemon.v11.suo
 ~*
-save.data
+.metadata/
+
+# xcode
 .DS_Store
 *.mode1
 *.mode1v3
@@ -23,9 +25,22 @@ xcuserdata/
 xcuserdatad/
 *.xcclassmodel/
 DerivedData/
+
+#eclipse
+.settings/
+bin/
+gen/
+obj/
+simulator/
+local.properties
+libs/
+assets/
+
 # webstorm
 .idea/
+
 # ccs
 *.udf
+
 # special
 app/ccs/publish/

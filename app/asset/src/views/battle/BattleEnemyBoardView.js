@@ -50,13 +50,8 @@ var BattleEnemyBoardView = cc.Node.extend({
             this._iconBall.setVisible(true);
         }
     },
-    getHpBarAction: function (dmg) {
-        var hpBarAction = null;
-        if (dmg >= this._model.getHp()) {
-            hpBarAction = new cc.TargetedAction(this._hpBar, ex.UIProgressTo.create(this._model.getHp() * this.HP_CHANGE_SPEED, 0));
-        } else {
-            hpBarAction = new cc.TargetedAction(this._hpBar, ex.UIProgressBy.create(dmg * this.HP_CHANGE_SPEED, -dmg / this._model.getBasicValues()[0] * 100));
-        }
+    getHpBarAction: function (delta) {
+        var hpBarAction = new cc.TargetedAction(this._hpBar, ex.UIProgressTo.create(delta * this.HP_CHANGE_SPEED, this._model.getHpPercent()));
         var action = new cc.Sequence(
             new cc.CallFunc(MakeScriptHandler(this, this._scheduleUpdate)),
             hpBarAction,

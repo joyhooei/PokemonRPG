@@ -87,10 +87,7 @@ var BattleOperationViewController = mw.ViewController.extend({
     _showBattleBoard: function () {
         this._state = this.STATES.PENDING;
         this._battleBoard.runAction(new cc.Sequence(
-            new cc.Spawn(
-                new cc.ScaleTo(this.ACTION_INTERVAL, 1),
-                new cc.RotateBy(this.ACTION_INTERVAL, 360)
-            ),
+            new cc.EaseIn(new cc.ScaleTo(this.ACTION_INTERVAL, 1), 2),
             new cc.CallFunc(function () {
                 this._state = this.STATES.BATTLE_MENU;
             }.bind(this))
@@ -101,17 +98,11 @@ var BattleOperationViewController = mw.ViewController.extend({
         var action = null;
         if (callback instanceof Function) {
             action = new cc.Sequence(
-                new cc.Spawn(
-                    new cc.ScaleTo(this.ACTION_INTERVAL, 0),
-                    new cc.RotateBy(this.ACTION_INTERVAL, -360)
-                ),
+                new cc.EaseOut(new cc.ScaleTo(this.ACTION_INTERVAL, 0), 2),
                 new cc.CallFunc(callback)
             );
         } else {
-            action = new cc.Spawn(
-                new cc.ScaleTo(this.ACTION_INTERVAL, 0),
-                new cc.RotateBy(this.ACTION_INTERVAL, -360)
-            );
+            action = new cc.EaseOut(new cc.ScaleTo(this.ACTION_INTERVAL, 0), 2);
         }
         this._battleBoard.runAction(action);
     },
@@ -120,10 +111,7 @@ var BattleOperationViewController = mw.ViewController.extend({
         this._skillBoard.refresh();
         this._state = this.STATES.PENDING;
         this._skillBoard.runAction(new cc.Sequence(
-            new cc.Spawn(
-                new cc.ScaleTo(this.ACTION_INTERVAL, 1),
-                new cc.RotateBy(this.ACTION_INTERVAL, 360)
-            ),
+            new cc.EaseIn(new cc.ScaleTo(this.ACTION_INTERVAL, 1), 2),
             new cc.CallFunc(function () {
                 this._state = this.STATES.SKILL_MENU;
             }.bind(this))
@@ -134,17 +122,11 @@ var BattleOperationViewController = mw.ViewController.extend({
         var action = null;
         if (callback instanceof Function) {
             action = new cc.Sequence(
-                new cc.Spawn(
-                    new cc.ScaleTo(this.ACTION_INTERVAL, 0),
-                    new cc.RotateBy(this.ACTION_INTERVAL, -360)
-                ),
+                new cc.EaseOut(new cc.ScaleTo(this.ACTION_INTERVAL, 0), 2),
                 new cc.CallFunc(callback)
             );
         } else {
-            action = new cc.Spawn(
-                new cc.ScaleTo(this.ACTION_INTERVAL, 0),
-                new cc.RotateBy(this.ACTION_INTERVAL, -360)
-            );
+            action = new cc.EaseOut(new cc.ScaleTo(this.ACTION_INTERVAL, 0), 2);
         }
         this._skillBoard.runAction(action);
     },
@@ -185,9 +167,9 @@ var BattleOperationViewController = mw.ViewController.extend({
         var friendPokemon = battleProcessor.getFriendPokemon();
         var skills = friendPokemon.getSkills();
         var skillId = skills[target.getIndex()][0];
-        logBattle("使用技能: %d", skillId);
         var skillInfo = new SkillInfo(skillId);
         var behavior = new SkillBehavior(friendPokemon, skillInfo);
+        this._lastBehavior = behavior;
         battleProcessor.prepareForTurn(behavior);
 
         this._hideSkillBoard(function () {
@@ -214,10 +196,17 @@ var BattleOperationViewController = mw.ViewController.extend({
     },
     // event handlers
     _onTurnEnded: function () {
-        this._showBattleBoard();
+        var battleProcessor = this.scene().getBattleProcessor();
+        if (battleProcessor.getFriendPokemon().getRepeat() > 0) {
+            battleProcessor.prepareForTurn(this._lastBehavior);
+            battleProcessor.process();
+        } else {
+            this._showBattleBoard();
+        }
     },
     _battleBoard: null,
     _skillBoard: null,
     _state: null,
     _boardBound: null,
+    _lastBehavior: null,
 });

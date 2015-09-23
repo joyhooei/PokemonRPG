@@ -26,7 +26,8 @@ var SkillInfo = ModelBase.extend({
             }, SKILL_TARGET_TYPES.SINGLE_ENEMY],    // 技能目标类型
             description: [ "string", null ],    // 技能描述
             handler: [ "string", null ],    // 技能处理函数
-            params: [ "string", null ],     // 技能参数
+            logicParams: [ "string", null ],     // 技能逻辑参数
+            animationParams: [ "string", null ],     // 技能动画参数
         });
 
         var data = Sqlite3Helper.getSkillInfo(id);
@@ -43,7 +44,8 @@ var SkillInfo = ModelBase.extend({
             target: data["target"],
             description: data["description"],
             handler: data["handler"],
-            params: data["params"],
+            logicParams: data["logicParams"],
+            animationParams: data["animationParams"],
         });
     },
     getName: function () {
@@ -73,7 +75,10 @@ var SkillInfo = ModelBase.extend({
     getHandler: function () {
         return this._handler;
     },
-    getParams: function () {
-        return this._params;
+    getLogicParams: function () {
+        return this._logicParams;
+    },
+    getAnimationParams: function () {
+        return this._animationParams;
     },
 });

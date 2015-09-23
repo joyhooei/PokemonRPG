@@ -10,6 +10,7 @@
 #define UIProgressBy_hpp
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 #include "../GameMacros.h"
 
 GAME_NS_BEGIN
@@ -34,6 +35,7 @@ protected:
     float _prev;
     float _start;
     float _delta;
+    cocos2d::ui::LoadingBar *_loadingBar;
 };
 
 class UIProgressTo : public UIProgressBy

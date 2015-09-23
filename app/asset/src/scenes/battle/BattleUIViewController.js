@@ -12,6 +12,9 @@ var BattleUIViewController = mw.ViewController.extend({
     },
     ctor: function (segue) {
         this._super(segue);
+
+        this._shouldInterupt = false;
+        this._musicId = -1;
     },
     viewDidLoad: function () {
         this._loadTextures();
@@ -40,11 +43,11 @@ var BattleUIViewController = mw.ViewController.extend({
     },
     _addObservers: function () {
         Notifier.addObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this, this._onPlaySkill);
-        Notifier.addObserver(BATTLE_EVENTS.ALL_ENDED, this, this._onAllEnded);
+        Notifier.addObserver(BATTLE_EVENTS.BATTLE_ENDED, this, this._onBattleEnded);
     },
     _removeObservers: function () {
         Notifier.removeObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this);
-        Notifier.removeObserver(BATTLE_EVENTS.ALL_ENDED, this);
+        Notifier.removeObserver(BATTLE_EVENTS.BATTLE_ENDED, this);
     },
     _renderView: function () {
         var bg = new cc.Sprite("#battle/battle_bg.png");
@@ -86,119 +89,204 @@ var BattleUIViewController = mw.ViewController.extend({
         this._enemyBoard.setPosition(cc.director.getWinSize().width * 0.2, cc.director.getWinSize().height * 0.85);
         this.view().addChild(this._enemyBoard);
     },
-    _onAllEnded: function () {
+    _onBattleEnded: function () {
+        if (!this._pokemon1.getModel().isDead()) {
+            this._pokemon1.getModel().leaveBattle();
+        }
+        if (!this._pokemon2.getModel().isDead()) {
+            this._pokemon2.getModel().leaveBattle();
+        }
         cc.director.runScene(new cc.TransitionFade(0.5, new PlayScene()));
     },
-    _onPlaySkill: function (pokemonModel, skillInfo, hurtInfo) {
-        var particle = new cc.ParticleSystem("particles/particle1.plist");
-        particle.setAutoRemoveOnFinish(true);
-        var duration = particle.getDuration();
-        if (pokemonModel.ownBySelf()) {
-            particle.setPosition(this._pokemon2.getContentSize().width * 0.5, this._pokemon2.getContentSize().height * 0.5);
-            this._pokemon2.addChild(particle);
+    _onPlaySkill: function (pokemonModel, skillInfo) {
+        var battleProcessor = this.scene().getBattleProcessor();
+        var playSkillFunc = function () {
+            var skillResult = battleProcessor.analyzeSkill(pokemonModel, skillInfo);
+            var animationParams = skillInfo.getAnimationParams().split(";");
+            var animationType = parseInt(animationParams[0]);
+            var target = null;
+            if (skillResult["targetType"] == 1) {
+                // 目标是精灵
+                target = this._pokemon1.getModel() == skillResult["defender"] ? this._pokemon1 : this._pokemon2;
+            }
+            if (animationType == 1) {
+                // 粒子效果
+                var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", skillInfo.getAnimationParams().split(";")[1]));
+                particle.setAutoRemoveOnFinish(true);
+                var duration = particle.getDuration();
+                particle.setPosition(target.getContentSize().width * 0.5, target.getContentSize().height * 0.5);
+                target.addChild(particle);
+                CallFunctionAsync(this, this._playSkillEnd, duration + 0.1, skillResult);
+            }
+        }.bind(this);
+
+        var ownBySelf = pokemonModel.ownBySelf();
+        var sequenceAry = [];
+        var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+        // 检查异常状态
+        var stateInfo = battleProcessor.checkStateBeforeUseSkill(pokemonModel);
+        var battleStateInfo = stateInfo["battleState"];
+        if (battleStateInfo && battleStateInfo["state"] != BATTLE_STATES.NORMAL) {
+            if (battleStateInfo["eliminated"]) {
+                sequenceAry.push(dialogVc.getTextAction(
+                        cc.formatStr("%s%s解除%s",
+                            (ownBySelf ? "我方" : "敌方"),
+                            pokemonModel.getInfo().getName(),
+                            BATTLE_STATE_NAMES[battleStateInfo["state"]])
+                    )
+                );
+                sequenceAry.push(dialogVc.getTextAction(
+                    cc.formatStr("%s%s使用了技能%s",
+                        (ownBySelf ? "我方" : "敌方"),
+                        pokemonModel.getInfo().getName(),
+                        skillInfo.getName()))
+                );
+                sequenceAry.push(cc.CallFunc(function () {
+                    playSkillFunc();
+                }));
+            } else {
+                this._getBattleStateAction(battleStateInfo["state"], pokemonModel, sequenceAry);
+                if (battleStateInfo["hurt"]) {
+                    // 混乱攻击自己 会消除连续攻击效果
+                    pokemonModel.setRepeat(0);
+                    pokemonModel.setNextBattleState(null);
+                    var delta = pokemonModel.hurt(battleStateInfo["hurt"]);
+                    sequenceAry.push(dialogVc.getTextAction(
+                        cc.formatStr("%s%s攻击了自己", (ownBySelf ? "我方" : "敌方"), pokemonModel.getInfo().getName())
+                    ));
+                    sequenceAry.push(new cc.TargetedAction((ownBySelf ? this._pokemon1 : this._pokemon2), new cc.Blink(0.5, 3)));
+                    var hpBarAction = ownBySelf ? this._playerBoard.getHpBarAction(delta) : this._enemyBoard.getHpBarAction(delta);
+                    sequenceAry.push(hpBarAction);
+                    if (pokemonModel.isDead()) {
+                        this._getDeadAction(pokemonModel, sequenceAry);
+                    }
+                    // 继续下一个行为
+                    this._processNextBehavior(sequenceAry);
+                } else if (battleStateInfo["skip"]) {
+                    // 继续下一个行为
+                    this._processNextBehavior(sequenceAry);
+                } else {
+                    this._checkNewBattleState(pokemonModel, sequenceAry);
+                    sequenceAry.push(dialogVc.getTextAction(
+                            cc.formatStr("%s%s使用了技能%s",
+                                (ownBySelf ? "我方" : "敌方"),
+                                pokemonModel.getInfo().getName(),
+                                skillInfo.getName()))
+                    );
+                    sequenceAry.push(cc.CallFunc(function () {
+                        playSkillFunc();
+                    }));
+                }
+            }
         } else {
-            particle.setPosition(this._pokemon1.getContentSize().width * 0.5, this._pokemon1.getContentSize().height * 0.5);
-            this._pokemon1.addChild(particle);
+            sequenceAry.push(dialogVc.getTextAction(
+                    cc.formatStr("%s%s使用了技能%s",
+                        (ownBySelf ? "我方" : "敌方"),
+                        pokemonModel.getInfo().getName(),
+                        skillInfo.getName()))
+            );
+            sequenceAry.push(cc.CallFunc(function () {
+                playSkillFunc();
+            }));
         }
-        CallFunctionAsync(this, this._playSkillEnd, duration + 0.1, pokemonModel, hurtInfo);
+        this.view().runAction(new cc.Sequence(sequenceAry));
     },
-    _playSkillEnd: function (pokemonModel, hurtInfo) {
-        var dmg = hurtInfo ? hurtInfo["hurt"] : 0;
-        var attackerNode = pokemonModel.ownBySelf() ? this._pokemon1 : this._pokemon2;
-        var defenderNode = pokemonModel.ownBySelf() ? this._pokemon2 : this._pokemon1;
-        var attacker = attackerNode.getModel();
-        var defender = defenderNode.getModel();
-        this._currentAttacker = attacker;
-        this._currentDefender = defender;
-        var sequenceAry = [ new cc.TargetedAction(defenderNode, new cc.Blink(0.5, 3)) ];
-        if (dmg > 0) {
-            var hpBarAction = pokemonModel.ownBySelf() ? this._enemyBoard.getHpBarAction(dmg) : this._playerBoard.getHpBarAction(dmg);
+    _playSkillEnd: function (result) {
+        var sequenceAry = [];
+        if (result["isHurtSkill"]) {
+            var attacker = result["attacker"];
+            var defender = result["defender"];
+            var attackerNode = this._pokemon1.getModel() == attacker ? this._pokemon1 : this._pokemon2;
+            var defenderNode = this._pokemon2.getModel() == defender ? this._pokemon2 : this._pokemon1;
+            // 闪烁动画
+            sequenceAry.push(new cc.TargetedAction(defenderNode, new cc.Blink(0.5, 3)));
+            // 血条动画
+            var hpBarAction = defender.ownBySelf() ? this._playerBoard.getHpBarAction(result["delta"]) : this._enemyBoard.getHpBarAction(result["delta"]);
             sequenceAry.push(hpBarAction);
-            defender.hurt(dmg);
             if (defender.isDead()) {
                 this._shouldInterupt = true;
                 sequenceAry.push(new cc.CallFunc(function () {
+                    defender.leaveBattle();
                     defenderNode.stop();
                 }));
             }
-        }
-        if (hurtInfo) {
-            if (hurtInfo["criticalCorrection"] > 1.0) {
+            var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+            // 命中要害判断
+            if (result["criticalCorrection"] > 1.0) {
                 sequenceAry.push(new cc.DelayTime(0.5));
-                sequenceAry.push(new cc.CallFunc(function () {
-                    Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE,
-                        "命中要害", MakeScriptHandler(this, this._propertyCorrectionCallback, null, hurtInfo)); // 这里的null是因为cc.CallFunc传递的sender参数
-                }.bind(this)))
-            } else {
-                sequenceAry.push(new cc.CallFunc(MakeScriptHandler(this, this._propertyCorrectionCallback, hurtInfo)))
+                sequenceAry.push(dialogVc.getTextAction("命中要害"));
             }
-            this.view().runAction(new cc.Sequence(sequenceAry));
+            // 效果判断
+            if (result["propertyCorrection"] != 1.0) {
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(dialogVc.getTextAction(result["propertyCorrection"] > 1.0 ? "效果拔群" : "效果很小"));
+            }
+            if (defender.isDead()) {
+                this._getDeadAction(defender, sequenceAry);
+            } else {
+                this._checkNewBattleState(defender, sequenceAry);
+            }
+            this._checkNewBattleState(attacker, sequenceAry);
         } else {
-            sequenceAry.push(new cc.CallFunc(MakeScriptHandler(this, this._processNextBehavior)));
-            this.view().runAction(new cc.Sequence(sequenceAry));
+        }
+        // 继续下一个行为
+        this._processNextBehavior(sequenceAry);
+        this.view().runAction(new cc.Sequence(sequenceAry));
+    },
+    _processNextBehavior: function (sequenceAry) {
+        sequenceAry.push(new cc.DelayTime(0.5));
+        sequenceAry.push(new cc.CallFunc(function () {
+            var battleProcessor = this.scene().getBattleProcessor();
+            if (this._shouldInterupt) {
+                battleProcessor.clearBehaviorQueue();
+                this._shouldInterupt = false;
+            }
+            battleProcessor.process();
+        }.bind(this)));
+    },
+    _checkNewBattleState: function (pokemon, sequenceAry) {
+        var newState = pokemon.getNewBattleState();
+        if (newState) {
+            this._getBattleStateAction(newState, pokemon, sequenceAry);
+            pokemon.refreshBattleState();
         }
     },
-    _propertyCorrectionCallback: function (sender, hurtInfo) {
-        var endHandler = MakeScriptHandler(this, (this._shouldInterupt ? this._targetDeadCallback : this._processNextBehavior));
-        if (hurtInfo["propertyCorrection"] != 1.0) {
-            var action = new cc.Sequence(
-                new cc.DelayTime(0.5),
-                new cc.CallFunc(function () {
-                    Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE,
-                        (hurtInfo["propertyCorrection"] > 1.0 ? "效果拔群" : "效果很小"),
-                        endHandler);
-                })
-            );
-            this.view().runAction(action);
-        } else {
-            this.view().runAction(
-                new cc.CallFunc(endHandler)
-            );
+    _getDeadAction: function (pokemon, sequenceAry) {
+        var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+        sequenceAry.push(new cc.DelayTime(0.5));
+        // 死亡叫声
+        sequenceAry.push(new cc.CallFunc(function () {
+            var audioId = ex.GameAudioEngine.getInstance().play2d(cc.formatStr("sounds/cries/%s.wav", pokemon.getFormatedId()));
+            ex.GameAudioEngine.getInstance().setFinishCallback(audioId, function (id, name) {
+                ex.GameAudioEngine.getInstance().uncache(audioId);
+            });
+        }));
+        sequenceAry.push(new cc.DelayTime(2));
+        // 死亡动画 todo
+        sequenceAry.push(dialogVc.getTextAction(cc.formatStr("%s%s倒下了", (pokemon.ownBySelf() ? "我方" : "敌方"), pokemon.getInfo().getName())));
+    },
+    _getBattleStateAction: function (state, pokemon, sequenceAry) {
+        var ownBySelf = pokemon.ownBySelf();
+        var targetNode = ownBySelf ? this._pokemon1 : this._pokemon2;
+        var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+        if (state == BATTLE_STATES.CONFUSED) {
+            sequenceAry.push(new cc.CallFunc(function () {
+                var dizzyGif = mw.GifSprite.createWithFile("gif/dizzy.gif");
+                dizzyGif.setScale(0.2);
+                dizzyGif.setPosition(targetNode.getContentSize().width * 0.5, targetNode.getContentSize().height);
+                targetNode.addChild(dizzyGif, 0, 100);
+            }));
+            sequenceAry.push(new cc.DelayTime(1));
+            sequenceAry.push(new cc.CallFunc(function () {
+                targetNode.getChildByTag(100).removeFromParent();
+            }));
+            sequenceAry.push(dialogVc.getTextAction(cc.formatStr("%s%s%s", (ownBySelf ? "我方" : "敌方"), pokemon.getInfo().getName(), BATTLE_STATE_SUFFIX[state])));
         }
-    },
-    _targetDeadCallback: function () {
-        var action = new cc.Sequence(
-            new cc.DelayTime(0.5),
-            new cc.CallFunc(function () {
-                var audioId = ex.GameAudioEngine.getInstance().play2d(cc.formatStr("sounds/cries/%s.wav", this._currentDefender.getFormatedId()));
-                ex.GameAudioEngine.getInstance().setFinishCallback(audioId, function (id, name) {
-                    ex.GameAudioEngine.getInstance().uncache(audioId);
-                    this._targetDeadCallback2();
-                }.bind(this));
-            }.bind(this))
-        );
-        this.view().runAction(action);
-    },
-    _targetDeadCallback2: function () {
-        var ownByPlayer = this._currentDefender.ownBySelf();
-        var action = new cc.Sequence(
-            new cc.CallFunc(function () {
-                Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITHOUT_INDICE,
-                    cc.formatStr("%s%s倒下了", (ownByPlayer ? "我方" : "敌方"), this._currentDefender.getInfo().getName()),
-                    MakeScriptHandler(this, this._processNextBehavior));
-            }.bind(this))
-        );
-        this.view().runAction(action);
-    },
-    _processNextBehavior: function () {
-        if (this._shouldInterupt) {
-            this.scene().getBattleProcessor().clear();
-            this._shouldInterupt = false;
-        }
-        this._currentAttacker = this._currentDefender = this._currentDefenderSprite = null;
-        this.view().runAction(new cc.Sequence(
-            new cc.DelayTime(0.5),
-            new cc.CallFunc(function () {
-                this.scene().getBattleProcessor().process();
-            }.bind(this))
-        ));
     },
     _pokemon1: null,
     _pokemon2: null,
     _playerBoard: null,
     _enemyBoard: null,
-    _shouldInterupt: false,
-    _currentAttacker: null,
-    _currentDefender: null,
-    _musicId: -1,
+    _shouldInterupt: null,
+    _musicId: null,
 });

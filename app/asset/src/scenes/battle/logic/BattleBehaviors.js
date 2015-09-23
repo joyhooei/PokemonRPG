@@ -35,10 +35,14 @@ var SkillBehavior = BattleBehavior.extend({
     getPriority: function () {
         return 0 * 1000 + this._owner.getBasicValues()[5];
     },
-    process: function (hurtInfo) {
-        // 减去pp 压迫特性-2 todo
-        this._owner.reducePP(this._skill.getId());
-        Notifier.notify(DIALOG_EVENTS.SHOW_DIALOG_WITH_BATTLE_ANIMATION, this._owner, this._skill, hurtInfo);
+    process: function () {
+        logBattle("%d使用技能: %d", this._owner.getId(), this._skill.getId());
+        if (this._owner.getRepeat() > 0) {
+        } else {
+            // 减去pp 压迫特性-2 todo
+            this._owner.reducePP(this._skill.getId());
+        }
+        Notifier.notify(BATTLE_UI_EVENTS.PLAY_SKILL, this._owner, this._skill);
     },
     _skill: null,
 });
@@ -53,7 +57,7 @@ var ChangePokemonBehavior = BattleBehavior.extend({
         return this._newPokemon;
     },
     getPriority: function () {
-        return 10000;
+        return 100000;
     },
     _newPokemon: null,
 });
@@ -68,7 +72,7 @@ var UseItemBehavior = BattleBehavior.extend({
         return this._item;
     },
     getPriority: function () {
-        return 10000;
+        return 100000;
     },
     _item: null,
 });
@@ -78,6 +82,6 @@ var EscapeBehavior = BattleBehavior.extend({
         this._super(BATTLE_BEHAVIORS.ESCAPE, pokemon);
     },
     getPriority: function () {
-        return 10000;
+        return 100000;
     },
 });

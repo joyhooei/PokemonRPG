@@ -120,6 +120,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     sc->addRegisterCallback(register_all_mwframework_manual);
     
     sc->addRegisterCallback(register_all_game_ext);
+    sc->addRegisterCallback(register_all_game_ext_manual);
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

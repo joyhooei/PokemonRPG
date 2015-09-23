@@ -141,6 +141,8 @@
 		F58A04CD1B864D2700BB5229 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C71B864D2700BB5229 /* md5.cpp */; };
 		F58A04CE1B864D2700BB5229 /* MWCrypto-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = F58A04C91B864D2700BB5229 /* MWCrypto-ios.mm */; };
 		F58A04CF1B864D2700BB5229 /* MWCrypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A04CA1B864D2700BB5229 /* MWCrypto.cpp */; };
+		F59BA9CC1BB2CF7F00434BA2 /* UITextActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59BA9CA1BB2CF7F00434BA2 /* UITextActions.cpp */; settings = {ASSET_TAGS = (); }; };
+		F59BA9D01BB2D83000434BA2 /* js_game_ext_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59BA9CE1BB2D83000434BA2 /* js_game_ext_manual.cpp */; settings = {ASSET_TAGS = (); }; };
 		F5A6D6C21BAE6A8B00F4FE1D /* UIProgressActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A6D6B81BAE6A8B00F4FE1D /* UIProgressActions.cpp */; settings = {ASSET_TAGS = (); }; };
 		F5A6D6C41BAE6A8B00F4FE1D /* js_game_ext_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A6D6BE1BAE6A8B00F4FE1D /* js_game_ext_auto.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
@@ -435,6 +437,10 @@
 		F58A04C91B864D2700BB5229 /* MWCrypto-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MWCrypto-ios.mm"; sourceTree = "<group>"; };
 		F58A04CA1B864D2700BB5229 /* MWCrypto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWCrypto.cpp; sourceTree = "<group>"; };
 		F58A04CB1B864D2700BB5229 /* MWCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCrypto.h; sourceTree = "<group>"; };
+		F59BA9CA1BB2CF7F00434BA2 /* UITextActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UITextActions.cpp; sourceTree = "<group>"; };
+		F59BA9CB1BB2CF7F00434BA2 /* UITextActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITextActions.h; sourceTree = "<group>"; };
+		F59BA9CE1BB2D83000434BA2 /* js_game_ext_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_game_ext_manual.cpp; sourceTree = "<group>"; };
+		F59BA9CF1BB2D83000434BA2 /* js_game_ext_manual.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = js_game_ext_manual.hpp; sourceTree = "<group>"; };
 		F5A6D6B81BAE6A8B00F4FE1D /* UIProgressActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIProgressActions.cpp; sourceTree = "<group>"; };
 		F5A6D6B91BAE6A8B00F4FE1D /* UIProgressActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIProgressActions.h; sourceTree = "<group>"; };
 		F5A6D6BE1BAE6A8B00F4FE1D /* js_game_ext_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_game_ext_auto.cpp; sourceTree = "<group>"; };
@@ -1092,6 +1098,15 @@
 			path = md5;
 			sourceTree = "<group>";
 		};
+		F59BA9CD1BB2D83000434BA2 /* manual */ = {
+			isa = PBXGroup;
+			children = (
+				F59BA9CE1BB2D83000434BA2 /* js_game_ext_manual.cpp */,
+				F59BA9CF1BB2D83000434BA2 /* js_game_ext_manual.hpp */,
+			);
+			path = manual;
+			sourceTree = "<group>";
+		};
 		F5A6D6B61BAE6A8B00F4FE1D /* extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1109,6 +1124,8 @@
 			children = (
 				F5A6D6B81BAE6A8B00F4FE1D /* UIProgressActions.cpp */,
 				F5A6D6B91BAE6A8B00F4FE1D /* UIProgressActions.h */,
+				F59BA9CA1BB2CF7F00434BA2 /* UITextActions.cpp */,
+				F59BA9CB1BB2CF7F00434BA2 /* UITextActions.h */,
 			);
 			path = actions;
 			sourceTree = "<group>";
@@ -1117,6 +1134,7 @@
 			isa = PBXGroup;
 			children = (
 				F5A6D6BB1BAE6A8B00F4FE1D /* auto */,
+				F59BA9CD1BB2D83000434BA2 /* manual */,
 			);
 			path = bindings;
 			sourceTree = "<group>";
@@ -1310,6 +1328,7 @@
 				F559B8581B6CBC9C00C90AC9 /* MWHttpPostService.cpp in Sources */,
 				F559B8641B6CBC9C00C90AC9 /* MWSystemHelper.cpp in Sources */,
 				F559B8101B6CBC9C00C90AC9 /* MWSqliteDb.cpp in Sources */,
+				F59BA9D01BB2D83000434BA2 /* js_game_ext_manual.cpp in Sources */,
 				F559B8671B6CBC9C00C90AC9 /* MWViewController.cpp in Sources */,
 				F559B8151B6CBC9C00C90AC9 /* MWJsUtils.cpp in Sources */,
 				F559B80F1B6CBC9C00C90AC9 /* sqlite3.c in Sources */,
@@ -1368,6 +1387,7 @@
 				F559B85B1B6CBC9C00C90AC9 /* MWNetHandler.cpp in Sources */,
 				F559B8251B6CBC9C00C90AC9 /* MWJsonFormatter.cpp in Sources */,
 				F559B86B1B6CBC9C00C90AC9 /* gif_err.c in Sources */,
+				F59BA9CC1BB2CF7F00434BA2 /* UITextActions.cpp in Sources */,
 				509D4ABC17EBB2AB00697056 /* AppController.mm in Sources */,
 				F559B81C1B6CBC9C00C90AC9 /* JSONNode.cpp in Sources */,
 				F559B8571B6CBC9C00C90AC9 /* MWHttpGetService.cpp in Sources */,

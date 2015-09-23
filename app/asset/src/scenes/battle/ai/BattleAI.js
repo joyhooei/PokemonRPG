@@ -16,6 +16,10 @@ BattleAI = Component.extend({
     think: function () {
         cc.assert(this._aiLevel, "未设置AI级别");
 
+        // 处理类似逆鳞技能的特殊情况
+        if (this._target.getRepeat() > 0) {
+            return this._lastBehavior;
+        }
         var handlerName = "_think" + this._aiLevel.toString();
         var handler = this[handlerName];
         cc.assert(handler instanceof Function, "未实现的AI");
@@ -34,9 +38,11 @@ BattleAI = Component.extend({
         var rdNum = Math.floor(Math.random() * skills.length);
         var rdSkillId = skills[rdNum][0];
         var rdSkillInfo = new SkillInfo(rdSkillId);
-        return new SkillBehavior(this._target, rdSkillInfo);
+        this._lastBehavior = new SkillBehavior(this._target, rdSkillInfo);
+        return this._lastBehavior;
     },
     _aiLevel: null,
+    _lastBehavior: null,
 });
 
 BattleAI.AI_LEVELS = {

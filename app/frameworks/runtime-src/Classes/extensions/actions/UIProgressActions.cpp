@@ -7,7 +7,6 @@
 //
 
 #include "UIProgressActions.h"
-#include "ui/CocosGUI.h"
 
 #include <new>
 
@@ -53,23 +52,22 @@ void UIProgressBy::startWithTarget(cocos2d::Node *target)
     CCASSERT(loadingBar, "Target must be ui::LoadingBar");
     ActionInterval::startWithTarget(target);
     _prev = _start = loadingBar->getPercent();
+    _loadingBar = loadingBar;
 }
 
 void UIProgressBy::update(float time)
 {
     if (_target)
     {
-        LoadingBar *loadingBar = dynamic_cast<LoadingBar *>(_target);
-        
 #if CC_ENABLE_STACKABLE_ACTIONS
-        float currentProgress = loadingBar->getPercent();
+        float currentProgress = _loadingBar->getPercent();
         float diff = currentProgress - _prev;
         _start += diff;
         float newProgress = _start + (_delta * time);
-        loadingBar->setPercent(newProgress);
+        _loadingBar->setPercent(newProgress);
         _prev = newProgress;
 #else
-        loadingBar->setPercent(_start + _delta * time);
+        _loadingBar->setPercent(_start + _delta * time);
 #endif // CC_ENABLE_STACKABLE_ACTIONS
     }
 }
@@ -119,6 +117,7 @@ void UIProgressTo::startWithTarget(cocos2d::Node *target)
     ActionInterval::startWithTarget(target);
     _prev = _start = loadingBar->getPercent();
     _delta = _to - _start;
+    _loadingBar = loadingBar;
 }
 
 GAME_NS_END

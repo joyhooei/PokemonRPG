@@ -46,6 +46,13 @@ float
 };
 
 /**
+ * @class UITextOneByOne
+ */
+ex.UITextOneByOne = {
+
+};
+
+/**
  * @class GameAudioEngine
  */
 ex.GameAudioEngine = {

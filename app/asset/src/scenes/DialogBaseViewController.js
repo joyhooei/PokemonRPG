@@ -40,6 +40,13 @@ var DialogBaseViewController = mw.ViewController.extend({
     clearText: function () {
         this._lblMsg.setString("");
     },
+    getTextAction: function (text) {
+        var textList = [];
+        for (var i = 1; i <= text.length; ++i) {
+            textList.push(text.substr(0, i));
+        }
+        return new cc.TargetedAction(this._lblMsg, ex.UITextOneByOne.create(textList.length * this.DIALOG_SPEED, textList));
+    },
     _loadTextures: function () {
         for (var plist in this.TEXTURES_TO_LOAD) {
             var tex = this.TEXTURES_TO_LOAD[plist];
@@ -92,26 +99,16 @@ var DialogBaseViewController = mw.ViewController.extend({
         }
         this._showingDialog = dialog;
         this._indice.setVisible(false);
-        var generatedDialogs = [];
-        for (var i = 1; i <= this._showingDialog.length; ++i) {
-            generatedDialogs.push(dialog.substr(0, i));
-        }
-        var index = 0;
-        var onDialogTick = function (dt) {
-            var text = generatedDialogs[index];
-            this._lblMsg.setString(text);
-            if (index == generatedDialogs.length - 1) {
+        var textAction = this.getTextAction(dialog);
+        this._lblMsg.runAction(new cc.Sequence(
+            textAction,
+            new cc.CallFunc(function () {
                 this._showingDialog = null;     // 置空
-                // 关闭计时器
-                cc.director.getScheduler().unschedule(this.DIALOG_SCHEDULE_KEY, this.view());
                 if (callback instanceof Function) {
                     callback();
                 }
-                return;
-            }
-            ++index;
-        }.bind(this);
-        cc.director.getScheduler().schedule(onDialogTick, this.view(), this.DIALOG_SPEED, cc.REPEAT_FOREVER, 0, false, this.DIALOG_SCHEDULE_KEY);
+            }.bind(this))
+        ));
     },
     // segue delegate
     onTouchEnded: function (touch, event) {
@@ -119,8 +116,7 @@ var DialogBaseViewController = mw.ViewController.extend({
             return;
         }
         if (this._showingDialog) {
-            // 关闭计时器
-            cc.director.getScheduler().unschedule(this.DIALOG_SCHEDULE_KEY, this.view());
+            this._lblMsg.stopAllActions();
             this._lblMsg.setString(this._showingDialog);
             this._indice.setVisible(true);
         } else {

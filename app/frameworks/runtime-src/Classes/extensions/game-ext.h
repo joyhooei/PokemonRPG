@@ -10,11 +10,13 @@
 #define game_ext_h
 
 #include "actions/UIProgressActions.h"
+#include "actions/UITextActions.h"
 
 #include "audio/GameAudioEngine.h"
 
 #if MW_ENABLE_SCRIPT_BINDING
 #include "bindings/auto/js_game_ext_auto.hpp"
+#include "bindings/manual/js_game_ext_manual.hpp"
 #endif
 
 #endif /* game_ext_h */

@@ -23,6 +23,14 @@ void js_register_game_ext_UIProgressTo(JSContext *cx, JS::HandleObject global);
 void register_all_game_ext(JSContext* cx, JS::HandleObject obj);
 bool js_game_ext_UIProgressTo_create(JSContext *cx, uint32_t argc, jsval *vp);
 
+extern JSClass  *jsb_game_UITextOneByOne_class;
+extern JSObject *jsb_game_UITextOneByOne_prototype;
+
+bool js_game_ext_UITextOneByOne_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_game_ext_UITextOneByOne_finalize(JSContext *cx, JSObject *obj);
+void js_register_game_ext_UITextOneByOne(JSContext *cx, JS::HandleObject global);
+void register_all_game_ext(JSContext* cx, JS::HandleObject obj);
+
 extern JSClass  *jsb_game_GameAudioEngine_class;
 extern JSObject *jsb_game_GameAudioEngine_prototype;
 

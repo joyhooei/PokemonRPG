@@ -40,7 +40,7 @@ var Pokemon = ModelBase.extend({
                 return val >= POKEMON_STATES.NORMAL && val <= POKEMON_STATES.DEAD;
             }, POKEMON_STATES.NORMAL ],     // 异常状态
             personality: [function (val) {
-                return val >= POKEMON_PERSONALITIES.HARDY && val <= POKEMON_PERSONALITIES.CAREFUL;
+                return val >= POKEMON_PERSONALITIES.HARDY && val <= POKEMON_PERSONALITIES.NAIVE;
             }, POKEMON_PERSONALITIES.HARDY ],     // 性格
             basicValues: [function (val) {
                 return val instanceof Array;
@@ -100,6 +100,10 @@ var Pokemon = ModelBase.extend({
             skills: skills,
             hp: basicValues[0],
         });
+
+        this._abilityLevels = [ 0, 0, 0, 0, 0, 0, 0 ];
+        this._battleStates = [];
+        this._repeat = 0;
     },
     getInfo: function () {
         if (!this._infoModel) {
@@ -179,16 +183,92 @@ var Pokemon = ModelBase.extend({
         return this._getExpAtLv(this._level + 1) - this._exp;
     },
     hurt: function (dmg) {
+        var realDmg = dmg;
         var newHp = this._hp - dmg;
         if (newHp < 0) {
             newHp = 0;
+            realDmg = this._hp;
         }
         var state = newHp == 0 ? POKEMON_STATES.DEAD : this._state;
         this._setProperties({
             hp: newHp,
             state: state,
         });
+        return realDmg;
     },
+    ///////////////// 战斗相关 START
+    getAbilityLevels: function () {
+        return this._abilityLevels;
+    },
+    checkBattleState: function (state) {
+        if (this._battleStates[state] == undefined) {
+            return -1;
+        }
+        var turns = this._battleStates[state];
+        if (turns == 0) {
+            this._battleStates[state] = undefined;
+        } else {
+            --this._battleStates[state];
+        }
+        // 无法动弹或害怕 一次性消失
+        if (state == BATTLE_STATES.TIRED || state == BATTLE_STATES.SCARED) {
+            this._battleStates[state] = undefined;
+        }
+        return turns;
+    },
+    getBattleState: function () {
+        return this._battleState;
+    },
+    addBattleState: function (state, turns) {
+        logBattle("%d添加了状态: %d", this._id, state);
+        // 混乱和着迷不能共存
+        if (state == BATTLE_STATES.ATTRACTED) {
+            this._battleStates[BATTLE_STATES.CONFUSED] = undefined;
+        } else if (state == BATTLE_STATES.CONFUSED) {
+            this._battleStates[BATTLE_STATES.ATTRACTED] = undefined;
+        }
+        this._battleStates[state] = turns;
+    },
+    getRepeat: function () {
+        return this._repeat;
+    },
+    setRepeat: function (repeat) {
+        this._repeat = repeat;
+    },
+    setNextBattleState: function (state) {
+        this._nextBattleState = state;
+    },
+    getNewBattleState: function () {
+        return this._newBattleState;
+    },
+    refreshBattleState: function () {
+        if (this._newBattleState && this._newBattleState != BATTLE_STATES.NORMAL) {
+            var turns = 1;      // 害怕和不能行动只有1回合
+            if (this._newBattleState != BATTLE_STATES.SCARED && this._newBattleState != BATTLE_STATES.TIRED) {
+                // 随机1-5回合
+                turns = Math.ceil(Math.random() * 5);
+            }
+            this.addBattleState(this._newBattleState, turns);
+            this._newBattleState = null;
+        }
+    },
+    reduceRepeat: function () {
+        if (this._repeat == 0) {
+            return;
+        }
+        --this._repeat;
+        if (this._repeat == 0 && this._nextBattleState) {
+            this._newBattleState = this._nextBattleState;
+            this._nextBattleState = null;
+        }
+    },
+    leaveBattle: function () {
+        this._abilityLevels = [ 0, 0, 0, 0, 0 ];
+        this._battleStates = [];
+        this._repeat = 0;
+        this._nextBattleState = null;
+    },
+    ///////////////// 战斗相关 END
     _getExpAtLv: function (lv) {
         return lv * lv * lv;
     },
@@ -271,4 +351,10 @@ var Pokemon = ModelBase.extend({
     },
     _infoModel: null,
     _personalityCorrection: null,
+    ///////////////////// 战斗相关
+    _abilityLevels: null,      // [ 攻击, 防御, 特攻, 特防, 速度, 命中, 回避 ]
+    _battleStates: null,
+    _newBattleState: null,
+    _repeat: null,
+    _nextBattleState: null,
 });

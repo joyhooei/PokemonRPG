@@ -225,6 +225,68 @@ void js_register_game_ext_UIProgressTo(JSContext *cx, JS::HandleObject global) {
     }
 }
 
+JSClass  *jsb_game_UITextOneByOne_class;
+JSObject *jsb_game_UITextOneByOne_prototype;
+
+
+extern JSObject *jsb_cocos2d_ActionInterval_prototype;
+
+void js_game_UITextOneByOne_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (UITextOneByOne)", obj);
+}
+
+void js_register_game_ext_UITextOneByOne(JSContext *cx, JS::HandleObject global) {
+    jsb_game_UITextOneByOne_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_game_UITextOneByOne_class->name = "UITextOneByOne";
+    jsb_game_UITextOneByOne_class->addProperty = JS_PropertyStub;
+    jsb_game_UITextOneByOne_class->delProperty = JS_DeletePropertyStub;
+    jsb_game_UITextOneByOne_class->getProperty = JS_PropertyStub;
+    jsb_game_UITextOneByOne_class->setProperty = JS_StrictPropertyStub;
+    jsb_game_UITextOneByOne_class->enumerate = JS_EnumerateStub;
+    jsb_game_UITextOneByOne_class->resolve = JS_ResolveStub;
+    jsb_game_UITextOneByOne_class->convert = JS_ConvertStub;
+    jsb_game_UITextOneByOne_class->finalize = js_game_UITextOneByOne_finalize;
+    jsb_game_UITextOneByOne_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    JSFunctionSpec *st_funcs = NULL;
+
+    jsb_game_UITextOneByOne_prototype = JS_InitClass(
+        cx, global,
+        JS::RootedObject(cx, jsb_cocos2d_ActionInterval_prototype),
+        jsb_game_UITextOneByOne_class,
+        dummy_constructor<game::UITextOneByOne>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "UITextOneByOne", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<game::UITextOneByOne> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_game_UITextOneByOne_class;
+        p->proto = jsb_game_UITextOneByOne_prototype;
+        p->parentProto = jsb_cocos2d_ActionInterval_prototype;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+
 JSClass  *jsb_game_GameAudioEngine_class;
 JSObject *jsb_game_GameAudioEngine_prototype;
 
@@ -768,6 +830,7 @@ void register_all_game_ext(JSContext* cx, JS::HandleObject obj) {
 
     js_register_game_ext_UIProgressBy(cx, ns);
     js_register_game_ext_UIProgressTo(cx, ns);
+    js_register_game_ext_UITextOneByOne(cx, ns);
     js_register_game_ext_GameAudioEngine(cx, ns);
 }
 

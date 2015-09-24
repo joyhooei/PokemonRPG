@@ -182,6 +182,24 @@ var Pokemon = ModelBase.extend({
     getRestExpToLvUp: function () {
         return this._getExpAtLv(this._level + 1) - this._exp;
     },
+    heal: function (val) {
+        var realVal = val;
+        var newHp = this._hp + val;
+        if (newHp > this._basicValues[0]) {
+            newHp = this._basicValues[0];
+            realVal = this._basicValues[0] - this._hp;
+        }
+        logBattle("%d回复了%d点HP", this._id, realVal);
+        var newState = this._state;
+        if (this._state == POKEMON_STATES.DEAD) {
+            newState = POKEMON_STATES.NORMAL;
+        }
+        this._setProperties({
+            hp: newHp,
+            state: newState,
+        });
+        return realVal;
+    },
     hurt: function (dmg) {
         var realDmg = dmg;
         var newHp = this._hp - dmg;
@@ -189,6 +207,7 @@ var Pokemon = ModelBase.extend({
             newHp = 0;
             realDmg = this._hp;
         }
+        logBattle("%d损失了%d点HP", this._id, realDmg);
         var state = newHp == 0 ? POKEMON_STATES.DEAD : this._state;
         this._setProperties({
             hp: newHp,

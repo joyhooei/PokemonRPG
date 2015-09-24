@@ -72,13 +72,21 @@ var BattleUIViewController = mw.ViewController.extend({
         // 初始化BattleProcessor
         this.scene().initBattleProcessor(pokemon1Model, pokemon2Model);
 
+        // 初始化地形
+        this._field1 = new cc.Sprite("#battle/battle_field1.png");
+        this._field1.setPosition(cc.director.getWinSize().width * 0.2, cc.director.getWinSize().height * 0.3);
+        this.view().addChild(this._field1);
+        this._field2 = new cc.Sprite("#battle/battle_field1.png");
+        this._field2.setPosition(cc.director.getWinSize().width * 0.8, cc.director.getWinSize().height * 0.6);
+        this.view().addChild(this._field2);
+
         // 初始化精灵sprite
         this._pokemon1 = new BattlePokemonView(pokemon1Model, true);
         this._pokemon2 = new BattlePokemonView(pokemon2Model, false);
-        this._pokemon1.setPosition(cc.director.getWinSize().width * 0.2, cc.director.getWinSize().height * 0.2);
-        this.view().addChild(this._pokemon1);
-        this._pokemon2.setPosition(cc.director.getWinSize().width * 0.8, cc.director.getWinSize().height * 0.6);
-        this.view().addChild(this._pokemon2);
+        this._pokemon1.setPosition(this._field1.getContentSize().width * 0.5, this._field1.getContentSize().height * 0.45);
+        this._pokemon2.setPosition(this._field2.getContentSize().width * 0.5, this._field2.getContentSize().height * 0.45);
+        this._field1.addChild(this._pokemon1);
+        this._field2.addChild(this._pokemon2);
 
         // 初始化信息面板
         this._playerBoard = new BattlePlayerBoardView(pokemon1Model);
@@ -102,21 +110,34 @@ var BattleUIViewController = mw.ViewController.extend({
         var battleProcessor = this.scene().getBattleProcessor();
         var playSkillFunc = function () {
             var skillResult = battleProcessor.analyzeSkill(pokemonModel, skillInfo);
-            var animationParams = skillInfo.getAnimationParams().split(";");
-            var animationType = parseInt(animationParams[0]);
-            var target = null;
-            if (skillResult["targetType"] == 1) {
-                // 目标是精灵
-                target = this._pokemon1.getModel() == skillResult["defender"] ? this._pokemon1 : this._pokemon2;
-            }
-            if (animationType == 1) {
-                // 粒子效果
-                var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", skillInfo.getAnimationParams().split(";")[1]));
-                particle.setAutoRemoveOnFinish(true);
-                var duration = particle.getDuration();
-                particle.setPosition(target.getContentSize().width * 0.5, target.getContentSize().height * 0.5);
-                target.addChild(particle);
-                CallFunctionAsync(this, this._playSkillEnd, duration + 0.1, skillResult);
+            if (skillResult["notHit"]) {
+                // 未命中
+                var sequenceAry = [];
+                var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(dialogVc.getTextAction("技能没有命中"));
+                this._processNextBehavior(sequenceAry);
+                this.view().runAction(new cc.Sequence(sequenceAry));
+            } else {
+                var animationParams = skillInfo.getAnimationParams().split(";");
+                var animationType = parseInt(animationParams[0]);
+                var target = null;
+                if (skillResult["targetType"] == 1) {
+                    // 目标是精灵
+                    target = this._pokemon1.getModel() == skillResult["defender"] ? this._pokemon1 : this._pokemon2;
+                } else if (skillResult["targetType"] == 2) {
+                    // 目标是场地
+                    target = skillResult["isFriend"] ? this._field1 : this._field2;
+                }
+                if (animationType == 1) {
+                    // 粒子效果
+                    var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", skillInfo.getAnimationParams().split(";")[1]));
+                    particle.setAutoRemoveOnFinish(true);
+                    var duration = particle.getDuration();
+                    particle.setPosition(target.getContentSize().width * 0.5, target.getContentSize().height * 0.5);
+                    target.addChild(particle);
+                    CallFunctionAsync(this, this._playSkillEnd, duration + 0.1, skillResult);
+                }
             }
         }.bind(this);
 
@@ -141,7 +162,7 @@ var BattleUIViewController = mw.ViewController.extend({
                         pokemonModel.getInfo().getName(),
                         skillInfo.getName()))
                 );
-                sequenceAry.push(cc.CallFunc(function () {
+                sequenceAry.push(new cc.CallFunc(function () {
                     playSkillFunc();
                 }));
             } else {
@@ -173,7 +194,7 @@ var BattleUIViewController = mw.ViewController.extend({
                                 pokemonModel.getInfo().getName(),
                                 skillInfo.getName()))
                     );
-                    sequenceAry.push(cc.CallFunc(function () {
+                    sequenceAry.push(new cc.CallFunc(function () {
                         playSkillFunc();
                     }));
                 }
@@ -185,7 +206,7 @@ var BattleUIViewController = mw.ViewController.extend({
                         pokemonModel.getInfo().getName(),
                         skillInfo.getName()))
             );
-            sequenceAry.push(cc.CallFunc(function () {
+            sequenceAry.push(new cc.CallFunc(function () {
                 playSkillFunc();
             }));
         }
@@ -193,6 +214,7 @@ var BattleUIViewController = mw.ViewController.extend({
     },
     _playSkillEnd: function (result) {
         var sequenceAry = [];
+        var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
         if (result["isHurtSkill"]) {
             var attacker = result["attacker"];
             var defender = result["defender"];
@@ -203,14 +225,6 @@ var BattleUIViewController = mw.ViewController.extend({
             // 血条动画
             var hpBarAction = defender.ownBySelf() ? this._playerBoard.getHpBarAction(result["delta"]) : this._enemyBoard.getHpBarAction(result["delta"]);
             sequenceAry.push(hpBarAction);
-            if (defender.isDead()) {
-                this._shouldInterupt = true;
-                sequenceAry.push(new cc.CallFunc(function () {
-                    defender.leaveBattle();
-                    defenderNode.stop();
-                }));
-            }
-            var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
             // 命中要害判断
             if (result["criticalCorrection"] > 1.0) {
                 sequenceAry.push(new cc.DelayTime(0.5));
@@ -227,7 +241,26 @@ var BattleUIViewController = mw.ViewController.extend({
                 this._checkNewBattleState(defender, sequenceAry);
             }
             this._checkNewBattleState(attacker, sequenceAry);
-        } else {
+        } else if (result["isHealSkill"]) {
+            var target = result["defender"];
+            if (result["delta"] > 0) {
+                var ownBySelf = target.ownBySelf();
+                var targetBoard = ownBySelf ? this._playerBoard : this._enemyBoard;
+                // 血条动画
+                sequenceAry.push(targetBoard.getHpBarAction(result["delta"]));
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(dialogVc.getTextAction(cc.formatStr("%s%s回复了生命值", (ownBySelf ? "我方" : "敌方"), target.getInfo().getName())));
+            } else {
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(dialogVc.getTextAction("生命值已经满了"));
+            }
+            this._checkNewBattleState(target, sequenceAry);
+            this._checkNewBattleState(result["skiller"], sequenceAry);
+        } else if (result["isFieldSkill"]) {
+            var buffId = result["buffId"];
+            sequenceAry.push(new cc.DelayTime(0.5));
+            sequenceAry.push(dialogVc.getTextAction(cc.formatStr("%s场地%s", (result["isFriend"] ? "我方" : "敌方"), FIELD_BUFF_TEXT[buffId])));
+            this._checkNewBattleState(result["skiller"], sequenceAry);
         }
         // 继续下一个行为
         this._processNextBehavior(sequenceAry);
@@ -260,7 +293,10 @@ var BattleUIViewController = mw.ViewController.extend({
             ex.GameAudioEngine.getInstance().setFinishCallback(audioId, function (id, name) {
                 ex.GameAudioEngine.getInstance().uncache(audioId);
             });
-        }));
+            this._shouldInterupt = true;
+            pokemon.leaveBattle();
+            (pokemon.ownBySelf() ? this._pokemon1 : this._pokemon2).stop();
+        }.bind(this)));
         sequenceAry.push(new cc.DelayTime(2));
         // 死亡动画 todo
         sequenceAry.push(dialogVc.getTextAction(cc.formatStr("%s%s倒下了", (pokemon.ownBySelf() ? "我方" : "敌方"), pokemon.getInfo().getName())));
@@ -285,6 +321,8 @@ var BattleUIViewController = mw.ViewController.extend({
     },
     _pokemon1: null,
     _pokemon2: null,
+    _field1: null,
+    _field2: null,
     _playerBoard: null,
     _enemyBoard: null,
     _shouldInterupt: null,

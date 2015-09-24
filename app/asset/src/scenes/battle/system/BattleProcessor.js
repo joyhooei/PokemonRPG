@@ -45,6 +45,19 @@ var BattleProcessor = cc.Class.extend({
     },
     endTurn: function () {
         // 回合结束
+        // 场地buff cd
+        for (var buffId in this._field1BuffList) {
+            --this._field1BuffList[buffId];
+            if (this._field1BuffList[buffId] <= 0) {
+                this._field1BuffList[buffId] = undefined;
+            }
+        }
+        for (var buffId in this._field2BuffList) {
+            --this._field2BuffList[buffId];
+            if (this._field2BuffList[buffId] <= 0) {
+                this._field2BuffList[buffId] = undefined;
+            }
+        }
         Notifier.notify(BATTLE_EVENTS.TURN_ENDED);
     },
     endBattle: function () {
@@ -125,9 +138,9 @@ var BattleProcessor = cc.Class.extend({
         } else if (targetType == SKILL_TARGET_TYPES.RANDOM_ENEMY) {
             target = otherPokemon;
         } else if (targetType == SKILL_TARGET_TYPES.SELF_FIELD) {
-            target = this._field1BuffList;
+            target = (skillUser.ownBySelf() ? this._field1BuffList : this._field2BuffList);
         } else if (targetType == SKILL_TARGET_TYPES.ENEMY_FIELD) {
-            target = this._field2BuffList;
+            target = (skillUser.ownBySelf() ? this._field2BuffList : this._field1BuffList);
         } else if (targetType == SKILL_TARGET_TYPES.FRIEND) {
             target = null;
         } else if (targetType == SKILL_TARGET_TYPES.WAITING) {
@@ -142,6 +155,28 @@ var BattleProcessor = cc.Class.extend({
         var result = handler.call(this, skillUser, target, skillInfo);
 
         return result;
+    },
+    _calculateHit: function (attacker, defender, skillInfo) {
+        var hitRate = skillInfo.getHitRate();
+        if (hitRate == null) {
+            // 必中
+            return true;
+        }
+        // 等级修正
+        var levelCorrection = attacker.getLevel() - defender.getLevel();
+        // 能力等级修正
+        var attackerHitRateLevel = attacker.getAbilityLevels()[5];
+        var defenderAvoidLevel = defender.getAbilityLevels()[6];
+        // 道具修正 todo
+        // 特性修正 todo
+        var finalCorrection = (3 + attackerHitRateLevel) / (3 + defenderAvoidLevel);
+        hitRate = Math.floor((hitRate + levelCorrection) * finalCorrection);
+        logBattle("技能命中率: %d", hitRate);
+        if (hitRate >= 100) {
+            return true;
+        }
+        var rd = Math.ceil(Math.random() * 100);
+        return rd <= hitRate;
     },
     _calculateHurt: function (attacker, defender, skillInfo) {
         var skillAtk = skillInfo.getAttack();
@@ -217,13 +252,13 @@ var BattleProcessor = cc.Class.extend({
     /**
      * 技能处理函数
      */
-    // 攻击单体
-    _skillAttackOne: function (skillUser, target, skillInfo) {
+    _handleParams: function (skillUser, target, skillInfo) {
         var logicParams = skillInfo.getLogicParams();
         var params = null;
         if (logicParams && logicParams.length > 0) {
             params = logicParams.split(";");
         }
+        var extraData = {};
         if (params) {
             // 特殊情形 (逆鳞类似技能)
             if (params[0] == 1 && skillUser.getRepeat() == 0) {
@@ -235,9 +270,37 @@ var BattleProcessor = cc.Class.extend({
                 rd += min;
                 skillUser.setRepeat(rd);
                 skillUser.setNextBattleState(state);
+            } else if (params[0] == 2) {
+                // 回复生命值
+                var percent = parseFloat(params[1]);
+                var val = Math.floor(percent * target.getBasicValues()[0]);
+                var delta = target.heal(val);
+                extraData["delta"] = delta;
+            } else if (params[0] == 3) {
+                // 添加场地buff
+                var args = params[1].split(",");
+                var buffId = parseInt(args[0]);
+                var turns = parseInt(args[1]);
+                target[buffId] = turns;
+                extraData["buffId"] = buffId;
             }
         }
+        return extraData;
+    },
+    _mergeData: function (targetData, data) {
+        for (var key in data) {
+            targetData[key] = data[key];
+        }
+    },
+    // 攻击单体
+    _skillAttackOne: function (skillUser, target, skillInfo) {
+        var didHit = this._calculateHit(skillUser, target, skillInfo);
+        if (!didHit) {
+            return { notHit: true };
+        }
+        var extraData = this._handleParams(skillUser, target, skillInfo);
         var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
+        this._mergeData(hurtInfo, extraData);
         hurtInfo["attacker"] = skillUser;
         hurtInfo["defender"] = target;
         hurtInfo["delta"] = target.hurt(hurtInfo["hurt"]);
@@ -252,12 +315,13 @@ var BattleProcessor = cc.Class.extend({
     },
     // 攻击敌方全体
     _skillAttackEnemyAll: function (skillUser, target, skillInfo) {
-        var logicParams = skillInfo.getLogicParams();
-        var params = null;
-        if (logicParams && logicParams.length > 0) {
-            params = logicParams.split(";");
+        var didHit = this._calculateHit(skillUser, target, skillInfo);
+        if (!didHit) {
+            return { notHit: true };
         }
+        var extraData = this._handleParams(skillUser, target, skillInfo);
         var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
+        this._mergeData(hurtInfo, extraData);
         hurtInfo["attacker"] = skillUser;
         hurtInfo["defender"] = target;
         hurtInfo["delta"] = target.hurt(hurtInfo["hurt"]);
@@ -268,6 +332,24 @@ var BattleProcessor = cc.Class.extend({
     },
     // 单体回复HP
     _skillRecoverOne: function (skillUser, target, skillInfo) {
-        var logicParams = skillInfo.getLogicParams();
+        var extraData = this._handleParams(skillUser, target, skillInfo);
+        extraData["skiller"] = skillUser;
+        extraData["isHealSkill"] = true;
+        if (target instanceof Pokemon) {
+            extraData["targetType"] = 1;
+            extraData["defender"] = target;
+        }
+
+        return extraData;
+    },
+    // 给场地添加buff
+    _skillBuffField: function (skillUser, target, skillInfo) {
+        var extraData = this._handleParams(skillUser, target, skillInfo);
+        extraData["skiller"] = skillUser;
+        extraData["isFieldSkill"] = true;
+        extraData["isFriend"] = (target == this._field1BuffList);
+        extraData["targetType"] = 2;
+
+        return extraData;
     },
 });

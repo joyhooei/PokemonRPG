@@ -28,10 +28,12 @@ var BattlePlayerBoardView = BattleEnemyBoardView.extend({
         var basicValues = this._model.getBasicValues();
         this._lblHp.setString(cc.formatStr("%d / %d", this._model.getHp(), basicValues[0]));
     },
-    _checkHpState: function () {
+    _checkHpState: function (force) {
         this._super();
         if (this._lblHp) {
-            this._lblHp.setString(cc.formatStr("%d / %d", Math.floor(this._hpBar.getPercent() / 100 * this._model.getBasicValues()[0]), this._model.getBasicValues()[0]));
+            // 是否强制设置成准确值
+            var hp = force ? this._model.getHp() : Math.floor(this._hpBar.getPercent() / 100 * this._model.getBasicValues()[0]);
+            this._lblHp.setString(cc.formatStr("%d / %d", hp, this._model.getBasicValues()[0]));
         }
     },
     _type: 1,

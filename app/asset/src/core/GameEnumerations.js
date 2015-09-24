@@ -221,3 +221,7 @@ var BATTLE_BEHAVIORS = {
 var FIELD_BUFF = {
     NO_ABNORMAL_STATE: 1,  // 不会陷入异常状态(不包括战斗状态和濒死)
 };
+
+var FIELD_BUFF_TEXT = {
+    1: "获得了神秘的守护力量",
+}

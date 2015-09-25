@@ -5,24 +5,10 @@
 /**
  * port from Javascript State Machine Library
  * https://github.com/jakesgordon/javascript-state-machine
-  */
-var FiniteStateMachine = Component.extend({
-    // constants
-    FSM_RESULT: {
-        SUCCEEDED: 1,   // the event transitioned successfully from one state to another
-        NO_TRANSITION: 2,    // the event was successful but no state transition was necessary
-        CANCELLED: 3,   // the event was cancelled by the caller in a beforeEvent callback
-        PENDING: 4,  // the event is asynchronous and the caller is in control of when the transition occurs
-        FAILURE: 5,     // the event is failed
-    },
-    FSM_ERROR: {
-        INVALID_TRANSITION: 100, // caller tried to fire an event that was inappropriate in the current state
-        PENDING_TRANSITION: 200, // caller tried to fire an event while an async transition was still pending
-        INVALID_CALLBACK: 300,   // caller provided callback function threw an exception
-    },
-    WILD_CARD: "*",
-    ASYNC: "async",
+ */
+var FiniteStateMachine;
 
+FiniteStateMachine = Component.extend({
     ctor: function () {
         this._super("FiniteStateMachine");
     },
@@ -32,28 +18,31 @@ var FiniteStateMachine = Component.extend({
         if (typeof cfg["initial"] == "string") {
             this._initial = { state: cfg["initial"] }
         } else {
-            this._initial = cfg.initial;
+            this._initial = cfg["initial"];
         }
         this._terminal = cfg["terminal"] || cfg["final"];
         this._events = cfg["events"] || [];
         this._callbacks = cfg["callbacks"] || [];
         this._map = {}; // track state transitions allowed for an event { event: { from: [ to ] } }
-        this._current = "none";
+        this._current = FiniteStateMachine.NONE_STATE;
         this._inTransition = false;
 
+        // add the initial event if there is.
         if (this._initial) {
-            this._initial["event"] = this._initial["event"] || "startup";
+            this._initial["event"] = this._initial["event"] || FiniteStateMachine.STARTUP_EVENT;
             this._addEvent({
                 name: this._initial["event"],
-                from: "none",
+                from: FiniteStateMachine.NONE_STATE,
                 to: this._initial["state"],
             });
         }
 
+        // add the config events.
         for (var i = 0; i < this._events.length; ++i) {
             this._addEvent(this._events[i]);
         }
 
+        // with no defer, do the initial event immediately.
         if (this._initial && !this._initial["defer"]) {
             this.doEvent(this._initial["event"]);
         }
@@ -84,6 +73,12 @@ var FiniteStateMachine = Component.extend({
     isTerminalState: function () {
         return this.isState(this._terminal);
     },
+    /**
+     * force do event for the target, this will ignore the undefined operations.
+     * @param evt eventName
+     * @param ... extra arguments
+     * @returns {Number}
+     */
     doEventForce: function () {
         var evt = Array.prototype.shift.call(arguments);
         var args = Array.prototype.slice.call(arguments);
@@ -115,6 +110,12 @@ var FiniteStateMachine = Component.extend({
 
         return FiniteStateMachine.FSM_RESULT.SUCCEEDED;
     },
+    /**
+     * do event for the target.
+     * @param evt eventName
+     * @param ... extra arguments
+     * @returns {Number}
+     */
     doEvent: function () {
         var evt = Array.prototype.shift.call(arguments);
         var args = Array.prototype.slice.call(arguments);
@@ -146,7 +147,8 @@ var FiniteStateMachine = Component.extend({
             return FiniteStateMachine.FSM_RESULT.FAILURE;
         }
 
-        if (!this._beforeEvent(event)) {
+        // be aware of here, function "onbefore..." should return true/false to judge whether to cancel the event.
+        if (this._beforeEvent(event) === false) {
             return FiniteStateMachine.FSM_RESULT.CANCELLED;
         }
 
@@ -155,6 +157,7 @@ var FiniteStateMachine = Component.extend({
             return FiniteStateMachine.FSM_RESULT.NO_TRANSITION;
         }
 
+        // this method should only be called once
         event.transition = function () {
             this._inTransition = false;
             this._current = to;
@@ -163,6 +166,7 @@ var FiniteStateMachine = Component.extend({
             this._afterEvent(event);
             return FiniteStateMachine.FSM_RESULT.SUCCEEDED;
         }.bind(this);
+        // provide a way for caller to cancel async transition if desired
         event.cancel = function () {
             this._inTransition = false;
             event.transition = undefined;
@@ -171,12 +175,14 @@ var FiniteStateMachine = Component.extend({
 
         this._inTransition = true;
         var leave = this._leaveState(event);
-        if (!leave) {
+        if (leave === false) {
+            // you can cancel the state in function "onleave..." by return false.
             event.transition = undefined;
             event.cancel = undefined;
             this._inTransition = false;
             return FiniteStateMachine.FSM_RESULT.CANCELLED;
-        } else if (leave.toString().toLowerCase() == FiniteStateMachine.ASYNC) {
+        } else if (leave == FiniteStateMachine.ASYNC) {
+            // you can mark async in function "onleave..." by return FiniteStateMachine.FSM_RESULT.PENDING until transition method is called.
             return FiniteStateMachine.FSM_RESULT.PENDING;
         } else {
             // need to check in case user manually called transition()
@@ -193,7 +199,7 @@ var FiniteStateMachine = Component.extend({
     onUnbind: function () {
     },
     _addEvent: function (evt) {
-        var from = {};
+        var from = {};      // save the enabled 'from state' for the event.  { from1: true, from2: true, ... }
         if (evt["from"] instanceof Array) {
             for (var i = 0; i < evt["from"].length; ++i) {
                 from[evt["from"][i]] = true;
@@ -201,12 +207,14 @@ var FiniteStateMachine = Component.extend({
         } else if (evt["from"]) {
             from[evt["from"]] = true;
         } else {
-            // allow "wildcard" transition if "from" is not specified
+            // allow "wildcard" transition if "from" is not specified.
             from[FiniteStateMachine.WILD_CARD] = true;
         }
 
-        this._map[evt["name"]] = this._map[evt["name"]] || {};
-        var map = this._map[evt["name"]];
+        var eventName = evt["name"];
+        this._map[eventName] = this._map[eventName] || {};
+        var map = this._map[eventName];
+        // allow no transition if "to" is not specified.
         for (var fromName in from) {
             map[fromName] = evt["to"] || fromName;
         }
@@ -215,7 +223,6 @@ var FiniteStateMachine = Component.extend({
         if (callback) {
             return callback(event);
         }
-        return null;
     },
     _beforeAnyEvent: function (evt) {
         return this._doCallback(this._callbacks["onbeforeevent"], evt);
@@ -233,10 +240,10 @@ var FiniteStateMachine = Component.extend({
         return this._doCallback(this._callbacks["onchangestate"], evt);
     },
     _beforeThisEvent: function (evt) {
-        return this._doCallback(this._callbacks["onbefore"] + evt["name"], evt);
+        return this._doCallback(this._callbacks["onbefore" + evt["name"]], evt);
     },
     _afterThisEvent: function (evt) {
-        return this._doCallback(this._callbacks["onafter"] + evt["name"] || this._callbacks["on" + event["name"]], evt);
+        return this._doCallback(this._callbacks["onafter" + evt["name"]] || this._callbacks["on" + evt["name"]], evt);
     },
     _leaveThisState: function (evt) {
         return this._doCallback(this._callbacks["onleave" + evt["from"]], evt);
@@ -245,10 +252,9 @@ var FiniteStateMachine = Component.extend({
         return this._doCallback(this._callbacks["onenter" + evt["to"]] || this._callbacks["on" + evt["to"]], evt);
     },
     _beforeEvent: function (evt) {
-        if (!this._beforeThisEvent(evt) || !this._beforeAnyEvent(evt)) {
+        if (this._beforeThisEvent(evt) === false || this._beforeAnyEvent(evt) === false) {
             return false;
         }
-        return true;
     },
     _afterEvent: function (evt) {
         this._afterThisEvent(evt);
@@ -257,12 +263,11 @@ var FiniteStateMachine = Component.extend({
     _leaveState: function (evt, transition) {
         var specific = this._leaveThisState(evt, transition);
         var general = this._leaveAnyState(evt, transition);
-        if (!specific || !general) {
+        if (specific === false || general === false) {
             return false;
-        } else if (specific.toLowerCase() == FiniteStateMachine.ASYNC || general.toLowerCase() == FiniteStateMachine.ASYNC) {
+        } else if (specific == FiniteStateMachine.ASYNC || general == FiniteStateMachine.ASYNC) {
             return FiniteStateMachine.ASYNC;
         }
-        return true;
     },
     _enterState: function (evt) {
         this._enterThisState(evt);
@@ -280,3 +285,21 @@ var FiniteStateMachine = Component.extend({
     _current: null,
     _inTransition: null,
 });
+
+// constants
+FiniteStateMachine.FSM_RESULT = {
+    SUCCEEDED: 1,   // the event transitioned successfully from one state to another
+    NO_TRANSITION: 2,    // the event was successful but no state transition was necessary
+    CANCELLED: 3,   // the event was cancelled by the caller in a beforeEvent callback
+    PENDING: 4,  // the event is asynchronous and the caller is in control of when the transition occurs
+    FAILURE: 5,     // the event is failed
+};
+FiniteStateMachine.FSM_ERROR = {
+    INVALID_TRANSITION: 100, // caller tried to fire an event that was inappropriate in the current state
+    PENDING_TRANSITION: 101, // caller tried to fire an event while an async transition was still pending
+    INVALID_CALLBACK: 102,   // caller provided callback function threw an exception
+};
+FiniteStateMachine.WILD_CARD = "*";     // indicates any states will be ok
+FiniteStateMachine.ASYNC = "async";
+FiniteStateMachine.NONE_STATE = "none";
+FiniteStateMachine.STARTUP_EVENT = "startup";

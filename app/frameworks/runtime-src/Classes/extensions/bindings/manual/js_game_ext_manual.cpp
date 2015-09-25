@@ -18,7 +18,7 @@ bool jsb_game_ext_UITextOneByOne_create(JSContext *cx, uint32_t argc, jsval *vp)
         double duration;
         vector<string> array;
         
-        ok &= JS::ToNumber(cx, args.get(0), &duration) && !isnan(duration);
+        ok &= JS::ToNumber(cx, args.get(0), &duration) && !::isnan(duration);
         ok &= JS_IsArrayObject(cx, JS::RootedObject(cx, args.get(1).toObjectOrNull()));
         JSB_PRECONDITION2(ok, cx, false, "Error processing arguments");
         

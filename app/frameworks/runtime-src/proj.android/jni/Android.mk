@@ -9,8 +9,10 @@ LOCAL_MODULE_FILENAME := libcocos2djs
 LOCAL_SRC_FILES := entrance/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/extensions/actions/UIProgressActions.cpp \
+                   ../../Classes/extensions/actions/UITextActions.cpp \
                    ../../Classes/extensions/audio/GameAudioEngine.cpp \
                    ../../Classes/extensions/bindings/auto/js_game_ext_auto.cpp \
+                   ../../Classes/extensions/bindings/manual/js_game_ext_manual.cpp \
 				   ../../Framework/base/FrameworkErrors.cpp \
 				   ../../Framework/base/MWArrayList.cpp \
 				   ../../Framework/base/MWBinaryData.cpp \
@@ -89,6 +91,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
 					$(LOCAL_PATH)/../../Classes/extensions/audio \
 					$(LOCAL_PATH)/../../Classes/extensions/bindings \
 					$(LOCAL_PATH)/../../Classes/extensions/bindings/auto \
+					$(LOCAL_PATH)/../../Classes/extensions/bindings/manual \
 					$(LOCAL_PATH)/../../Framework \
 					$(LOCAL_PATH)/../../Framework/base \
 					$(LOCAL_PATH)/../../Framework/compression \

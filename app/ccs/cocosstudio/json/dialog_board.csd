@@ -1,5 +1,5 @@
 <GameProjectFile>
-  <PropertyGroup Type="Node" Name="dialog_board" ID="eb1cecae-245f-4d97-88c0-22eabea6181c" Version="2.3.1.1" />
+  <PropertyGroup Type="Node" Name="dialog_board" ID="eb1cecae-245f-4d97-88c0-22eabea6181c" Version="2.3.2.3" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />

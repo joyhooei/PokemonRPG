@@ -238,6 +238,7 @@ var BattleUIViewController = mw.ViewController.extend({
             if (defender.isDead()) {
                 this._getDeadAction(defender, sequenceAry);
             } else {
+                this._checkAbilityLevels(attacker, result, sequenceAry);
                 this._checkNewBattleState(defender, sequenceAry);
             }
             this._checkNewBattleState(attacker, sequenceAry);
@@ -276,6 +277,82 @@ var BattleUIViewController = mw.ViewController.extend({
             }
             battleProcessor.process();
         }.bind(this)));
+    },
+    _checkAbilityLevels: function (skillUser, skillResult, sequenceAry) {
+        var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+        var propMap = [ "攻击", "防御", "特攻", "特防", "速度" ];
+        var levelMap = [ "迅速下降", "下降", "", "上升", "迅速上升" ];
+        var ownBySelf = skillUser.ownBySelf();
+        var attackerNode = (ownBySelf ? this._pokemon1 : this._pokemon2);
+        var defenderNode = (ownBySelf ? this._pokemon2 : this._pokemon1);
+        var enemyAbilityLevels = skillResult["targetAbilityLevels"];
+        if (enemyAbilityLevels) {
+            if (skillResult["enemyShouldPlay"]) {
+                sequenceAry.push(new cc.CallFunc(function () {
+                    var particle = new cc.ParticleSystem(cc.formatStr("particles/particle%d.plist", skillResult["enemyAnimationType"]));
+                    particle.setAutoRemoveOnFinish(true);
+                    particle.setPosition(defenderNode.getContentSize().width * 0.5, defenderNode.getContentSize().height * 0.5);
+                    defenderNode.addChild(particle);
+                }));
+            }
+            sequenceAry.push(new cc.DelayTime(2));
+            for (var i in enemyAbilityLevels) {
+                var data = enemyAbilityLevels[i];
+                var prop = data[0];
+                var delta = data[1];
+                var canChange = data[2];
+                //sequenceAry.push(new cc.DelayTime(0.5));
+                if (!canChange) {
+                    sequenceAry.push(dialogVc.getTextAction(
+                        cc.formatStr("敌方%s%s已经不能%s了",
+                            defenderNode.getModel().getInfo().getName(),
+                            propMap[prop],
+                            (delta > 0 ? "上升" : "下降")
+                        )));
+                } else {
+                    sequenceAry.push(dialogVc.getTextAction(
+                        cc.formatStr("敌方%s%s%s",
+                            defenderNode.getModel().getInfo().getName(),
+                            propMap[prop],
+                            levelMap[delta + 2]
+                        )));
+                }
+            }
+        }
+        var selfAbilityLevels = skillResult["selfAbilityLevels"];
+        if (selfAbilityLevels) {
+            if (skillResult["selfShouldPlay"]) {
+                sequenceAry.push(new cc.CallFunc(function () {
+                    var particle = new cc.ParticleSystem(cc.formatStr("particles/particle%d.plist", skillResult["selfAnimationType"]));
+                    particle.setAutoRemoveOnFinish(true);
+                    particle.setPosition(attackerNode.getContentSize().width * 0.5, attackerNode.getContentSize().height * 0.5);
+                    attackerNode.addChild(particle);
+                }));
+            }
+            sequenceAry.push(new cc.DelayTime(2));
+            for (var i in selfAbilityLevels) {
+                var data = selfAbilityLevels[i];
+                var prop = data[0];
+                var delta = data[1];
+                var canChange = data[2];
+                //sequenceAry.push(new cc.DelayTime(0.5));
+                if (!canChange) {
+                    sequenceAry.push(dialogVc.getTextAction(
+                        cc.formatStr("我方%s%s已经不能%s了",
+                            attackerNode.getModel().getInfo().getName(),
+                            propMap[prop],
+                            (delta > 0 ? "上升" : "下降")
+                        )));
+                } else {
+                    sequenceAry.push(dialogVc.getTextAction(
+                        cc.formatStr("我方%s%s%s",
+                            attackerNode.getModel().getInfo().getName(),
+                            propMap[prop],
+                            levelMap[delta + 2]
+                        )));
+                }
+            }
+        }
     },
     _checkNewBattleState: function (pokemon, sequenceAry) {
         var newState = pokemon.getNewBattleState();

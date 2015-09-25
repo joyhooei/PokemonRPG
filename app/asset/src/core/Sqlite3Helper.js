@@ -62,7 +62,7 @@ var Sqlite3Helper = {
     _parseIntForData: function (data, propList) {
         for (var i = 0; i < propList.length; ++i) {
             var key = propList[i];
-            if (data[key] && data[key].length > 0) {
+            if (data[key] && data[key].trim().length > 0) {
                 data[key] = parseInt(data[key]);
             } else {
                 data[key] = null;
@@ -72,7 +72,7 @@ var Sqlite3Helper = {
     _splitAndParseIntForData: function (data, propList) {
         for (var i = 0; i < propList.length; ++i) {
             var key = propList[i];
-            if (data[key] && data[key].length > 0) {
+            if (data[key] && data[key].trim().length > 0) {
                 data[key] = data[key].split(",").map(function (item, index, ary) {
                     return parseInt(item);
                 });

@@ -1,5 +1,5 @@
 <GameProjectFile>
-  <PropertyGroup Type="Node" Name="skill_cell" ID="c546d687-90e2-4748-9bea-c6f840d8da44" Version="2.3.1.1" />
+  <PropertyGroup Type="Node" Name="skill_cell" ID="c546d687-90e2-4748-9bea-c6f840d8da44" Version="2.3.2.3" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />
@@ -45,7 +45,7 @@
                 <OutlineColor A="255" R="255" G="0" B="0" />
                 <ShadowColor A="255" R="110" G="110" B="110" />
               </AbstractNodeData>
-              <AbstractNodeData Name="detail_bg" ActionTag="-789752780" Tag="110" VisibleForFrame="False" IconVisible="False" TopMargin="-102.0000" BottomMargin="72.0000" Scale9Enable="True" LeftEage="33" RightEage="33" TopEage="33" BottomEage="33" Scale9OriginX="33" Scale9OriginY="33" Scale9Width="34" Scale9Height="34" ctype="ImageViewObjectData">
+              <AbstractNodeData Name="detail_bg" ActionTag="-789752780" VisibleForFrame="False" Tag="110" IconVisible="False" TopMargin="-102.0000" BottomMargin="72.0000" Scale9Enable="True" LeftEage="33" RightEage="33" TopEage="33" BottomEage="33" Scale9OriginX="33" Scale9OriginY="33" Scale9Width="34" Scale9Height="34" ctype="ImageViewObjectData">
                 <Size X="175.0000" Y="100.0000" />
                 <Children>
                   <AbstractNodeData Name="skill_desc" ActionTag="1653311979" Tag="143" IconVisible="False" HorizontalEdge="BothEdge" VerticalEdge="BothEdge" LeftMargin="12.5000" RightMargin="12.5000" TopMargin="12.5000" BottomMargin="12.5000" IsCustomSize="True" FontSize="16" LabelText="这是技能描述" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">

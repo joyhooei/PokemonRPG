@@ -1,9 +1,15 @@
 基本格式：类型;参数
 
 类型如下：
-1;min,max,state            随机[min, max]回合连续使用此技能，使用完毕后进入state(战斗状态)。
-2;percent                  回复最大HP的percent倍，范围(0,1]。
-3;buff,turns               添加场地buff，持续turns回合。
-4;rate,target,prop,level   rate%概率target(1表示自己,2表示敌方)增加/减少prop属性level级(level为正就是增加,为负就是减少)。
-5;rate,state               rate%概率使对方进入state(战斗状态)。
-6;rate,state               rate%概率使对方进入state(异常状态)。
+1;min,max,state            
+随机[min,max]回合连续使用此技能，使用完毕后进入state(战斗状态)。
+2;percent                  
+回复最大HP的percent倍，范围(0,1]。
+3;buff,turns               
+添加场地buff，持续turns回合。
+4;rate,selfAnim,targetAnim,target,prop,level[,target,prop,level,…]  
+rate%概率target(1表示自己,2表示敌方)增加/减少prop属性level级(level为正就是增加,为负就是减少)，可以有多个。selfAnim表示己方效果类型，targetAnim表示敌方效果类型
+5;rate,state               
+rate%概率使对方进入state(战斗状态)。
+6;rate,state               
+rate%概率使对方进入state(异常状态)。

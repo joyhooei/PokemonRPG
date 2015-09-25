@@ -283,6 +283,40 @@ var BattleProcessor = cc.Class.extend({
                 var turns = parseInt(args[1]);
                 target[buffId] = turns;
                 extraData["buffId"] = buffId;
+            } else if (params[0] == 4) {
+                // 某一方增加或减少能力等级
+                var args = params[1].split(",");
+                var rate = parseInt(args[0]);
+                extraData["selfAnimationType"] = parseInt(args[1]);
+                extraData["enemyAnimationType"] = parseInt(args[2]);
+                extraData["selfShouldPlay"] = false;
+                extraData["enemyShouldPlay"] = false;
+                for (var i = 0; i < (args.length - 3) / 3; ++i) {
+                    var tgt = parseInt(args[i * 3 + 3]);
+                    var prop = parseInt(args[i * 3 + 4]);
+                    var delta = parseInt(args[i * 3 + 5]);
+                    var rd = Math.ceil(Math.random() * 100);
+                    if (rd <= rate) {
+                        if (tgt == 1 && extraData["selfAbilityLevels"] === undefined) {
+                            extraData["selfAbilityLevels"] = [];
+                        } else if (tgt == 2 && extraData["targetAbilityLevels"] === undefined) {
+                            extraData["targetAbilityLevels"] = [];
+                        }
+                        if (tgt == 1) {
+                            var success = skillUser.updateAbilityLevel(prop, delta);
+                            if (success) {
+                                extraData["selfShouldPlay"] = true;
+                            }
+                            extraData["selfAbilityLevels"].push([prop, delta, success]);
+                        } else if (tgt == 2) {
+                            var success = target.updateAbilityLevel(prop, delta);
+                            if (success) {
+                                extraData["enemyShouldPlay"] = true;
+                            }
+                            extraData["targetAbilityLevels"].push([prop, delta, success]);
+                        }
+                    }
+                }
             }
         }
         return extraData;

@@ -219,6 +219,15 @@ var Pokemon = ModelBase.extend({
     getAbilityLevels: function () {
         return this._abilityLevels;
     },
+    updateAbilityLevel: function (prop, delta) {
+        if ((this._abilityLevels[prop] == -6 && delta < 0) || (this._abilityLevels[prop] == 6 && delta > 0)) {
+            // 已经满了 不能再改变
+            return false;
+        }
+        logBattle("%d 能力等级%d变化%d", this._id, prop, delta);
+        this._abilityLevels[prop] += delta;
+        return true;
+    },
     checkBattleState: function (state) {
         if (this._battleStates[state] == undefined) {
             return -1;

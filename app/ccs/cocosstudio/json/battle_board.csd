@@ -1,5 +1,5 @@
 <GameProjectFile>
-  <PropertyGroup Type="Node" Name="battle_board" ID="0c92452f-2240-4798-b453-38752357ce44" Version="2.3.1.1" />
+  <PropertyGroup Type="Node" Name="battle_board" ID="0c92452f-2240-4798-b453-38752357ce44" Version="2.3.2.3" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />

@@ -72,7 +72,7 @@ var ModelBase = cc.Class.extend({
     },
     _setProperties: function (props) {
         for (var propName in this._scheme) {
-            if (props[propName] != undefined) {
+            if (props[propName] !== undefined) {
                 var propAttr = this._scheme[propName];
                 var propType = propAttr[0];
                 var propValue = props[propName];

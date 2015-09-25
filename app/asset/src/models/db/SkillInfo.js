@@ -47,8 +47,6 @@ var SkillInfo = ModelBase.extend({
             logicParams: data["logicParams"],
             animationParams: data["animationParams"],
         });
-
-        mw.error("@@", this._hitRate);
     },
     getName: function () {
         return this._name;

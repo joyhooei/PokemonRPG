@@ -118,6 +118,14 @@ var BattleUIViewController = mw.ViewController.extend({
                 sequenceAry.push(dialogVc.getTextAction("技能没有命中"));
                 this._processNextBehavior(sequenceAry);
                 this.view().runAction(new cc.Sequence(sequenceAry));
+            } else if (skillResult["hasBuff"]) {
+                // 场地buff重复
+                var sequenceAry = [];
+                var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(dialogVc.getTextAction("但是没有作用"));
+                this._processNextBehavior(sequenceAry);
+                this.view().runAction(new cc.Sequence(sequenceAry));
             } else {
                 var animationParams = skillInfo.getAnimationParams().split(";");
                 var animationType = parseInt(animationParams[0]);

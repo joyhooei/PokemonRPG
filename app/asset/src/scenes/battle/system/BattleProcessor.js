@@ -281,7 +281,11 @@ var BattleProcessor = cc.Class.extend({
                 var args = params[1].split(",");
                 var buffId = parseInt(args[0]);
                 var turns = parseInt(args[1]);
-                target[buffId] = turns;
+                if (target[buffId]) {
+                    extraData["hasBuff"] = true;
+                } else {
+                    target[buffId] = turns;
+                }
                 extraData["buffId"] = buffId;
             } else if (params[0] == 4) {
                 // 某一方增加或减少能力等级

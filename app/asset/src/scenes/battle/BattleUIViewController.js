@@ -246,6 +246,7 @@ var BattleUIViewController = mw.ViewController.extend({
             if (defender.isDead()) {
                 this._getDeadAction(defender, sequenceAry);
             } else {
+                this._checkAbilityLevels(defender, result, sequenceAry);
                 this._checkAbilityLevels(attacker, result, sequenceAry);
                 this._checkNewBattleState(defender, sequenceAry);
             }
@@ -365,7 +366,15 @@ var BattleUIViewController = mw.ViewController.extend({
     _checkNewBattleState: function (pokemon, sequenceAry) {
         var newState = pokemon.getNewBattleState();
         if (newState) {
-            this._getBattleStateAction(newState, pokemon, sequenceAry);
+            var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+            var ownBySelf = pokemon.ownBySelf();
+            if (pokemon.hasBattleState(newState)) {
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(
+                    dialogVc.getTextAction(cc.formatStr("%s%s已经%s了", (ownBySelf ? "我方" : "敌方"), pokemon.getInfo().getName(), BATTLE_STATE_NAMES[newState])));
+            } else {
+                this._getBattleStateAction(newState, pokemon, sequenceAry);
+            }
             pokemon.refreshBattleState();
         }
     },

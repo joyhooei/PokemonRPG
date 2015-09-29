@@ -257,6 +257,12 @@ var Pokemon = ModelBase.extend({
         }
         this._battleStates[state] = turns;
     },
+    hasBattleState: function (state) {
+        if (this._battleStates[state] !== undefined) {
+            return true;
+        }
+        return false;
+    },
     getRepeat: function () {
         return this._repeat;
     },
@@ -269,8 +275,12 @@ var Pokemon = ModelBase.extend({
     getNewBattleState: function () {
         return this._newBattleState;
     },
+    setNewBattleState: function (state) {
+        logBattle("%d添加了战斗状态: %d", this._id, state);
+        this._newBattleState = state;
+    },
     refreshBattleState: function () {
-        if (this._newBattleState && this._newBattleState != BATTLE_STATES.NORMAL) {
+        if (this._newBattleState && this._battleStates[this._newBattleState] === undefined && this._newBattleState != BATTLE_STATES.NORMAL) {
             var turns = 1;      // 害怕和不能行动只有1回合
             if (this._newBattleState != BATTLE_STATES.SCARED && this._newBattleState != BATTLE_STATES.TIRED) {
                 // 随机1-5回合

@@ -260,8 +260,8 @@ var BattleProcessor = cc.Class.extend({
         }
         var extraData = {};
         if (params) {
-            // 特殊情形 (逆鳞类似技能)
             if (params[0] == 1 && skillUser.getRepeat() == 0) {
+                // 特殊情形 (逆鳞类似技能)
                 var args = params[1].split(",");
                 var min = parseInt(args[0]);
                 var max = parseInt(args[1]);
@@ -320,6 +320,16 @@ var BattleProcessor = cc.Class.extend({
                             extraData["targetAbilityLevels"].push([prop, delta, success]);
                         }
                     }
+                }
+            } else if (params[0] == 5) {
+                // 一定概率给敌方添加战斗状态
+                var args = params[1].split(",");
+                var rate = parseInt(args[0]);
+                var state = parseInt(args[1]);
+                var rd = Math.ceil(Math.random() * 100);
+                if (true) {
+                    if (target)
+                    target.setNewBattleState(state);
                 }
             }
         }

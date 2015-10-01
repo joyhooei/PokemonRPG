@@ -17,7 +17,7 @@ BattleAI = Component.extend({
         cc.assert(this._aiLevel, "未设置AI级别");
 
         // 处理类似逆鳞技能的特殊情况
-        if (this._target.getRepeat() > 0) {
+        if (this._target.getRepeat() > 0 || this._target.isPreparing()) {
             return this._lastBehavior;
         }
         var handlerName = "_think" + this._aiLevel.toString();

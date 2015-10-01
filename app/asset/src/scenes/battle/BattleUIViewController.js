@@ -144,16 +144,22 @@ var BattleUIViewController = mw.ViewController.extend({
             }));
         } else {
             sequenceAry.push(new cc.CallFunc(function () {
-                this.scene().getViewControllerByIdentifier(BATTLE_OPERATION_VC_NAME).turnEnded();
+                this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME).clearText();
+                this.scene().getViewControllerByIdentifier(BATTLE_OPERATION_VC_NAME).endTurn();
             }.bind(this)));
         }
-        this.view().runAction(new cc.Sequence(sequenceAry));
+        // 卧槽尼玛 被这个bug坑死了 Sequence的参数如果是数组而且只有一个 会同时执行两次
+        if (sequenceAry.length > 1) {
+            this.view().runAction(new cc.Sequence(sequenceAry));
+        } else {
+            this.view().runAction(sequenceAry[0]);
+        }
     },
     _onPlaySkill: function (pokemonModel, skillInfo) {
         var battleProcessor = this.scene().getBattleProcessor();
         var playSkillFunc = function () {
             // 减少pp
-            if (pokemonModel.getRepeat() == 0) {
+            if (pokemonModel.getRepeat() == 0 && !pokemonModel.isPreparing()) {
                 pokemonModel.reducePP(skillInfo.getId(), 1);
             }
             var skillResult = battleProcessor.analyzeSkill(pokemonModel, skillInfo);
@@ -165,6 +171,14 @@ var BattleUIViewController = mw.ViewController.extend({
                 sequenceAry.push(dialogVc.getTextAction("技能没有命中"));
                 this._processNextBehavior(sequenceAry);
                 this.view().runAction(new cc.Sequence(sequenceAry));
+            } else if (skillResult["noEffect"]) {
+                // 没有效果
+                var sequenceAry = [];
+                var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(dialogVc.getTextAction("貌似没有效果"));
+                this._processNextBehavior(sequenceAry);
+                this.view().runAction(new cc.Sequence(sequenceAry));
             } else if (skillResult["hasBuff"]) {
                 // 场地buff重复
                 var sequenceAry = [];
@@ -173,12 +187,23 @@ var BattleUIViewController = mw.ViewController.extend({
                 sequenceAry.push(dialogVc.getTextAction("但是没有作用"));
                 this._processNextBehavior(sequenceAry);
                 this.view().runAction(new cc.Sequence(sequenceAry));
-            } else if (skillResult["propertyCorrection"] == 0.0) {
-                // 没有效果
+            } else if (skillResult["isPreparing"]) {
                 var sequenceAry = [];
                 var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
-                sequenceAry.push(new cc.DelayTime(0.5));
-                sequenceAry.push(dialogVc.getTextAction("貌似没有效果"));
+                var animationType = skillResult["animType"];
+                var target = this._pokemon1.getModel() == skillResult["attacker"] ? this._pokemon1 : this._pokemon2;
+                if (animationType == 1) {
+                    sequenceAry.push(new cc.CallFunc(function () {
+                        var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", skillResult["animName"]));
+                        particle.setAutoRemoveOnFinish(true);
+                        particle.setPosition(target.getContentSize().width * 0.5, target.getContentSize().height * 0.5);
+                        target.addChild(particle);
+                    }));
+                    sequenceAry.push(new cc.DelayTime(2));
+                }
+                sequenceAry.push(dialogVc.getTextAction(
+                    cc.formatStr("%s%s%s", (pokemonModel.ownBySelf() ? "我方" : "敌方"), pokemonModel.getInfo().getName(), skillResult["string"])
+                ));
                 this._processNextBehavior(sequenceAry);
                 this.view().runAction(new cc.Sequence(sequenceAry));
             } else if (skillInfo.getId() == 138 && skillResult["defender"].getState() != POKEMON_STATES.SLEEP) {
@@ -338,6 +363,12 @@ var BattleUIViewController = mw.ViewController.extend({
             // 血条动画
             var hpBarAction = defender.ownBySelf() ? this._playerBoard.getHpBarAction(result["delta"]) : this._enemyBoard.getHpBarAction(result["delta"]);
             sequenceAry.push(hpBarAction);
+            // 是否有回复或损伤
+            if ((result["heal"] !== undefined && result["heal"] > 0) || (result["selfHurt"] !== undefined && result["selfHurt"] > 0)) {
+                var value = result["heal"] || result["selfHurt"];
+                var otherHpBarAction = attacker.ownBySelf() ? this._playerBoard.getHpBarAction(value) : this._enemyBoard.getHpBarAction(value);
+                sequenceAry.push(otherHpBarAction);
+            }
             // 命中要害判断
             if (result["criticalCorrection"] > 1.0) {
                 sequenceAry.push(new cc.DelayTime(0.5));
@@ -348,8 +379,24 @@ var BattleUIViewController = mw.ViewController.extend({
                 sequenceAry.push(new cc.DelayTime(0.5));
                 sequenceAry.push(dialogVc.getTextAction(result["propertyCorrection"] > 1.0 ? "效果拔群" : "效果很小"));
             }
-            if (defender.isDead()) {
-                this._getDeadAction(defender, sequenceAry);
+            if (result["heal"] !== undefined) {
+                sequenceAry.push(new cc.DelayTime(0.5));
+                if (result["heal"] > 0) {
+                    sequenceAry.push(dialogVc.getTextAction("回复了生命值"));
+                } else {
+                    sequenceAry.push(dialogVc.getTextAction("生命值已经满了"));
+                }
+            } else if (result["selfHurt"] !== undefined && result["selfHurt"] > 0) {
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(dialogVc.getTextAction("受到了反冲伤害"));
+            }
+            if (defender.isDead() || attacker.isDead()) {
+                if (defender.isDead()) {
+                    this._getDeadAction(defender, sequenceAry);
+                }
+                if (attacker.isDead()) {
+                    this._getDeadAction(attacker, sequenceAry);
+                }
             } else {
                 this._checkNewPokemonState(defender, sequenceAry);
                 this._checkAbilityLevels(attacker, result, sequenceAry);
@@ -383,7 +430,7 @@ var BattleUIViewController = mw.ViewController.extend({
             this._checkAbilityLevels(attacker, result, sequenceAry);
             this._checkNewBattleState(defender, sequenceAry);
             this._checkNewBattleState(attacker, sequenceAry);
-        } else if (result["isSuckSkill"]) {
+        } else if (result["isKillSkill"]) {
             var attacker = result["attacker"];
             var defender = result["defender"];
             var attackerNode = this._pokemon1.getModel() == attacker ? this._pokemon1 : this._pokemon2;
@@ -393,30 +440,9 @@ var BattleUIViewController = mw.ViewController.extend({
             // 血条动画
             var hpBarAction = defender.ownBySelf() ? this._playerBoard.getHpBarAction(result["delta"]) : this._enemyBoard.getHpBarAction(result["delta"]);
             sequenceAry.push(hpBarAction);
-            if (result["heal"] > 0) {
-                var healAction = attacker.ownBySelf() ? this._playerBoard.getHpBarAction(result["heal"]) : this._enemyBoard.getHpBarAction(result["heal"]);
-                sequenceAry.push(healAction);
-            }
-            // 命中要害判断
-            if (result["criticalCorrection"] > 1.0) {
-                sequenceAry.push(new cc.DelayTime(0.5));
-                sequenceAry.push(dialogVc.getTextAction("命中要害"));
-            }
-            // 效果判断
-            if (result["propertyCorrection"] != 1.0) {
-                sequenceAry.push(new cc.DelayTime(0.5));
-                sequenceAry.push(dialogVc.getTextAction(result["propertyCorrection"] > 1.0 ? "效果拔群" : "效果很小"));
-            }
             sequenceAry.push(new cc.DelayTime(0.5));
-            // 生命回复
-            if (result["heal"] > 0) {
-                sequenceAry.push(dialogVc.getTextAction("回复了生命值"));
-            } else {
-                sequenceAry.push(dialogVc.getTextAction("生命值已经满了"));
-            }
-            if (defender.isDead()) {
-                this._getDeadAction(defender, sequenceAry);
-            }
+            sequenceAry.push(dialogVc.getTextAction("一击必杀"));
+            this._getDeadAction(defender, sequenceAry);
         }
         // 继续下一个行为
         this._processNextBehavior(sequenceAry);

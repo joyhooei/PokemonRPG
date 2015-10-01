@@ -14,4 +14,8 @@ rate%概率使对方进入state(战斗状态)。
 6;rate,state               
 rate%概率使对方进入state(异常状态)。
 7;percent
-造成伤害的percent倍，回复生命值
+造成伤害的percent倍，回复生命值。
+8;str,animeType,animeName
+两回合攻击技能，str表示第一回合显示的文字，animeType和animeName是第一回合准备的动画参数。
+9;percent
+自己也受到造成伤害的percent倍的伤害。

@@ -36,9 +36,12 @@ var BattleOperationViewController = mw.ViewController.extend({
     },
     didReceiveMemoryWarning: function () {
     },
-    turnEnded: function () {
+    endTurn: function () {
+        CallFunctionAsync(this, this._endTurnCallback, 0);
+    },
+    _endTurnCallback: function () {
         var battleProcessor = this.scene().getBattleProcessor();
-        if (battleProcessor.getFriendPokemon().getRepeat() > 0) {
+        if (battleProcessor.getFriendPokemon().getRepeat() > 0 || battleProcessor.getFriendPokemon().isPreparing()) {
             battleProcessor.prepareForTurn(this._lastBehavior);
             battleProcessor.process();
         } else {
@@ -174,6 +177,10 @@ var BattleOperationViewController = mw.ViewController.extend({
         var friendPokemon = battleProcessor.getFriendPokemon();
         var skills = friendPokemon.getSkills();
         var skillId = skills[target.getIndex()][0];
+        if (friendPokemon.getPP(skillId) <= 0) {
+            logBattle("没有PP");
+            return;
+        }
         var skillInfo = new SkillInfo(skillId);
         var behavior = new SkillBehavior(friendPokemon, skillInfo);
         this._lastBehavior = behavior;

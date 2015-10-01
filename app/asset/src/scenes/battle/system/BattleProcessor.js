@@ -384,6 +384,26 @@ var BattleProcessor = cc.Class.extend({
                 var args = params[1].split(",");
                 var percent = parseFloat(args[0]);
                 extraData["healPercent"] = percent;
+            } else if (params[0] == 8) {
+                // 两回合技能
+                if (!skillUser.isPreparing()) {
+                    var args = params[1].split(",");
+                    var string = args[0];
+                    var animType = parseInt(args[1]);
+                    var animName = args[2];
+                    extraData["isPreparing"] = true;
+                    extraData["string"] = string;
+                    extraData["animType"] = animType;
+                    extraData["animName"] = animName;
+                    skillUser.setPrepare(true);
+                } else {
+                    skillUser.setPrepare(false);
+                }
+            } else if (params[0] == 9) {
+                // 反冲伤害
+                var args = params[1].split(",");
+                var percent = parseFloat(args[0]);
+                extraData["hurtPercent"] = percent;
             }
         }
         return extraData;
@@ -400,19 +420,24 @@ var BattleProcessor = cc.Class.extend({
             return { notHit: true };
         }
         var extraData = this._handleParams(skillUser, target, skillInfo);
-        var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
-        this._mergeData(hurtInfo, extraData);
-        hurtInfo["attacker"] = skillUser;
-        hurtInfo["defender"] = target;
-        hurtInfo["delta"] = target.hurt(hurtInfo["hurt"]);
-        hurtInfo["isHurtSkill"] = true;
-        hurtInfo["targetType"] = 1;
+        extraData["attacker"] = skillUser;
+        extraData["defender"] = target;
+        extraData["isHurtSkill"] = true;
+        extraData["targetType"] = 1;
+        if (!extraData["isPreparing"]) {
+            var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
+            if (hurtInfo["propertyCorrection"] == 0) {
+                return { noEffect: true };
+            }
+            this._mergeData(extraData, hurtInfo);
+            extraData["delta"] = target.hurt(hurtInfo["hurt"]);
+        }
 
         if (skillUser.getRepeat() > 0) {
             skillUser.reduceRepeat();
         }
 
-        return hurtInfo;
+        return extraData;
     },
     // 攻击敌方全体
     _skillAttackEnemyAll: function (skillUser, target, skillInfo) {
@@ -422,14 +447,17 @@ var BattleProcessor = cc.Class.extend({
         }
         var extraData = this._handleParams(skillUser, target, skillInfo);
         var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
-        this._mergeData(hurtInfo, extraData);
-        hurtInfo["attacker"] = skillUser;
-        hurtInfo["defender"] = target;
-        hurtInfo["delta"] = target.hurt(hurtInfo["hurt"]);
-        hurtInfo["isHurtSkill"] = true;
-        hurtInfo["targetType"] = 1;
+        if (hurtInfo["propertyCorrection"] == 0) {
+            return { noEffect: true };
+        }
+        this._mergeData(extraData, hurtInfo);
+        extraData["attacker"] = skillUser;
+        extraData["defender"] = target;
+        extraData["delta"] = target.hurt(hurtInfo["hurt"]);
+        extraData["isHurtSkill"] = true;
+        extraData["targetType"] = 1;
 
-        return hurtInfo;
+        return extraData;
     },
     // 吸血
     _skillSuckOne: function (skillUser, target, skillInfo) {
@@ -439,15 +467,39 @@ var BattleProcessor = cc.Class.extend({
         }
         var extraData = this._handleParams(skillUser, target, skillInfo);
         var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
-        this._mergeData(hurtInfo, extraData);
-        hurtInfo["attacker"] = skillUser;
-        hurtInfo["defender"] = target;
-        hurtInfo["delta"] = target.hurt(hurtInfo["hurt"]);
-        hurtInfo["heal"] = skillUser.heal(Math.floor(extraData["healPercent"] * hurtInfo["delta"]));
-        hurtInfo["isSuckSkill"] = true;
-        hurtInfo["targetType"] = 1;
+        if (hurtInfo["propertyCorrection"] == 0) {
+            return { noEffect: true };
+        }
+        this._mergeData(extraData, hurtInfo);
+        extraData["attacker"] = skillUser;
+        extraData["defender"] = target;
+        extraData["delta"] = target.hurt(hurtInfo["hurt"]);
+        extraData["heal"] = skillUser.heal(Math.floor(extraData["healPercent"] * extraData["delta"]));
+        extraData["isHurtSkill"] = true;
+        extraData["targetType"] = 1;
 
-        return hurtInfo;
+        return extraData;
+    },
+    // 双刃剑伤害
+    _skillHurtSelfAttack: function (skillUser, target, skillInfo) {
+        var didHit = this._calculateHit(skillUser, target, skillInfo);
+        if (!didHit) {
+            return { notHit: true };
+        }
+        var extraData = this._handleParams(skillUser, target, skillInfo);
+        var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
+        if (hurtInfo["propertyCorrection"] == 0) {
+            return { noEffect: true };
+        }
+        this._mergeData(extraData, hurtInfo);
+        extraData["attacker"] = skillUser;
+        extraData["defender"] = target;
+        extraData["delta"] = target.hurt(hurtInfo["hurt"]);
+        extraData["selfHurt"] = skillUser.hurt(Math.floor(extraData["hurtPercent"] * extraData["delta"]));
+        extraData["isHurtSkill"] = true;
+        extraData["targetType"] = 1;
+
+        return extraData
     },
     // 单体回复HP
     _skillRecoverOne: function (skillUser, target, skillInfo) {
@@ -482,6 +534,35 @@ var BattleProcessor = cc.Class.extend({
         extraData["defender"] = target;
         extraData["isVarianceSkill"] = true;
         extraData["targetType"] = 1;
+
+        return extraData;
+    },
+    // 一击必杀
+    _skillKillOne: function (skillUser, target, skillInfo) {
+        // 属性修正为0
+        var defenderProps = target.getInfo().getProperties();
+        for (var index in defenderProps) {
+            var prop = defenderProps[index];
+            var skillProp = skillInfo.getProperty();
+            if (PROPERTY_MULTIPLIER[skillProp][prop] == 0) {
+                return { noEffect: true };
+            }
+        }
+        // 等级低的话必定不中
+        if (skillUser.getLevel() < target.getLevel()) {
+            return { notHit: true };
+        }
+        var didHit = this._calculateHit(skillUser, target, skillInfo);
+        if (!didHit) {
+            return { notHit: true };
+        }
+        var extraData = {};
+        extraData["attacker"] = skillUser;
+        extraData["defender"] = target;
+        extraData["isKillSkill"] = true;
+        extraData["targetType"] = 1;
+        extraData["delta"] = target.getHp();
+        target.hurt(target.getHp());
 
         return extraData;
     },

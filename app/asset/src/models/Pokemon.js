@@ -104,6 +104,7 @@ var Pokemon = ModelBase.extend({
         this._abilityLevels = [ 0, 0, 0, 0, 0, 0, 0 ];
         this._battleStates = [];
         this._repeat = 0;
+        this._prepare = false;
     },
     getInfo: function () {
         if (!this._infoModel) {
@@ -162,6 +163,15 @@ var Pokemon = ModelBase.extend({
     },
     isDead: function () {
         return this._state == POKEMON_STATES.DEAD;
+    },
+    getPP: function (skillId) {
+        for (var i in this._skills) {
+            var skillData = this._skills[i];
+            if (skillData[0] == skillId) {
+                return skillData[1];
+            }
+        }
+        return -1;
     },
     reducePP: function (skillId, count) {
         count = count || 1;
@@ -329,11 +339,20 @@ var Pokemon = ModelBase.extend({
         this._nextBattleState = state;
     },
     ////// 逆鳞类似技能相关 END
+    ////// 两回合技能 START
+    isPreparing: function () {
+        return this._prepare;
+    },
+    setPrepare: function (val) {
+        this._prepare = val;
+    },
+    ////// 两回合技能 END
     leaveBattle: function () {
         this._abilityLevels = [ 0, 0, 0, 0, 0 ];
         this._battleStates = [];
         this._repeat = 0;
         this._nextBattleState = null;
+        this._prepare = false;
     },
     ///////////////// 战斗相关 END
     _getExpAtLv: function (lv) {
@@ -421,8 +440,9 @@ var Pokemon = ModelBase.extend({
     ///////////////////// 战斗相关
     _abilityLevels: null,      // [ 攻击, 防御, 特攻, 特防, 速度, 命中, 回避 ]
     _battleStates: null,
+    _newState: null,
     _newBattleState: null,
     _repeat: null,
     _nextBattleState: null,
-    _newState: null,
+    _prepare: null,
 });

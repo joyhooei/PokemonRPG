@@ -45,6 +45,9 @@ var BattleProcessor = cc.Class.extend({
     },
     endTurn: function () {
         // 回合结束
+        // 任何害怕的状态应该清空
+        this._pokemon1.removeBattleState(BATTLE_STATES.SCARED);
+        this._pokemon2.removeBattleState(BATTLE_STATES.SCARED);
         // 场地buff cd
         for (var buffId in this._field1BuffList) {
             --this._field1BuffList[buffId];
@@ -85,7 +88,16 @@ var BattleProcessor = cc.Class.extend({
             if (rd == 1) {
                 pokemonStateInfo["skip"] = true;
             }
-        } else if (state == POKEMON_STATES.SLEEP || state == POKEMON_STATES.FROZEN) {
+        } else if (state == POKEMON_STATES.SLEEP) {
+            // 30%概率醒来
+            var rd = Math.ceil(Math.random() * 100);
+            if (rd <= 30) {
+                pokemon.setState(POKEMON_STATES.NORMAL);
+                pokemonStateInfo["eliminated"] = true;
+            } else {
+                pokemonStateInfo["skip"] = true;
+            }
+        } else if (state == POKEMON_STATES.FROZEN) {
             pokemonStateInfo["skip"] = true;
         }
         return pokemonStateInfo;
@@ -144,7 +156,7 @@ var BattleProcessor = cc.Class.extend({
                 }
             }
         }
-        return { battleState: battleStateInfo };
+        return battleStateInfo;
     },
     analyzeSkill: function (skillUser, skillInfo) {
         var otherPokemon = skillUser.ownBySelf() ? this._pokemon2 : this._pokemon1;
@@ -355,7 +367,7 @@ var BattleProcessor = cc.Class.extend({
                 var rate = parseInt(args[0]);
                 var state = parseInt(args[1]);
                 var rd = Math.ceil(Math.random() * 100);
-                if (rd <= rate) {
+                if (true) {
                     target.setNewBattleState(state);
                 }
             } else if (params[0] == 6) {
@@ -367,6 +379,11 @@ var BattleProcessor = cc.Class.extend({
                 if (rd <= rate) {
                     target.setNewState(state);
                 }
+            } else if (params[0] == 7) {
+                // 吸血
+                var args = params[1].split(",");
+                var percent = parseFloat(args[0]);
+                extraData["healPercent"] = percent;
             }
         }
         return extraData;
@@ -414,6 +431,24 @@ var BattleProcessor = cc.Class.extend({
 
         return hurtInfo;
     },
+    // 吸血
+    _skillSuckOne: function (skillUser, target, skillInfo) {
+        var didHit = this._calculateHit(skillUser, target, skillInfo);
+        if (!didHit) {
+            return { notHit: true };
+        }
+        var extraData = this._handleParams(skillUser, target, skillInfo);
+        var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
+        this._mergeData(hurtInfo, extraData);
+        hurtInfo["attacker"] = skillUser;
+        hurtInfo["defender"] = target;
+        hurtInfo["delta"] = target.hurt(hurtInfo["hurt"]);
+        hurtInfo["heal"] = skillUser.heal(Math.floor(extraData["healPercent"] * hurtInfo["delta"]));
+        hurtInfo["isSuckSkill"] = true;
+        hurtInfo["targetType"] = 1;
+
+        return hurtInfo;
+    },
     // 单体回复HP
     _skillRecoverOne: function (skillUser, target, skillInfo) {
         var extraData = this._handleParams(skillUser, target, skillInfo);
@@ -433,6 +468,20 @@ var BattleProcessor = cc.Class.extend({
         extraData["isFieldSkill"] = true;
         extraData["isFriend"] = (target == this._field1BuffList);
         extraData["targetType"] = 2;
+
+        return extraData;
+    },
+    // 无其他行动
+    _skillVariance: function (skillUser, target, skillInfo) {
+        var didHit = this._calculateHit(skillUser, target, skillInfo);
+        if (!didHit) {
+            return { notHit: true };
+        }
+        var extraData = this._handleParams(skillUser, target, skillInfo);
+        extraData["attacker"] = skillUser;
+        extraData["defender"] = target;
+        extraData["isVarianceSkill"] = true;
+        extraData["targetType"] = 1;
 
         return extraData;
     },

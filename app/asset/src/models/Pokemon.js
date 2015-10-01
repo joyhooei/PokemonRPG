@@ -221,12 +221,19 @@ var Pokemon = ModelBase.extend({
     setNewState: function (state) {
         this._newState = state;
     },
+    setState: function (state) {
+        this._setProperties({
+            state: state,
+        });
+        if (state == POKEMON_STATES.SLEEP || state == POKEMON_STATES.FROZEN) {
+            this.setRepeat(0);
+            this.setNextBattleState(null);
+        }
+    },
     refreshState: function () {
         if (this._newState && this._state == POKEMON_STATES.NORMAL) {
             logBattle("%d添加了异常状态: %d", this._id, this._newState);
-            this._setProperties({
-                state: this._newState
-            });
+            this.setState(this._newState);
         }
         this._newState = null;
     },
@@ -272,6 +279,9 @@ var Pokemon = ModelBase.extend({
             this._battleStates[BATTLE_STATES.ATTRACTED] = undefined;
         }
         this._battleStates[state] = turns;
+    },
+    removeBattleState: function (state) {
+        this._battleStates[state] = undefined;
     },
     hasBattleState: function (state) {
         if (this._battleStates[state] !== undefined) {

@@ -33,15 +33,11 @@ var SkillBehavior = BattleBehavior.extend({
         return this._skill;
     },
     getPriority: function () {
-        return 0 * 1000 + this._owner.getBasicValues()[5];
+        var agi = this._owner.getBasicValues()[5] * (this._owner.getState() == POKEMON_STATES.PALSY ? 0.5 : 1);
+        return 0 * 1000 + agi * (Math.ceil(Math.random() * 15) + 85) / 100;
     },
     process: function () {
         logBattle("%d使用技能: %d", this._owner.getId(), this._skill.getId());
-        if (this._owner.getRepeat() > 0) {
-        } else {
-            // 减去pp 压迫特性-2 todo
-            this._owner.reducePP(this._skill.getId());
-        }
         Notifier.notify(BATTLE_UI_EVENTS.PLAY_SKILL, this._owner, this._skill);
     },
     _skill: null,

@@ -17,8 +17,6 @@ var BattleEnemyBoardView = cc.Node.extend({
     ctor: function (model) {
         this._super();
 
-        this._model = model;
-
         var node = ccs.load(cc.formatStr("json/battle_player_board_%d.json", this._type)).node;
         this.addChild(node);
         this._ccsNode = node;
@@ -29,26 +27,19 @@ var BattleEnemyBoardView = cc.Node.extend({
         this._iconState = boardBg.getChildByName(this.CCS_NAMES.ICON_STATE);
         this._lblLv = boardBg.getChildByName(this.CCS_NAMES.POKEMON_LEVEL);
         this._hpBar = boardBg.getChildByName(this.CCS_NAMES.HP_BAR);
-        this._currentHpState = 3;
-
-        this._lblName.setString(this._model.getInfo().getName());
-        var maleMap = {
-            1: "male",
-            2: "female",
-        };
-        this._iconGender.setSpriteFrame(
-            cc.SpriteFrameCache.getInstance().getSpriteFrame(cc.formatStr("common/icon_%s.png", maleMap[this._model.getGender()]))
-        );
-        this._iconGender.setPositionX(this._lblName.getPositionX() + this._lblName.getContentSize().width - 25);
-        this.updateState(this._model.getState());
-        this.updateLevel(this._model.getLevel());
-        this._hpBar.setPercent(this._model.getHpPercent());
-        this._checkHpState();
         if (this._type == 2) {
             this._iconBall = boardBg.getChildByName(this.CCS_NAMES.ICON_BALL);
-            // 只有捕获过的精灵才显示这个球 todo
-            this._iconBall.setVisible(true);
         }
+        this._currentHpState = 3;
+
+        this.setModel(model);
+    },
+    setModel: function (model) {
+        if (this._model == model) {
+            return;
+        }
+        this._model = model;
+        this._updateView();
     },
     getHpBarAction: function (delta) {
         var hpBarAction = new cc.TargetedAction(this._hpBar, ex.UIProgressTo.create(delta * this.HP_CHANGE_SPEED, this._model.getHpPercent()));
@@ -65,12 +56,36 @@ var BattleEnemyBoardView = cc.Node.extend({
         } else {
             this._iconState.setVisible(true);
             this._iconState.setSpriteFrame(
-                cc.SpriteFrameCache.getInstance().getSpriteFrame("common/icon_state_" + this._model.getState().toString())
+                cc.SpriteFrameCache.getInstance().getSpriteFrame(cc.formatStr("common/icon_state_%d.png", state))
             );
         }
     },
     updateLevel: function (lv) {
         this._lblLv.setString("Lv." + lv.toString());
+    },
+    _updateView: function () {
+        this._lblName.setString(this._model.getInfo().getName());
+        var maleMap = {
+            1: "male",
+            2: "female",
+        };
+        if (this._model.getGender() !== null) {
+            this._iconGender.setVisible(true);
+            this._iconGender.setSpriteFrame(
+                cc.SpriteFrameCache.getInstance().getSpriteFrame(cc.formatStr("common/icon_%s.png", maleMap[this._model.getGender()]))
+            );
+            this._iconGender.setPositionX(this._lblName.getPositionX() + this._lblName.getAutoRenderSize().width + 10);
+        } else {
+            this._iconGender.setVisible(false);
+        }
+        this.updateState(this._model.getState());
+        this.updateLevel(this._model.getLevel());
+        this._hpBar.setPercent(this._model.getHpPercent());
+        this._checkHpState();
+        if (this._type == 2) {
+            // 只有捕获过的精灵才显示这个球 todo
+            this._iconBall.setVisible(true);
+        }
     },
     _checkHpState: function () {
         var percent = this._hpBar.getPercent();

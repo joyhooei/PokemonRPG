@@ -83,11 +83,21 @@ var PROPERTY_MULTIPLIER = {
 // 宠物状态
 var POKEMON_STATES = {
     NORMAL: 0,  // 正常
-    SLEEP: 1,   // 睡眠
+    POISON: 1,  // 中毒
+    SLEEP: 2,   // 睡眠
     PALSY: 3,   // 麻痹
     BURNED: 4,  // 烧伤
     FROZEN: 5,  // 冰冻
     DEAD: 6,    // 濒死
+};
+
+// 宠物状态名称
+var POKEMON_STATE_NAMES = {
+    1: "中毒",
+    2: "睡着",
+    3: "麻痹",
+    4: "烧伤",
+    5: "冻结",
 };
 
 // 宠物性格

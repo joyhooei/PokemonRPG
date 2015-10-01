@@ -63,7 +63,7 @@
                 <PreSize X="0.4533" Y="0.1000" />
                 <ImageFileData Type="PlistSubImage" Path="common/hp_green.png" Plist="textures/common.plist" />
               </AbstractNodeData>
-              <AbstractNodeData Name="pokemon_name" ActionTag="1262623502" Tag="3" IconVisible="False" VerticalEdge="TopEdge" LeftMargin="10.0000" RightMargin="168.0000" TopMargin="8.0000" BottomMargin="30.0000" FontSize="20" LabelText="我的名字很长" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
+              <AbstractNodeData Name="pokemon_name" ActionTag="1262623502" Tag="3" IconVisible="False" VerticalEdge="TopEdge" LeftMargin="10.0000" RightMargin="168.0000" TopMargin="8.0000" BottomMargin="30.0000" FontSize="20" LabelText="我的名字很长" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
                 <Size X="122.0000" Y="22.0000" />
                 <AnchorPoint ScaleY="0.5000" />
                 <Position X="10.0000" Y="41.0000" />
@@ -75,7 +75,7 @@
                 <OutlineColor A="255" R="0" G="0" B="0" />
                 <ShadowColor A="255" R="110" G="110" B="110" />
               </AbstractNodeData>
-              <AbstractNodeData Name="pokemon_lv" ActionTag="-408012991" Tag="8" IconVisible="False" HorizontalEdge="RightEdge" VerticalEdge="TopEdge" LeftMargin="227.0000" RightMargin="15.0000" TopMargin="8.0000" BottomMargin="30.0000" FontSize="20" LabelText="Lv.100" HorizontalAlignmentType="HT_Right" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ShadowEnabled="True" ctype="TextObjectData">
+              <AbstractNodeData Name="pokemon_lv" ActionTag="-408012991" Tag="8" IconVisible="False" HorizontalEdge="RightEdge" VerticalEdge="TopEdge" LeftMargin="227.0000" RightMargin="15.0000" TopMargin="8.0000" BottomMargin="30.0000" FontSize="20" LabelText="Lv.100" HorizontalAlignmentType="HT_Right" OutlineEnabled="True" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
                 <Size X="58.0000" Y="22.0000" />
                 <AnchorPoint ScaleX="1.0000" ScaleY="0.5000" />
                 <Position X="285.0000" Y="41.0000" />

@@ -69,18 +69,42 @@ var BattleProcessor = cc.Class.extend({
         if (behavior) {
             behavior.process();
         } else {
-            if (this._pokemon1.isDead() || this._pokemon2.isDead()) {
-                this.endBattle();
-            } else {
-                this.endTurn();
-            }
+            this.endTurn();
         }
     },
     clearBehaviorQueue: function () {
         this._behaviorQueue = [];
     },
-    checkStateBeforeUseSkill: function (pokemon) {
-        // 异常状态 todo
+    checkPokemonStateBeforeUseSkill: function (pokemon) {
+        // 精灵状态
+        var state = pokemon.getState();
+        var pokemonStateInfo = { state: state };
+        // 麻痹状态50%不能行动
+        if (state == POKEMON_STATES.PALSY) {
+            var rd = Math.ceil(Math.random() * 2);
+            if (rd == 1) {
+                pokemonStateInfo["skip"] = true;
+            }
+        } else if (state == POKEMON_STATES.SLEEP || state == POKEMON_STATES.FROZEN) {
+            pokemonStateInfo["skip"] = true;
+        }
+        return pokemonStateInfo;
+    },
+    checkPokemonStateWhenTurnEnds: function (pokemon) {
+        var state = pokemon.getState();
+        var pokemonStateInfo = { state: state };
+        if (state == POKEMON_STATES.BURNED) {
+            // 烧伤扣除10% HP
+            var hurt = pokemon.hurt(Math.ceil(pokemon.getBasicValues()[0] * 0.1));
+            pokemonStateInfo["hurt"] = hurt;
+        } else if (state == POKEMON_STATES.POISON) {
+            // 中毒扣除15% HP
+            var hurt = pokemon.hurt(Math.ceil(pokemon.getBasicValues()[0] * 0.15));
+            pokemonStateInfo["hurt"] = hurt;
+        }
+        return pokemonStateInfo;
+    },
+    checkBattleStateBeforeUseSkill: function (pokemon) {
         // 战斗状态
         if (pokemon.checkBattleState(BATTLE_STATES.TIRED) > 0) {
             return {
@@ -202,7 +226,7 @@ var BattleProcessor = cc.Class.extend({
         // 天气修正 todo
         // 会心一击修正 todo
         var criticalCorrection = 1;
-        // 暂定5%的会心率 还没有会心等级计算
+        // 暂定5%的会心率 还没有会心等级计算 todo
         if (Math.ceil(Math.random() * 100) <= 5) {
             criticalCorrection = 1.5;
         }
@@ -225,8 +249,12 @@ var BattleProcessor = cc.Class.extend({
             }
         }
         // 烧伤修正 todo
+        var burnCorrection = 1;
+        if (attacker.getState() == POKEMON_STATES.BURNED && skillInfo.getType() == SKILL_TYPES.PHYSICAL) {
+            burnCorrection = 0.5;
+        }
         // 实际伤害修正 todo
-        basicHurt = Math.floor(basicHurt * randomCorrection * criticalCorrection * propertyCorrection * pokemonPropCorrection);
+        basicHurt = Math.floor(basicHurt * randomCorrection * criticalCorrection * propertyCorrection * pokemonPropCorrection * burnCorrection);
 
         logBattle("会心一击修正: " + criticalCorrection.toString());
         logBattle("属性修正: " + propertyCorrection.toString());
@@ -327,9 +355,17 @@ var BattleProcessor = cc.Class.extend({
                 var rate = parseInt(args[0]);
                 var state = parseInt(args[1]);
                 var rd = Math.ceil(Math.random() * 100);
-                if (true) {
-                    if (target)
+                if (rd <= rate) {
                     target.setNewBattleState(state);
+                }
+            } else if (params[0] == 6) {
+                // 一定概率给敌方添加异常状态
+                var args = params[1].split(",");
+                var rate = parseInt(args[0]);
+                var state = parseInt(args[1]);
+                var rd = Math.ceil(Math.random() * 100);
+                if (rd <= rate) {
+                    target.setNewState(state);
                 }
             }
         }

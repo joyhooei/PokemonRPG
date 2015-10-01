@@ -28,6 +28,14 @@ var BattlePlayerBoardView = BattleEnemyBoardView.extend({
         var basicValues = this._model.getBasicValues();
         this._lblHp.setString(cc.formatStr("%d / %d", this._model.getHp(), basicValues[0]));
     },
+    _updateView: function () {
+        this._super();
+
+        if (this._expBar) {
+            this._expBar.setPercent(this._model.getExpPercent());
+            this.updateHpInfo();
+        }
+    },
     _checkHpState: function (force) {
         this._super();
         if (this._lblHp) {

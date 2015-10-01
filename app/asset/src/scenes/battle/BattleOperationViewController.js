@@ -36,6 +36,15 @@ var BattleOperationViewController = mw.ViewController.extend({
     },
     didReceiveMemoryWarning: function () {
     },
+    turnEnded: function () {
+        var battleProcessor = this.scene().getBattleProcessor();
+        if (battleProcessor.getFriendPokemon().getRepeat() > 0) {
+            battleProcessor.prepareForTurn(this._lastBehavior);
+            battleProcessor.process();
+        } else {
+            this._showBattleBoard();
+        }
+    },
     _loadTextures: function () {
         for (var plist in this.TEXTURES_TO_LOAD) {
             var tex = this.TEXTURES_TO_LOAD[plist];
@@ -48,10 +57,8 @@ var BattleOperationViewController = mw.ViewController.extend({
         }
     },
     _addObservers: function () {
-        Notifier.addObserver(BATTLE_EVENTS.TURN_ENDED, this, this._onTurnEnded);
     },
     _removeObservers: function () {
-        Notifier.removeObserver(BATTLE_EVENTS.TURN_ENDED, this);
     },
     _renderView: function () {
         // 初始化技能菜单
@@ -193,16 +200,6 @@ var BattleOperationViewController = mw.ViewController.extend({
             current = current.getParent();
         } while (current);
         return visible;
-    },
-    // event handlers
-    _onTurnEnded: function () {
-        var battleProcessor = this.scene().getBattleProcessor();
-        if (battleProcessor.getFriendPokemon().getRepeat() > 0) {
-            battleProcessor.prepareForTurn(this._lastBehavior);
-            battleProcessor.process();
-        } else {
-            this._showBattleBoard();
-        }
     },
     _battleBoard: null,
     _skillBoard: null,

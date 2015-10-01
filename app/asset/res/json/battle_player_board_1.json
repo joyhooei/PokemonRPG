@@ -1,6 +1,6 @@
 {
   "ID": "2aab1d9d-a150-436b-982c-da66f782a6d6",
-  "Version": "2.3.1.1",
+  "Version": "2.3.2.3",
   "Name": "battle_player_board_1",
   "Content": {
     "Content": {
@@ -389,7 +389,6 @@
                 },
                 "ShadowOffsetX": 2.0,
                 "ShadowOffsetY": -2.0,
-                "ShadowEnabled": true,
                 "AnchorPoint": {
                   "ScaleY": 0.5
                 },
@@ -447,7 +446,6 @@
                 },
                 "ShadowOffsetX": 2.0,
                 "ShadowOffsetY": -2.0,
-                "ShadowEnabled": true,
                 "AnchorPoint": {
                   "ScaleX": 1.0,
                   "ScaleY": 0.5

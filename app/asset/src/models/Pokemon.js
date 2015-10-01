@@ -215,6 +215,21 @@ var Pokemon = ModelBase.extend({
         });
         return realDmg;
     },
+    getNewState: function () {
+        return this._newState;
+    },
+    setNewState: function (state) {
+        this._newState = state;
+    },
+    refreshState: function () {
+        if (this._newState && this._state == POKEMON_STATES.NORMAL) {
+            logBattle("%d添加了异常状态: %d", this._id, this._newState);
+            this._setProperties({
+                state: this._newState
+            });
+        }
+        this._newState = null;
+    },
     ///////////////// 战斗相关 START
     getAbilityLevels: function () {
         return this._abilityLevels;
@@ -228,6 +243,7 @@ var Pokemon = ModelBase.extend({
         this._abilityLevels[prop] += delta;
         return true;
     },
+    ////// 战斗状态相关 START
     checkBattleState: function (state) {
         if (this._battleStates[state] == undefined) {
             return -1;
@@ -244,8 +260,8 @@ var Pokemon = ModelBase.extend({
         }
         return turns;
     },
-    getBattleState: function () {
-        return this._battleState;
+    getBattleStates: function () {
+        return this._battleStates;
     },
     addBattleState: function (state, turns) {
         logBattle("%d添加了状态: %d", this._id, state);
@@ -262,15 +278,6 @@ var Pokemon = ModelBase.extend({
             return true;
         }
         return false;
-    },
-    getRepeat: function () {
-        return this._repeat;
-    },
-    setRepeat: function (repeat) {
-        this._repeat = repeat;
-    },
-    setNextBattleState: function (state) {
-        this._nextBattleState = state;
     },
     getNewBattleState: function () {
         return this._newBattleState;
@@ -290,6 +297,14 @@ var Pokemon = ModelBase.extend({
             this._newBattleState = null;
         }
     },
+    ////// 战斗状态相关 END
+    ////// 逆鳞类似技能相关 START
+    getRepeat: function () {
+        return this._repeat;
+    },
+    setRepeat: function (repeat) {
+        this._repeat = repeat;
+    },
     reduceRepeat: function () {
         if (this._repeat == 0) {
             return;
@@ -300,6 +315,10 @@ var Pokemon = ModelBase.extend({
             this._nextBattleState = null;
         }
     },
+    setNextBattleState: function (state) {
+        this._nextBattleState = state;
+    },
+    ////// 逆鳞类似技能相关 END
     leaveBattle: function () {
         this._abilityLevels = [ 0, 0, 0, 0, 0 ];
         this._battleStates = [];
@@ -395,4 +414,5 @@ var Pokemon = ModelBase.extend({
     _newBattleState: null,
     _repeat: null,
     _nextBattleState: null,
+    _newState: null,
 });

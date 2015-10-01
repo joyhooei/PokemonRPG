@@ -1,6 +1,6 @@
 {
   "ID": "c546d687-90e2-4748-9bea-c6f840d8da44",
-  "Version": "2.3.1.1",
+  "Version": "2.3.2.3",
   "Name": "skill_cell",
   "Content": {
     "Content": {
@@ -234,7 +234,6 @@
                 "Scale9OriginY": 33,
                 "Scale9Width": 34,
                 "Scale9Height": 34,
-                "VisibleForFrame": false,
                 "AnchorPoint": {
                   "ScaleX": 0.5
                 },
@@ -327,6 +326,7 @@
                   "X": 175.0,
                   "Y": 100.0
                 },
+                "VisibleForFrame": false,
                 "Name": "detail_bg",
                 "ctype": "ImageViewObjectData"
               }

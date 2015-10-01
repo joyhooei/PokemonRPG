@@ -43,10 +43,12 @@ var BattleUIViewController = mw.ViewController.extend({
     },
     _addObservers: function () {
         Notifier.addObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this, this._onPlaySkill);
+        Notifier.addObserver(BATTLE_EVENTS.TURN_ENDED, this, this._onTurnEnded);
         Notifier.addObserver(BATTLE_EVENTS.BATTLE_ENDED, this, this._onBattleEnded);
     },
     _removeObservers: function () {
         Notifier.removeObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this);
+        Notifier.removeObserver(BATTLE_EVENTS.TURN_ENDED, this);
         Notifier.removeObserver(BATTLE_EVENTS.BATTLE_ENDED, this);
     },
     _renderView: function () {
@@ -106,9 +108,54 @@ var BattleUIViewController = mw.ViewController.extend({
         }
         cc.director.runScene(new cc.TransitionFade(0.5, new PlayScene()));
     },
+    _onTurnEnded: function () {
+        var battleProcessor = this.scene().getBattleProcessor();
+        var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+        var sequenceAry = [];
+        var dead = false;
+        var pokemonStateInfo = battleProcessor.checkPokemonStateWhenTurnEnds(this._pokemon1.getModel());
+        if (pokemonStateInfo["hurt"]) {
+            sequenceAry.push(dialogVc.getTextAction(
+                cc.formatStr("我方%s%s了", this._pokemon1.getModel().getInfo().getName(), POKEMON_STATE_NAMES[pokemonStateInfo["state"]])
+            ));
+            this._getPokemonStateAction(pokemonStateInfo["state"], this._pokemon1.getModel(), sequenceAry);
+            sequenceAry.push(this._playerBoard.getHpBarAction(pokemonStateInfo["hurt"]));
+            if (this._pokemon1.getModel().isDead()) {
+                dead = true;
+                this._getDeadAction(this._pokemon1.getModel(), sequenceAry);
+            }
+        }
+        pokemonStateInfo = battleProcessor.checkPokemonStateWhenTurnEnds(this._pokemon2.getModel());
+        if (pokemonStateInfo["hurt"]) {
+            sequenceAry.push(dialogVc.getTextAction(
+                cc.formatStr("敌方%s%s了", this._pokemon2.getModel().getInfo().getName(), POKEMON_STATE_NAMES[pokemonStateInfo["state"]])
+            ));
+            this._getPokemonStateAction(pokemonStateInfo["state"], this._pokemon2.getModel(), sequenceAry);
+            sequenceAry.push(this._enemyBoard.getHpBarAction(pokemonStateInfo["hurt"]));
+            if (this._pokemon2.getModel().isDead()) {
+                dead = true;
+                this._getDeadAction(this._pokemon2.getModel(), sequenceAry);
+            }
+        }
+        if (dead) {
+            sequenceAry.push(new cc.DelayTime(0.5));
+            sequenceAry.push(new cc.CallFunc(function () {
+                battleProcessor.endBattle();
+            }));
+        } else {
+            sequenceAry.push(new cc.CallFunc(function () {
+                this.scene().getViewControllerByIdentifier(BATTLE_OPERATION_VC_NAME).turnEnded();
+            }.bind(this)));
+        }
+        this.view().runAction(new cc.Sequence(sequenceAry));
+    },
     _onPlaySkill: function (pokemonModel, skillInfo) {
         var battleProcessor = this.scene().getBattleProcessor();
         var playSkillFunc = function () {
+            // 减少pp
+            if (pokemonModel.getRepeat() == 0) {
+                pokemonModel.reducePP(skillInfo.getId(), 1);
+            }
             var skillResult = battleProcessor.analyzeSkill(pokemonModel, skillInfo);
             if (skillResult["notHit"]) {
                 // 未命中
@@ -152,50 +199,38 @@ var BattleUIViewController = mw.ViewController.extend({
         var ownBySelf = pokemonModel.ownBySelf();
         var sequenceAry = [];
         var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
-        // 检查异常状态
-        var stateInfo = battleProcessor.checkStateBeforeUseSkill(pokemonModel);
-        var battleStateInfo = stateInfo["battleState"];
-        if (battleStateInfo && battleStateInfo["state"] != BATTLE_STATES.NORMAL) {
-            if (battleStateInfo["eliminated"]) {
-                sequenceAry.push(dialogVc.getTextAction(
-                        cc.formatStr("%s%s解除%s",
-                            (ownBySelf ? "我方" : "敌方"),
-                            pokemonModel.getInfo().getName(),
-                            BATTLE_STATE_NAMES[battleStateInfo["state"]])
-                    )
-                );
-                sequenceAry.push(dialogVc.getTextAction(
-                    cc.formatStr("%s%s使用了技能%s",
-                        (ownBySelf ? "我方" : "敌方"),
-                        pokemonModel.getInfo().getName(),
-                        skillInfo.getName()))
-                );
-                sequenceAry.push(new cc.CallFunc(function () {
-                    playSkillFunc();
-                }));
-            } else {
-                this._getBattleStateAction(battleStateInfo["state"], pokemonModel, sequenceAry);
-                if (battleStateInfo["hurt"]) {
-                    // 混乱攻击自己 会消除连续攻击效果
-                    pokemonModel.setRepeat(0);
-                    pokemonModel.setNextBattleState(null);
-                    var delta = pokemonModel.hurt(battleStateInfo["hurt"]);
+        // 检查精灵状态
+        var pokemonStateInfo = battleProcessor.checkPokemonStateBeforeUseSkill(pokemonModel);
+        if (pokemonStateInfo["skip"]) {
+            // 会消除连续攻击效果
+            pokemonModel.setRepeat(0);
+            pokemonModel.setNextBattleState(null);
+
+            var state = pokemonStateInfo["state"];
+            this._getPokemonStateAction(state, pokemonModel, sequenceAry);
+            var strMap = {
+                1: "正在呼噜大睡",
+                3: "麻痹了无法动弹",
+                5: "被冻结了无法动弹",
+            };
+            sequenceAry.push(dialogVc.getTextAction(
+                cc.formatStr("%s%s%s", (ownBySelf ? "我方" : "敌方"), pokemonModel.getInfo().getName(), strMap[state])
+            ));
+            // 继续下一个行为
+            this._processNextBehavior(sequenceAry);
+        } else {
+            // 检查异常状态
+            var stateInfo = battleProcessor.checkBattleStateBeforeUseSkill(pokemonModel);
+            var battleStateInfo = stateInfo["battleState"];
+            if (battleStateInfo && battleStateInfo["state"] != BATTLE_STATES.NORMAL) {
+                if (battleStateInfo["eliminated"]) {
                     sequenceAry.push(dialogVc.getTextAction(
-                        cc.formatStr("%s%s攻击了自己", (ownBySelf ? "我方" : "敌方"), pokemonModel.getInfo().getName())
-                    ));
-                    sequenceAry.push(new cc.TargetedAction((ownBySelf ? this._pokemon1 : this._pokemon2), new cc.Blink(0.5, 3)));
-                    var hpBarAction = ownBySelf ? this._playerBoard.getHpBarAction(delta) : this._enemyBoard.getHpBarAction(delta);
-                    sequenceAry.push(hpBarAction);
-                    if (pokemonModel.isDead()) {
-                        this._getDeadAction(pokemonModel, sequenceAry);
-                    }
-                    // 继续下一个行为
-                    this._processNextBehavior(sequenceAry);
-                } else if (battleStateInfo["skip"]) {
-                    // 继续下一个行为
-                    this._processNextBehavior(sequenceAry);
-                } else {
-                    this._checkNewBattleState(pokemonModel, sequenceAry);
+                            cc.formatStr("%s%s解除%s",
+                                (ownBySelf ? "我方" : "敌方"),
+                                pokemonModel.getInfo().getName(),
+                                BATTLE_STATE_NAMES[battleStateInfo["state"]])
+                        )
+                    );
                     sequenceAry.push(dialogVc.getTextAction(
                             cc.formatStr("%s%s使用了技能%s",
                                 (ownBySelf ? "我方" : "敌方"),
@@ -205,18 +240,52 @@ var BattleUIViewController = mw.ViewController.extend({
                     sequenceAry.push(new cc.CallFunc(function () {
                         playSkillFunc();
                     }));
+                } else {
+                    this._getBattleStateAction(battleStateInfo["state"], pokemonModel, sequenceAry);
+                    if (battleStateInfo["hurt"]) {
+                        // 混乱攻击自己 会消除连续攻击效果
+                        pokemonModel.setRepeat(0);
+                        pokemonModel.setNextBattleState(null);
+                        var delta = pokemonModel.hurt(battleStateInfo["hurt"]);
+                        sequenceAry.push(new cc.DelayTime(0.5));
+                        sequenceAry.push(dialogVc.getTextAction(
+                            cc.formatStr("%s%s攻击了自己", (ownBySelf ? "我方" : "敌方"), pokemonModel.getInfo().getName())
+                        ));
+                        sequenceAry.push(new cc.TargetedAction((ownBySelf ? this._pokemon1 : this._pokemon2), new cc.Blink(0.5, 3)));
+                        var hpBarAction = ownBySelf ? this._playerBoard.getHpBarAction(delta) : this._enemyBoard.getHpBarAction(delta);
+                        sequenceAry.push(hpBarAction);
+                        if (pokemonModel.isDead()) {
+                            this._getDeadAction(pokemonModel, sequenceAry);
+                        }
+                        // 继续下一个行为
+                        this._processNextBehavior(sequenceAry);
+                    } else if (battleStateInfo["skip"]) {
+                        // 继续下一个行为
+                        this._processNextBehavior(sequenceAry);
+                    } else {
+                        this._checkNewBattleState(pokemonModel, sequenceAry);
+                        sequenceAry.push(dialogVc.getTextAction(
+                                cc.formatStr("%s%s使用了技能%s",
+                                    (ownBySelf ? "我方" : "敌方"),
+                                    pokemonModel.getInfo().getName(),
+                                    skillInfo.getName()))
+                        );
+                        sequenceAry.push(new cc.CallFunc(function () {
+                            playSkillFunc();
+                        }));
+                    }
                 }
+            } else {
+                sequenceAry.push(dialogVc.getTextAction(
+                        cc.formatStr("%s%s使用了技能%s",
+                            (ownBySelf ? "我方" : "敌方"),
+                            pokemonModel.getInfo().getName(),
+                            skillInfo.getName()))
+                );
+                sequenceAry.push(new cc.CallFunc(function () {
+                    playSkillFunc();
+                }));
             }
-        } else {
-            sequenceAry.push(dialogVc.getTextAction(
-                    cc.formatStr("%s%s使用了技能%s",
-                        (ownBySelf ? "我方" : "敌方"),
-                        pokemonModel.getInfo().getName(),
-                        skillInfo.getName()))
-            );
-            sequenceAry.push(new cc.CallFunc(function () {
-                playSkillFunc();
-            }));
         }
         this.view().runAction(new cc.Sequence(sequenceAry));
     },
@@ -246,7 +315,7 @@ var BattleUIViewController = mw.ViewController.extend({
             if (defender.isDead()) {
                 this._getDeadAction(defender, sequenceAry);
             } else {
-                this._checkAbilityLevels(defender, result, sequenceAry);
+                this._checkNewPokemonState(defender, sequenceAry);
                 this._checkAbilityLevels(attacker, result, sequenceAry);
                 this._checkNewBattleState(defender, sequenceAry);
             }
@@ -283,8 +352,10 @@ var BattleUIViewController = mw.ViewController.extend({
             if (this._shouldInterupt) {
                 battleProcessor.clearBehaviorQueue();
                 this._shouldInterupt = false;
+                battleProcessor.endBattle();
+            } else {
+                battleProcessor.process();
             }
-            battleProcessor.process();
         }.bind(this)));
     },
     _checkAbilityLevels: function (skillUser, skillResult, sequenceAry) {
@@ -363,6 +434,25 @@ var BattleUIViewController = mw.ViewController.extend({
             }
         }
     },
+    _checkNewPokemonState: function (pokemon, sequenceAry) {
+        var newState = pokemon.getNewState();
+        if (newState) {
+            var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+            var ownBySelf = pokemon.ownBySelf();
+            sequenceAry.push(new cc.DelayTime(0.5));
+            if (pokemon.getState() == POKEMON_STATES.NORMAL) {
+                this._getPokemonStateAction(newState, pokemon, sequenceAry);
+                sequenceAry.push(dialogVc.getTextAction(
+                    cc.formatStr("%s%s%s了", (ownBySelf ? "我方" : "敌方"), pokemon.getInfo().getName(), POKEMON_STATE_NAMES[newState])
+                ));
+            } else {
+                sequenceAry.push(dialogVc.getTextAction(
+                    cc.formatStr("%s已经有异常状态了", (ownBySelf ? "我方" : "敌方"))
+                ));
+            }
+            pokemon.refreshState();
+        }
+    },
     _checkNewBattleState: function (pokemon, sequenceAry) {
         var newState = pokemon.getNewBattleState();
         if (newState) {
@@ -395,7 +485,16 @@ var BattleUIViewController = mw.ViewController.extend({
         // 死亡动画 todo
         sequenceAry.push(dialogVc.getTextAction(cc.formatStr("%s%s倒下了", (pokemon.ownBySelf() ? "我方" : "敌方"), pokemon.getInfo().getName())));
     },
+    _getPokemonStateAction: function (state, pokemon, sequenceAry) {
+        // 不包含文字动画
+        var ownBySelf = pokemon.ownBySelf();
+        var tgtBoard = ownBySelf ? this._playerBoard : this._enemyBoard;
+        sequenceAry.push(new cc.CallFunc(function () {
+            tgtBoard.updateState(state);
+        }));
+    },
     _getBattleStateAction: function (state, pokemon, sequenceAry) {
+        // 包含文字动画
         var ownBySelf = pokemon.ownBySelf();
         var targetNode = ownBySelf ? this._pokemon1 : this._pokemon2;
         var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);

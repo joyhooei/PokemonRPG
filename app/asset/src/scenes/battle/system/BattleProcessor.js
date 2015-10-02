@@ -42,6 +42,7 @@ var BattleProcessor = cc.Class.extend({
     },
     beginTurn: function () {
         // 回合开始
+        Notifier.notify(BATTLE_EVENTS.TURN_BEGAN);
     },
     endTurn: function () {
         // 回合结束
@@ -77,6 +78,23 @@ var BattleProcessor = cc.Class.extend({
     },
     clearBehaviorQueue: function () {
         this._behaviorQueue = [];
+    },
+    getWeather: function () {
+        if (this._weather) {
+            return this._weather[0];
+        }
+        return null;
+    },
+    checkWeather: function () {
+        if (this._weather) {
+            --this._weather[1];
+            if (this._weather[1] == 0) {
+                this._weather = null;
+                return 0;
+            }
+            return this._weather[1];
+        }
+        return -1;
     },
     checkPokemonStateBeforeUseSkill: function (pokemon) {
         // 精灵状态
@@ -177,6 +195,8 @@ var BattleProcessor = cc.Class.extend({
             target = (skillUser.ownBySelf() ? this._field1BuffList : this._field2BuffList);
         } else if (targetType == SKILL_TARGET_TYPES.ENEMY_FIELD) {
             target = (skillUser.ownBySelf() ? this._field2BuffList : this._field1BuffList);
+        } else if (targetType == SKILL_TARGET_TYPES.ALL_FIELD) {
+            target = this._weather;
         } else if (targetType == SKILL_TARGET_TYPES.FRIEND) {
             target = null;
         } else if (targetType == SKILL_TARGET_TYPES.WAITING) {
@@ -285,7 +305,7 @@ var BattleProcessor = cc.Class.extend({
     _pokemon2: null,
     _field1BuffList: null,
     _field2BuffList: null,
-    _weather: null,
+    _weather: null,     // [ weather, turns ]
     _behaviorQueue: null,
 
 
@@ -367,7 +387,7 @@ var BattleProcessor = cc.Class.extend({
                 var rate = parseInt(args[0]);
                 var state = parseInt(args[1]);
                 var rd = Math.ceil(Math.random() * 100);
-                if (true) {
+                if (rd <= rate) {
                     target.setNewBattleState(state);
                 }
             } else if (params[0] == 6) {
@@ -404,6 +424,17 @@ var BattleProcessor = cc.Class.extend({
                 var args = params[1].split(",");
                 var percent = parseFloat(args[0]);
                 extraData["hurtPercent"] = percent;
+            } else if (params[0] == 10) {
+                // 天气
+                var args = params[1].split(",");
+                var weather = parseInt(args[0]);
+                var turns = parseInt(args[1]);
+                extraData["weather"] = weather;
+                if (this.getWeather() != weather) {
+                    this._weather = [weather, turns];
+                } else {
+                    extraData["hasWeather"] = true;
+                }
             }
         }
         return extraData;
@@ -563,6 +594,58 @@ var BattleProcessor = cc.Class.extend({
         extraData["targetType"] = 1;
         extraData["delta"] = target.getHp();
         target.hurt(target.getHp());
+
+        return extraData;
+    },
+    // 攻击一回合下回合不能动弹
+    _skillTiredAttackOne: function (skillUser, target, skillInfo) {
+        var didHit = this._calculateHit(skillUser, target, skillInfo);
+        if (!didHit) {
+            return { notHit: true };
+        }
+        var extraData = this._handleParams(skillUser, target, skillInfo);
+        var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
+        if (hurtInfo["propertyCorrection"] == 0) {
+            return { noEffect: true };
+        }
+        this._mergeData(extraData, hurtInfo);
+        extraData["attacker"] = skillUser;
+        extraData["defender"] = target;
+        extraData["delta"] = target.hurt(hurtInfo["hurt"]);
+        extraData["isHurtSkill"] = true;
+        extraData["targetType"] = 1;
+
+        skillUser.addBattleState(BATTLE_STATES.TIRED, 1);
+
+        return extraData;
+    },
+    // 改变天气
+    _skillChangeWeather: function (skillUser, target, skillInfo) {
+        // 天气锁 无天气 todo
+        var extraData = this._handleParams(skillUser, target, skillInfo);
+        extraData["skiller"] = skillUser;
+        extraData["isWeatherSkill"] = true;
+        extraData["targetType"] = 3;
+
+        return extraData;
+    },
+    // 自身HP越高伤害越高
+    _skillHPAttackOne: function (skillUser, target, skillInfo) {
+        var didHit = this._calculateHit(skillUser, target, skillInfo);
+        if (!didHit) {
+            return { notHit: true };
+        }
+        var extraData = this._handleParams(skillUser, target, skillInfo);
+        var hurtInfo = this._calculateHurt(skillUser, target, skillInfo);
+        if (hurtInfo["propertyCorrection"] == 0) {
+            return { noEffect: true };
+        }
+        this._mergeData(extraData, hurtInfo);
+        extraData["attacker"] = skillUser;
+        extraData["defender"] = target;
+        extraData["delta"] = target.hurt(Math.floor(hurtInfo["hurt"] * skillUser.getHp() / skillUser.getBasicValues()[0]));
+        extraData["isHurtSkill"] = true;
+        extraData["targetType"] = 1;
 
         return extraData;
     },

@@ -43,11 +43,13 @@ var BattleUIViewController = mw.ViewController.extend({
     },
     _addObservers: function () {
         Notifier.addObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this, this._onPlaySkill);
+        Notifier.addObserver(BATTLE_EVENTS.TURN_BEGAN, this, this._onTurnBegan);
         Notifier.addObserver(BATTLE_EVENTS.TURN_ENDED, this, this._onTurnEnded);
         Notifier.addObserver(BATTLE_EVENTS.BATTLE_ENDED, this, this._onBattleEnded);
     },
     _removeObservers: function () {
         Notifier.removeObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this);
+        Notifier.removeObserver(BATTLE_EVENTS.TURN_BEGAN, this);
         Notifier.removeObserver(BATTLE_EVENTS.TURN_ENDED, this);
         Notifier.removeObserver(BATTLE_EVENTS.BATTLE_ENDED, this);
     },
@@ -108,6 +110,10 @@ var BattleUIViewController = mw.ViewController.extend({
         }
         cc.director.runScene(new cc.TransitionFade(0.5, new PlayScene()));
     },
+    _onTurnBegan: function () {
+        var battleProcessor = this.scene().getBattleProcessor();
+        battleProcessor.process();
+    },
     _onTurnEnded: function () {
         var battleProcessor = this.scene().getBattleProcessor();
         var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
@@ -143,6 +149,36 @@ var BattleUIViewController = mw.ViewController.extend({
                 battleProcessor.endBattle();
             }));
         } else {
+            // 天气
+            var weather = battleProcessor.getWeather();
+            var weatherTurns = battleProcessor.checkWeather();
+            var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+            if (weatherTurns > 0) {
+                var map = {
+                    1: "正在下雨",
+                    2: "烈日炎炎",
+                    3: "正在下冰雹",
+                    4: "很大的沙尘暴",
+                };
+                sequenceAry.push(new cc.CallFunc(function () {
+                    var particle = new cc.ParticleSystem(cc.formatStr("particles/particle2%d.plist", weather));
+                    particle.setAutoRemoveOnFinish(true);
+                    particle.setPosition(cc.winSize.width * 0.5, cc.winSize.height);
+                    this.view().addChild(particle);
+                }.bind(this)));
+                sequenceAry.push(new cc.DelayTime(2));
+                sequenceAry.push(dialogVc.getTextAction(map[weather]));
+                sequenceAry.push(new cc.DelayTime(0.5));
+            } else if (weatherTurns == 0) {
+                var map = {
+                    1: "雨停了",
+                    2: "阳光减弱了",
+                    3: "冰雹停了",
+                    4: "沙尘暴停了",
+                };
+                sequenceAry.push(dialogVc.getTextAction(map[weather]));
+                sequenceAry.push(new cc.DelayTime(0.5));
+            }
             sequenceAry.push(new cc.CallFunc(function () {
                 this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME).clearText();
                 this.scene().getViewControllerByIdentifier(BATTLE_OPERATION_VC_NAME).endTurn();
@@ -165,6 +201,8 @@ var BattleUIViewController = mw.ViewController.extend({
             var skillResult = battleProcessor.analyzeSkill(pokemonModel, skillInfo);
             if (skillResult["notHit"]) {
                 // 未命中
+                pokemonModel.setRepeat(0);
+                pokemonModel.setNextBattleState(null);
                 var sequenceAry = [];
                 var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
                 sequenceAry.push(new cc.DelayTime(0.5));
@@ -173,6 +211,8 @@ var BattleUIViewController = mw.ViewController.extend({
                 this.view().runAction(new cc.Sequence(sequenceAry));
             } else if (skillResult["noEffect"]) {
                 // 没有效果
+                pokemonModel.setRepeat(0);
+                pokemonModel.setNextBattleState(null);
                 var sequenceAry = [];
                 var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
                 sequenceAry.push(new cc.DelayTime(0.5));
@@ -185,6 +225,20 @@ var BattleUIViewController = mw.ViewController.extend({
                 var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
                 sequenceAry.push(new cc.DelayTime(0.5));
                 sequenceAry.push(dialogVc.getTextAction("但是没有作用"));
+                this._processNextBehavior(sequenceAry);
+                this.view().runAction(new cc.Sequence(sequenceAry));
+            } else if (skillResult["hasWeather"]) {
+                // 天气重复重复
+                var map = {
+                    1: "已经在下雨了",
+                    2: "已经烈日炎炎了",
+                    3: "已经在下冰雹了",
+                    4: "已经有沙尘暴了",
+                };
+                var sequenceAry = [];
+                var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+                sequenceAry.push(new cc.DelayTime(0.5));
+                sequenceAry.push(dialogVc.getTextAction(map[skillResult["weather"]]));
                 this._processNextBehavior(sequenceAry);
                 this.view().runAction(new cc.Sequence(sequenceAry));
             } else if (skillResult["isPreparing"]) {
@@ -224,13 +278,20 @@ var BattleUIViewController = mw.ViewController.extend({
                 } else if (skillResult["targetType"] == 2) {
                     // 目标是场地
                     target = skillResult["isFriend"] ? this._field1 : this._field2;
+                } else if (skillResult["targetType"] == 3) {
+                    // 天气
+                    target = this.view();
                 }
                 if (animationType == 1) {
                     // 粒子效果
                     var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", skillInfo.getAnimationParams().split(";")[1]));
                     particle.setAutoRemoveOnFinish(true);
                     var duration = particle.getDuration();
-                    particle.setPosition(target.getContentSize().width * 0.5, target.getContentSize().height * 0.5);
+                    if (skillResult["targetType"] == 3) {
+                        particle.setPosition(cc.winSize.width * 0.5, cc.winSize.height);
+                    } else {
+                        particle.setPosition(target.getContentSize().width * 0.5, target.getContentSize().height * 0.5);
+                    }
                     target.addChild(particle);
                     CallFunctionAsync(this, this._playSkillEnd, duration + 0.1, skillResult);
                 }
@@ -443,6 +504,14 @@ var BattleUIViewController = mw.ViewController.extend({
             sequenceAry.push(new cc.DelayTime(0.5));
             sequenceAry.push(dialogVc.getTextAction("一击必杀"));
             this._getDeadAction(defender, sequenceAry);
+        } else if (result["isWeatherSkill"]) {
+            var map = {
+                1: "开始下起了大雨",
+                2: "阳光强烈起来了",
+                3: "下起了冰雹",
+                4: "卷起了沙尘暴",
+            };
+            sequenceAry.push(dialogVc.getTextAction(map[result["weather"]]));
         }
         // 继续下一个行为
         this._processNextBehavior(sequenceAry);

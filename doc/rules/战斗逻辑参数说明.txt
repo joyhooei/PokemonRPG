@@ -19,3 +19,5 @@ rate%概率使对方进入state(异常状态)。
 两回合攻击技能，str表示第一回合显示的文字，animeType和animeName是第一回合准备的动画参数。
 9;percent
 自己也受到造成伤害的percent倍的伤害。
+10;weather,turns
+改变天气weather，持续turns回合。

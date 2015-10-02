@@ -41,9 +41,12 @@ var BattleOperationViewController = mw.ViewController.extend({
     },
     _endTurnCallback: function () {
         var battleProcessor = this.scene().getBattleProcessor();
-        if (battleProcessor.getFriendPokemon().getRepeat() > 0 || battleProcessor.getFriendPokemon().isPreparing()) {
+        if (battleProcessor.getFriendPokemon().getRepeat() > 0 ||
+                battleProcessor.getFriendPokemon().isPreparing() ||
+                battleProcessor.getFriendPokemon().hasBattleState(BATTLE_STATES.TIRED)
+        ) {
             battleProcessor.prepareForTurn(this._lastBehavior);
-            battleProcessor.process();
+            battleProcessor.beginTurn();
         } else {
             this._showBattleBoard();
         }
@@ -187,7 +190,7 @@ var BattleOperationViewController = mw.ViewController.extend({
         battleProcessor.prepareForTurn(behavior);
 
         this._hideSkillBoard(function () {
-            battleProcessor.process();
+            battleProcessor.beginTurn();
         });
     },
     onLongTouchEnded: function (target, loc, delta) {

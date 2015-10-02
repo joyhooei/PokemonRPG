@@ -8,8 +8,8 @@ var App = cc.Class.extend({
     },
     run: function() {
         var scene = new BattleScene();
-        scene.addParameter("pokemon1", "382");
-        scene.addParameter("pokemon2", "383");
+        scene.addParameter("pokemon1", "250");
+        scene.addParameter("pokemon2", "150");
         cc.director.runScene(new cc.TransitionFade(0.5, scene));
     }
 });

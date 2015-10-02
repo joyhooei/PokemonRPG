@@ -217,8 +217,20 @@ var BATTLE_BEHAVIORS = {
 // 战斗场地buff
 var FIELD_BUFF = {
     NO_ABNORMAL_STATE: 1,  // 不会陷入异常状态(不包括战斗状态和濒死)
+    ADD_AGILITY: 2,         // 速度上升一级
+    REDUCE_SPECIAL_DMG: 3,  // 减少特攻伤害
 };
 
 var FIELD_BUFF_TEXT = {
     1: "获得了神秘的守护力量",
-}
+    2: "精灵们轻盈起来了",
+    3: "受到了反射盾的保护",
+};
+
+// 天气
+var WEATHERS = {
+    RAINY: 1,           // 下雨
+    SUNNY: 2,           // 日晒
+    HAIL: 3,            // 冰雹
+    SAND_BLOWING: 4,    // 扬沙
+};

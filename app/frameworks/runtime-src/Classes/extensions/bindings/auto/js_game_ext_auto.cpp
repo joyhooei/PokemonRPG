@@ -287,6 +287,140 @@ void js_register_game_ext_UITextOneByOne(JSContext *cx, JS::HandleObject global)
     }
 }
 
+JSClass  *jsb_game_ScissorNode_class;
+JSObject *jsb_game_ScissorNode_prototype;
+
+bool js_game_ext_ScissorNode_init(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    game::ScissorNode* cobj = (game::ScissorNode *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_game_ext_ScissorNode_init : Invalid Native Object");
+    if (argc == 0) {
+        bool ret = cobj->init();
+        jsval jsret = JSVAL_NULL;
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_game_ext_ScissorNode_init : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
+bool js_game_ext_ScissorNode_create(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+        game::ScissorNode* ret = game::ScissorNode::create();
+        jsval jsret = JSVAL_NULL;
+        do {
+        if (ret) {
+            js_proxy_t *jsProxy = js_get_or_create_proxy<game::ScissorNode>(cx, (game::ScissorNode*)ret);
+            jsret = OBJECT_TO_JSVAL(jsProxy->obj);
+        } else {
+            jsret = JSVAL_NULL;
+        }
+    } while (0);
+        args.rval().set(jsret);
+        return true;
+    }
+    JS_ReportError(cx, "js_game_ext_ScissorNode_create : wrong number of arguments");
+    return false;
+}
+
+bool js_game_ext_ScissorNode_constructor(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    game::ScissorNode* cobj = new (std::nothrow) game::ScissorNode();
+    cocos2d::Ref *_ccobj = dynamic_cast<cocos2d::Ref *>(cobj);
+    if (_ccobj) {
+        _ccobj->autorelease();
+    }
+    TypeTest<game::ScissorNode> t;
+    js_type_class_t *typeClass = nullptr;
+    std::string typeName = t.s_name();
+    auto typeMapIter = _js_global_type_map.find(typeName);
+    CCASSERT(typeMapIter != _js_global_type_map.end(), "Can't find the class type!");
+    typeClass = typeMapIter->second;
+    CCASSERT(typeClass, "The value is null.");
+    // JSObject *obj = JS_NewObject(cx, typeClass->jsclass, typeClass->proto, typeClass->parentProto);
+    JS::RootedObject proto(cx, typeClass->proto.get());
+    JS::RootedObject parent(cx, typeClass->parentProto.get());
+    JS::RootedObject obj(cx, JS_NewObject(cx, typeClass->jsclass, proto, parent));
+    args.rval().set(OBJECT_TO_JSVAL(obj));
+    // link the native object with the javascript object
+    js_proxy_t* p = jsb_new_proxy(cobj, obj);
+    AddNamedObjectRoot(cx, &p->obj, "game::ScissorNode");
+    if (JS_HasProperty(cx, obj, "_ctor", &ok) && ok)
+        ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(obj), "_ctor", args);
+    return true;
+}
+
+
+extern JSObject *jsb_cocos2d_Node_prototype;
+
+void js_game_ScissorNode_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (ScissorNode)", obj);
+}
+
+void js_register_game_ext_ScissorNode(JSContext *cx, JS::HandleObject global) {
+    jsb_game_ScissorNode_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_game_ScissorNode_class->name = "ScissorNode";
+    jsb_game_ScissorNode_class->addProperty = JS_PropertyStub;
+    jsb_game_ScissorNode_class->delProperty = JS_DeletePropertyStub;
+    jsb_game_ScissorNode_class->getProperty = JS_PropertyStub;
+    jsb_game_ScissorNode_class->setProperty = JS_StrictPropertyStub;
+    jsb_game_ScissorNode_class->enumerate = JS_EnumerateStub;
+    jsb_game_ScissorNode_class->resolve = JS_ResolveStub;
+    jsb_game_ScissorNode_class->convert = JS_ConvertStub;
+    jsb_game_ScissorNode_class->finalize = js_game_ScissorNode_finalize;
+    jsb_game_ScissorNode_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FN("init", js_game_ext_ScissorNode_init, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("create", js_game_ext_ScissorNode_create, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_game_ScissorNode_prototype = JS_InitClass(
+        cx, global,
+        JS::RootedObject(cx, jsb_cocos2d_Node_prototype),
+        jsb_game_ScissorNode_class,
+        js_game_ext_ScissorNode_constructor, 0, // constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "ScissorNode", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<game::ScissorNode> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_game_ScissorNode_class;
+        p->proto = jsb_game_ScissorNode_prototype;
+        p->parentProto = jsb_cocos2d_Node_prototype;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+
 JSClass  *jsb_game_GameAudioEngine_class;
 JSObject *jsb_game_GameAudioEngine_prototype;
 
@@ -828,6 +962,7 @@ void register_all_game_ext(JSContext* cx, JS::HandleObject obj) {
     JS::RootedObject ns(cx);
     get_or_create_js_obj(cx, obj, "ex", &ns);
 
+    js_register_game_ext_ScissorNode(cx, ns);
     js_register_game_ext_UIProgressBy(cx, ns);
     js_register_game_ext_UIProgressTo(cx, ns);
     js_register_game_ext_UITextOneByOne(cx, ns);

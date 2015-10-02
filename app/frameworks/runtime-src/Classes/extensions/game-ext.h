@@ -12,6 +12,8 @@
 #include "actions/UIProgressActions.h"
 #include "actions/UITextActions.h"
 
+#include "ui/ScissorNode.h"
+
 #include "audio/GameAudioEngine.h"
 
 #if MW_ENABLE_SCRIPT_BINDING

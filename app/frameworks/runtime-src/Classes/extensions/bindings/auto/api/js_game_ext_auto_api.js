@@ -53,6 +53,42 @@ ex.UITextOneByOne = {
 };
 
 /**
+ * @class ScissorNode
+ */
+ex.ScissorNode = {
+
+/**
+ * @method init
+ * @return {bool}
+ */
+init : function (
+)
+{
+    return false;
+},
+
+/**
+ * @method create
+ * @return {ext.ScissorNode}
+ */
+create : function (
+)
+{
+    return ext.ScissorNode;
+},
+
+/**
+ * @method ScissorNode
+ * @constructor
+ */
+ScissorNode : function (
+)
+{
+},
+
+};
+
+/**
  * @class GameAudioEngine
  */
 ex.GameAudioEngine = {

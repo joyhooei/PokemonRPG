@@ -8,7 +8,6 @@ var BattlePokemonView = cc.Node.extend({
         this._isFriend = isFriend;
         this.setModel(model);
 
-        this.setScale(2.5);
         this.setAnchorPoint(0.5, 0);
     },
     getModel: function () {
@@ -24,6 +23,9 @@ var BattlePokemonView = cc.Node.extend({
     },
     stop: function () {
         this._gif.stop();
+    },
+    getDeadAction: function () {
+        return new cc.TargetedAction(this._gif, new cc.MoveBy(0.25, cc.p(0, -this.getContentSize().height)));
     },
     _update: function () {
         var suffix = "";
@@ -43,12 +45,18 @@ var BattlePokemonView = cc.Node.extend({
         var gifPath = cc.formatStr("coredata/%s%s.gif", this._model.getFormatedId(), suffix);
         //mw.log(gifPath);
         this._gif = mw.GifSprite.createWithFile(gifPath);
-        this._gif.setPositionX(this._gif.getContentSize().width * 0.5);
         this._gif.setAnchorPoint(0.5, 0);
         this._gif.setSpeedRatio(1.5);
-        this.addChild(this._gif);
+        this._gif.setScale(2.5);
 
-        this.setContentSize(this._gif.getBoundingBox().width, this._gif.getBoundingBox().height);
+        var scissor = ex.ScissorNode.create();
+        scissor.setContentSize(this._gif.getBoundingBox().width, this._gif.getBoundingBox().height);
+        this._gif.setPositionX(scissor.getContentSize().width * 0.5);
+        scissor.addChild(this._gif);
+        scissor.setAnchorPoint(cc.p(0, 0));
+        this.addChild(scissor);
+
+        this.setContentSize(scissor.getContentSize());
     },
     _model: null,
     _gif: null,

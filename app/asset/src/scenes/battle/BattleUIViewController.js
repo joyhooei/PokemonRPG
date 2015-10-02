@@ -596,6 +596,7 @@ var BattleUIViewController = mw.ViewController.extend({
         }.bind(this)));
         sequenceAry.push(new cc.DelayTime(2));
         // 死亡动画 todo
+        sequenceAry.push((pokemon.ownBySelf() ? this._pokemon1 : this._pokemon2).getDeadAction());
         sequenceAry.push(dialogVc.getTextAction(cc.formatStr("%s%s倒下了", (pokemon.ownBySelf() ? "我方" : "敌方"), pokemon.getInfo().getName())));
     },
     _getPokemonStateAction: function (state, pokemon, sequenceAry) {

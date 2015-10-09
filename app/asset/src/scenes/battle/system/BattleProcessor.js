@@ -3,17 +3,18 @@
  */
 
 var BattleProcessor = cc.Class.extend({
-    ctor: function (pokemon1, pokemon2, aiLevel) {
+    ctor: function (battleType, pokemon1, pokemon2, aiLevel, weather) {
         if (!(pokemon1 instanceof Pokemon) || !(pokemon2 instanceof Pokemon)) {
             mw.error("不合法的参数 BattleProcessor创建失败");
             return;
         }
-        aiLevel = aiLevel || BattleAI.AI_LEVELS.IDIOT;
+        this._battleType = battleType;
         this._pokemon1 = pokemon1;
         this._pokemon2 = pokemon2;
         var com = MakeBindable(this._pokemon2).addComponent("BattleAI");
         logBattle("AI LEVEL: %d", aiLevel);
         com.setAILevel(aiLevel);
+        this._weather = (weather == 0 ? null : weather);
 
         this._field1BuffList = [];
         this._field2BuffList = [];

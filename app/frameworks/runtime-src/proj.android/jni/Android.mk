@@ -11,6 +11,7 @@ LOCAL_SRC_FILES := entrance/main.cpp \
                    ../../Classes/extensions/actions/UIProgressActions.cpp \
                    ../../Classes/extensions/actions/UITextActions.cpp \
                    ../../Classes/extensions/audio/GameAudioEngine.cpp \
+                   ../../Classes/extensions/ui/ScissorNode.cpp \
                    ../../Classes/extensions/bindings/auto/js_game_ext_auto.cpp \
                    ../../Classes/extensions/bindings/manual/js_game_ext_manual.cpp \
 				   ../../Framework/base/FrameworkErrors.cpp \

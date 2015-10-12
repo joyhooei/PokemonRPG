@@ -197,7 +197,7 @@ var BATTLE_STATE_SUFFIX = {
     2: "害怕了",
     3: "着迷了",
     4: "受到了捆绑",
-    5: "无法动弹",
+    5: "累得无法动弹",
 };
 
 var BATTLE_STATE_NAMES = {

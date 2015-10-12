@@ -19,11 +19,9 @@ var BattleUIViewController = mw.ViewController.extend({
     viewDidLoad: function () {
         this._loadTextures();
         this._addObservers();
-        this._musicId = ex.GameAudioEngine.getInstance().play2d("music/battle/giratina.mp3", true);
         this._renderView();
     },
     viewDidUnload: function () {
-        ex.GameAudioEngine.getInstance().stop(this._musicId);
         this._removeObservers();
         this._unloadTextures();
     },
@@ -58,23 +56,9 @@ var BattleUIViewController = mw.ViewController.extend({
         bg.setPosition(cc.director.getWinSize().width * 0.5, cc.director.getWinSize().height * 0.5);
         this.view().addChild(bg);
 
-        // 初始化精灵model
-        var pokemon1Id = parseInt(this.scene().getParameter("pokemon1"));
-        var pokemon2Id = parseInt(this.scene().getParameter("pokemon2"));
-        logBattle("Pokemon1: %d, Pokemon2: %d", pokemon1Id, pokemon2Id);
-        var pokemon1Model = new Pokemon({
-            id: pokemon1Id,
-            level: 100,
-            catcher: DataCenter.getHero().getId(),
-            owner: DataCenter.getHero().getId(),
-        });
-        var pokemon2Model = new Pokemon({
-            id: pokemon2Id,
-            level: 100,
-        });
-
-        // 初始化BattleProcessor
-        this.scene().initBattleProcessor(pokemon1Model, pokemon2Model);
+        var battleProcessor = this.scene().getBattleProcessor();
+        var pokemon1Model = battleProcessor.getFriendPokemon();
+        var pokemon2Model = battleProcessor.getEnemyPokemon();
 
         // 初始化地形
         this._field1 = new cc.Sprite("#battle/battle_field1.png");
@@ -702,5 +686,4 @@ var BattleUIViewController = mw.ViewController.extend({
     _playerBoard: null,
     _enemyBoard: null,
     _shouldInterupt: null,
-    _musicId: null,
 });

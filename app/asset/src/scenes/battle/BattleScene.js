@@ -30,6 +30,8 @@ var BattleScene = mw.GameScene.extend({
 
         this._battleProcessor = new BattleProcessor(battleType, pokemon1Model, pokemon2Model, aiLv, weather);
 
+        this._musicId = ex.GameAudioEngine.getInstance().play2d("music/battle/giratina.mp3", true);
+
         this.loadViewController(new BattleUIViewController(), BATTLE_UI_VC_NAME);
         this.loadViewController(new BattleDialogViewController(new ModalViewSegue()), BATTLE_DIALOG_VC_NAME);
         this.loadViewController(new BattleOperationViewController(new ModalViewSegue()), BATTLE_OPERATION_VC_NAME);
@@ -37,10 +39,17 @@ var BattleScene = mw.GameScene.extend({
     onExit: function () {
         this._super();
 
+        this._battleProcessor.cleanup();
+
+        if (this._musicId) {
+            ex.GameAudioEngine.getInstance().stop(this._musicId);
+            this._musicId = null;
+        };
         Registry.removeClass("BattleAI");
     },
     getBattleProcessor: function () {
         return this._battleProcessor;
     },
     _battleProcessor: null,
+    _musicId: null,
 });

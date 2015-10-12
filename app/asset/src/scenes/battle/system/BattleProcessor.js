@@ -19,6 +19,11 @@ var BattleProcessor = cc.Class.extend({
         this._field1BuffList = [];
         this._field2BuffList = [];
         this._behaviorQueue = [];
+
+        Notifier.addObserver(BATTLE_EVENTS.SKILL_BEHAVIOR, this, this._onSkillBehavior);
+    },
+    cleanup: function () {
+        Notifier.removeObserver(BATTLE_EVENTS.SKILL_BEHAVIOR, this);
     },
     getFriendPokemon: function () {
         return this._pokemon1;
@@ -43,7 +48,10 @@ var BattleProcessor = cc.Class.extend({
     },
     beginTurn: function () {
         // 回合开始
-        Notifier.notify(BATTLE_EVENTS.TURN_BEGAN);
+        var steps = [];
+        this._checkWeather(steps);
+        // 检查天气
+        Notifier.notify(BATTLE_EVENTS.TURN_BEGAN, steps);
     },
     endTurn: function () {
         // 回合结束
@@ -86,18 +94,120 @@ var BattleProcessor = cc.Class.extend({
         }
         return null;
     },
-    checkWeather: function () {
+    _onSkillBehavior: function (skillUser, skill) {
+        var steps = [];
+        // 检查精灵状态
+        var pokemonStateInfo = this._checkPokemonStateBeforeUseSkill(skillUser);
+        var pokemonState = pokemonStateInfo["state"];
+        var pokemonStateOk = false;
+        if (pokemonStateInfo["skip"]) {
+            // 无法使用技能
+            skillUser.setRepeat(0); // 消除连续攻击效果
+            skillUser.setNextBattleState(null);
+
+            var strMap = {
+                2: "正在呼噜大睡",
+                3: "麻痹了无法动弹",
+                5: "冻结了无法动弹",
+            };
+            steps.push(this._createStep("pokemon_state_anim", { state: pokemonState, target: skillUser }));
+            steps.push(this._createStep("text", cc.formatStr("%s%s", this._testTarget(skillUser), strMap[pokemonState])));
+        } else if (pokemonStateInfo["eliminated"]) {
+            // 异常消除(仅睡眠可消除)
+            steps.push(this._createStep("text", cc.formatStr("%s醒来了", this._testTarget(skillUser))));
+        } else {
+            pokemonStateOk = true;
+        }
+
+        var battleStateOk = false;
+        // 检查异常状态
+        if (pokemonStateOk) {
+            var battleStateInfo = this._checkBattleStateBeforeUseSkill(skillUser);
+            var battleState = battleStateInfo["state"];
+            if (battleState != BATTLE_STATES.NORMAL) {
+                if (battleStateInfo["eliminated"]) {
+                    steps.push(this._createStep("text", cc.formatStr("%s解除%s", this._testTarget(skillUser), BATTLE_STATE_NAMES[battleState])));
+                } else {
+                    steps.push(this._createStep("battle_state_anim", { state: battleState, target: skillUser }));
+                    steps.push(this._createStep("text", cc.formatStr("%s%s", this._testTarget(skillUser), BATTLE_STATE_SUFFIX[battleState])));
+                    if (battleStateInfo["hurt"]) {
+                        skillUser.setRepeat(0); // 消除连续攻击效果
+                        skillUser.setNextBattleState(null);
+
+                        skillUser.hurt(battleStateInfo["hurt"]);
+
+                        steps.push(this._createStep("hp_anim", { hurt: battleStateInfo["hurt"], target: skillUser }));
+                        var strMap = {
+                            1: "攻击了自己",
+                            4: "受到了伤害",
+                        };
+                        steps.push(this._createStep("text", cc.formatStr("%s%s", this._testTarget(skillUser), strMap[battleState])));
+
+                        if (battleState == BATTLE_STATES.BOUND) {
+                            battleStateOk = true;
+                        }
+                    } else if (battleStateInfo["skip"]) {
+                        var strMap = {
+                            3: "不能自已",
+                        };
+                        if (strMap[battleState]) {
+                            steps.push(this._createStep("text", cc.formatStr("%s%s", this._testTarget(skillUser), strMap[battleState])));
+                        }
+                    } else {
+                        battleStateOk = true;
+                    }
+                }
+            } else {
+                battleStateOk = true;
+            }
+        }
+
+        // 使用技能
+        if (!this._checkDead(skillUser, steps) && pokemonStateOk && battleStateOk) {
+            steps.push(this._createStep("text", cc.formatStr("%s使用了技能%s", this._testTarget(skillUser), skill.getName())));
+            var skillData = this._analyzeSkill(skillUser, skill);
+        }
+    },
+    _testTarget: function (pokemon) {
+        return (pokemon.ownBySelf() ? "我方" : "敌方") + pokemon.getInfo().getName();
+    },
+    _checkDead: function (pokemon, steps) {
+        if (pokemon.isDead()) {
+            steps.push(this._createStep("die", { target: pokemon }));
+            steps.push(this._createStep("text", cc.formatStr("%s倒下了", this._testTarget(pokemon))));
+
+            this.clearBehaviorQueue();
+            return true;
+        }
+        return false;
+    },
+    _createStep: function () {
+        var stepName = Array.prototype.shift.call(arguments);
+        var args = Array.prototype.shift.call(arguments);
+        return {
+            step: stepName,
+            args: args,
+        };
+    },
+    _checkWeather: function (steps) {
         if (this._weather) {
+            var map = {
+                1: "正在下雨",
+                2: "烈日炎炎",
+                3: "正在下冰雹",
+                4: "卷起了沙尘暴",
+            };
+            steps.push(this._createStep("weather_anim", { weather = this._weather[0] }));
+            steps.push(this._createStep("text", { text = map[this._weather[0]] }));
+
+            // 天气cd
             --this._weather[1];
             if (this._weather[1] == 0) {
                 this._weather = null;
-                return 0;
             }
-            return this._weather[1];
         }
-        return -1;
     },
-    checkPokemonStateBeforeUseSkill: function (pokemon) {
+    _checkPokemonStateBeforeUseSkill: function (pokemon) {
         // 精灵状态
         var state = pokemon.getState();
         var pokemonStateInfo = { state: state };
@@ -121,7 +231,7 @@ var BattleProcessor = cc.Class.extend({
         }
         return pokemonStateInfo;
     },
-    checkPokemonStateWhenTurnEnds: function (pokemon) {
+    _checkPokemonStateWhenTurnEnds: function (pokemon) {
         var state = pokemon.getState();
         var pokemonStateInfo = { state: state };
         if (state == POKEMON_STATES.BURNED) {
@@ -135,7 +245,7 @@ var BattleProcessor = cc.Class.extend({
         }
         return pokemonStateInfo;
     },
-    checkBattleStateBeforeUseSkill: function (pokemon) {
+    _checkBattleStateBeforeUseSkill: function (pokemon) {
         // 战斗状态
         if (pokemon.checkBattleState(BATTLE_STATES.TIRED) > 0) {
             return {
@@ -177,7 +287,7 @@ var BattleProcessor = cc.Class.extend({
         }
         return battleStateInfo;
     },
-    analyzeSkill: function (skillUser, skillInfo) {
+    _analyzeSkill: function (skillUser, skillInfo) {
         var otherPokemon = skillUser.ownBySelf() ? this._pokemon2 : this._pokemon1;
         var targetType = skillInfo.getTarget();
         var target = null;

@@ -111,10 +111,10 @@ var BattleProcessor = cc.Class.extend({
                 5: "冻结了无法动弹",
             };
             steps.push(this._createStep("pokemon_state_anim", { state: pokemonState, target: skillUser }));
-            steps.push(this._createStep("text", cc.formatStr("%s%s", this._testTarget(skillUser), strMap[pokemonState])));
+            steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(skillUser), strMap[pokemonState]) }));
         } else if (pokemonStateInfo["eliminated"]) {
             // 异常消除(仅睡眠可消除)
-            steps.push(this._createStep("text", cc.formatStr("%s醒来了", this._testTarget(skillUser))));
+            steps.push(this._createStep("text", { text = cc.formatStr("%s醒来了", this._testTarget(skillUser)) }));
         } else {
             pokemonStateOk = true;
         }
@@ -126,10 +126,10 @@ var BattleProcessor = cc.Class.extend({
             var battleState = battleStateInfo["state"];
             if (battleState != BATTLE_STATES.NORMAL) {
                 if (battleStateInfo["eliminated"]) {
-                    steps.push(this._createStep("text", cc.formatStr("%s解除%s", this._testTarget(skillUser), BATTLE_STATE_NAMES[battleState])));
+                    steps.push(this._createStep("text", { text = cc.formatStr("%s解除%s", this._testTarget(skillUser), BATTLE_STATE_NAMES[battleState]) }));
                 } else {
                     steps.push(this._createStep("battle_state_anim", { state: battleState, target: skillUser }));
-                    steps.push(this._createStep("text", cc.formatStr("%s%s", this._testTarget(skillUser), BATTLE_STATE_SUFFIX[battleState])));
+                    steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(skillUser), BATTLE_STATE_SUFFIX[battleState]) }));
                     if (battleStateInfo["hurt"]) {
                         skillUser.setRepeat(0); // 消除连续攻击效果
                         skillUser.setNextBattleState(null);
@@ -141,7 +141,7 @@ var BattleProcessor = cc.Class.extend({
                             1: "攻击了自己",
                             4: "受到了伤害",
                         };
-                        steps.push(this._createStep("text", cc.formatStr("%s%s", this._testTarget(skillUser), strMap[battleState])));
+                        steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(skillUser), strMap[battleState]) }));
 
                         if (battleState == BATTLE_STATES.BOUND) {
                             battleStateOk = true;
@@ -151,7 +151,7 @@ var BattleProcessor = cc.Class.extend({
                             3: "不能自已",
                         };
                         if (strMap[battleState]) {
-                            steps.push(this._createStep("text", cc.formatStr("%s%s", this._testTarget(skillUser), strMap[battleState])));
+                            steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(skillUser), strMap[battleState]) }));
                         }
                     } else {
                         battleStateOk = true;
@@ -164,9 +164,41 @@ var BattleProcessor = cc.Class.extend({
 
         // 使用技能
         if (!this._checkDead(skillUser, steps) && pokemonStateOk && battleStateOk) {
-            steps.push(this._createStep("text", cc.formatStr("%s使用了技能%s", this._testTarget(skillUser), skill.getName())));
+            steps.push(this._createStep("text", { text = cc.formatStr("%s使用了技能%s", this._testTarget(skillUser), skill.getName()) }));
             var skillData = this._analyzeSkill(skillUser, skill);
+            if (skillData["notHit"]) {
+                // 未命中
+                steps.push(this._createStep("text", { text = "但是没有命中" }));
+            } else if (skillData["noEffect"]) {
+                // 伤害为0
+                steps.push(this._createStep("text", { text = "貌似没有效果" }));
+            } else if (skillData["hasBuff"]) {
+                // 重复的场地buff
+                steps.push(this._createStep("text", { text = "但是不起作用" }));
+            } else if (skillData["hasWeather"]) {
+                // 重复的天气
+                var map = {
+                    1: "已经在下雨了",
+                    2: "已经烈日炎炎了",
+                    3: "已经在下冰雹了",
+                    4: "已经有沙尘暴了",
+                };
+                steps.push(this._createStep("text", { text = map[skillData["weather"]] }));
+            } else if (skillData["isPreparing"]) {
+                // 两回合技能准备回合
+                steps.push(this._createStep("prepare_anim", { type = skillData["animType"], name = skillData["animName"], target = skillData["attacker"] }));
+                steps.push(this._createStep("text", { text = skillData["string"] }));
+            } else if (skill.getId() == 138 && skillData["defender"].getState() != POKEMON_STATES.SLEEP) {
+                // 食梦必须目标睡着
+                steps.push(this._createStep("text", { text = "但是没有作用" }));
+            } else {
+                var animParams = skill.getAnimationParams().split(";");
+                var animType = parseInt(animParams[0]);
+                steps.push(this._createStep("skill_anim", { type = animType, params = animParams[1], skillData = skillData }));
+            }
         }
+
+        Notifier.notify(BATTLE_EVENTS.PROCESS_TURN, steps);
     },
     _testTarget: function (pokemon) {
         return (pokemon.ownBySelf() ? "我方" : "敌方") + pokemon.getInfo().getName();

@@ -40,13 +40,13 @@ var BattleUIViewController = mw.ViewController.extend({
         }
     },
     _addObservers: function () {
-        Notifier.addObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this, this._onPlaySkill);
+        Notifier.addObserver(BATTLE_EVENTS.PROCESS_TURN, this, this._onProcessTurn);
         Notifier.addObserver(BATTLE_EVENTS.TURN_BEGAN, this, this._onTurnBegan);
         Notifier.addObserver(BATTLE_EVENTS.TURN_ENDED, this, this._onTurnEnded);
         Notifier.addObserver(BATTLE_EVENTS.BATTLE_ENDED, this, this._onBattleEnded);
     },
     _removeObservers: function () {
-        Notifier.removeObserver(BATTLE_UI_EVENTS.PLAY_SKILL, this);
+        Notifier.removeObserver(BATTLE_EVENTS.PROCESS_TURN, this);
         Notifier.removeObserver(BATTLE_EVENTS.TURN_BEGAN, this);
         Notifier.removeObserver(BATTLE_EVENTS.TURN_ENDED, this);
         Notifier.removeObserver(BATTLE_EVENTS.BATTLE_ENDED, this);
@@ -174,6 +174,9 @@ var BattleUIViewController = mw.ViewController.extend({
         } else {
             this.view().runAction(sequenceAry[0]);
         }
+    },
+    _onProcessTurn: function (steps) {
+        
     },
     _onPlaySkill: function (pokemonModel, skillInfo) {
         var battleProcessor = this.scene().getBattleProcessor();

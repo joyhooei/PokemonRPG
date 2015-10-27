@@ -176,7 +176,55 @@ var BattleUIViewController = mw.ViewController.extend({
         }
     },
     _onProcessTurn: function (steps) {
-        
+        var sequenceAry = [];
+        for (var i in steps) {
+            var step = steps[i];
+            this._processStep(step, sequenceAry);
+        }
+    },
+    _processStep: function (step, sequenceAry) {
+        if (step.name == "text") {
+            var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+            sequenceAry.push(dialogVc.getTextAction(step.args.text));
+        } else if (step.name == "skill_anim") {
+            var skillData = step.skillData;
+            var target = null;
+            var animType = step.type;
+            var targetType = skillData["targetType"];
+            if (targetType == 1) {
+                // 目标是精灵
+                target = this._pokemon1.getModel() == skillData["defender"] ? this._pokemon1 : this._pokemon2;
+            } else if (targetType == 2) {
+                // 目标是场地
+                target = skillData["isFriend"] ? this._field1 : this._field2;
+            } else if (targetType == 3) {
+                // 天气
+                target = this.view();
+            }
+
+            if (animType == 1) {
+                // 粒子
+                sequenceAry.push(new cc.CallFunc(function () {
+                    var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", step.args.params));
+                    particle.setAutoRemoveOnFinish(true);
+                    if (targetType == 3) {
+                        particle.setPosition(cc.winSize.width * 0.5, cc.winSize.height);
+                    } else {
+                        particle.setPosition(target.getContentSize().width * 0.5, target.getContentSize().height * 0.5);
+                    }
+                    target.addChild(particle);
+                }));
+                var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", step.args.params));
+                sequenceAry.push(new cc.DelayTime(particle.getDuration() + 0.5));
+            }
+        } else if (step.name == "pokemon_state_anim") {
+            this._getPokemonStateAction(step.state, step.target, sequenceAry);
+        } else if (step.name == "battle_state_anim") {
+            this._getBattleStateAction(step.state, step.target, sequenceAry);
+        } else if (step.name == "hp_anim") {
+            sequenceAry.push()
+        }
+        sequenceAry.push(new cc.DelayTime(0.5));
     },
     _onPlaySkill: function (pokemonModel, skillInfo) {
         var battleProcessor = this.scene().getBattleProcessor();
@@ -667,7 +715,6 @@ var BattleUIViewController = mw.ViewController.extend({
         // 包含文字动画
         var ownBySelf = pokemon.ownBySelf();
         var targetNode = ownBySelf ? this._pokemon1 : this._pokemon2;
-        var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
         if (state == BATTLE_STATES.CONFUSED) {
             sequenceAry.push(new cc.CallFunc(function () {
                 var dizzyGif = mw.GifSprite.createWithFile("gif/dizzy.gif");
@@ -679,7 +726,6 @@ var BattleUIViewController = mw.ViewController.extend({
             sequenceAry.push(new cc.CallFunc(function () {
                 targetNode.getChildByTag(100).removeFromParent();
             }));
-            sequenceAry.push(dialogVc.getTextAction(cc.formatStr("%s%s%s", (ownBySelf ? "我方" : "敌方"), pokemon.getInfo().getName(), BATTLE_STATE_SUFFIX[state])));
         }
     },
     _pokemon1: null,

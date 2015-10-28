@@ -247,7 +247,39 @@ var BattleProcessor = cc.Class.extend({
                     this._checkNewBattleState(target, steps);
                     this._checkNewBattleState(skillData["skiller"], steps);
                 } else if (skillData["isFieldSkill"]) {
+                    var buffId = skillData["buffId"];
+                    steps.push(this._createStep("text", { text: cc.formatStr("%s场地%s", (skillData["isFriend"] ? "我方" : "敌方"), FIELD_BUFF_TEXT[buffId]) }));
+                } else if (skillData["isVarianceSkill"]) {
+                    var attacker = skillData["attacker"];
+                    var defender = skillData["defender"];
+                    this._checkNewPokemonState(defender, steps);
+                    if (skillData["targetAbilityLevels"]) {
+                        this._checkAbilityLevels(defender, skillData["targetAbilityLevels"], skillData["enemyShouldPlay"], skillData["enemyAnimationType"], steps);
+                    }
+                    this._checkNewBattleState(defender, steps);
                     
+                    this._checkNewPokemonState(attacker, steps);
+                    if (skillData["selfAbilityLevels"]) {
+                        this._checkAbilityLevels(attacker, skillData["selfAbilityLevels"], skillData["selfShouldPlay"], skillData["selfAnimationType"], steps);
+                    }
+                    this._checkNewBattleState(attacker, steps);
+                } else if (skillData["isKillSkill"]) {
+                    var attacker = skillData["attacker"];
+                    var defender = skillData["defender"];
+                    // 闪烁动画
+                    steps.push(this._createStep("blink", { target = defender }));
+                    // 血条动画
+                    steps.push(this._createStep("hp_anim", { delta: skillData["delta"], target = defender }));
+                    steps.push(this._createStep("text", { text: "一击必杀" }));
+                    this._checkDead(defender, steps);
+                } else if (skillData["isWeatherSkill"]) {
+                    var map = {
+                        1: "开始下起了大雨",
+                        2: "阳光强烈起来了",
+                        3: "下起了冰雹",
+                        4: "卷起了沙尘暴",
+                    };
+                    steps.push(this._createStep("text", { text: map[skillData["weather"]] }));
                 }
             }
         }

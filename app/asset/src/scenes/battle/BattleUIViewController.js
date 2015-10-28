@@ -222,7 +222,59 @@ var BattleUIViewController = mw.ViewController.extend({
         } else if (step.name == "battle_state_anim") {
             this._getBattleStateAction(step.state, step.target, sequenceAry);
         } else if (step.name == "hp_anim") {
-            sequenceAry.push()
+            var target = step.args.target;
+            var delta = step.args.delta;
+            var board = target.ownBySelf() ? this._playerBoard : this._enemyBoard;
+            sequenceAry.push(board.getHpBarAction(delta));
+        } else if (step.name == "blink") {
+            var target= step.args.target;
+            var targetNode = target.ownBySelf() ? this._pokemon1 : this._pokemon2;
+            sequenceAry.push(new cc.TargetedAction(targetNode, new cc.Blink(0.5, 3)));
+        } else if (step.name == "die") {
+            var target = step.args.target;
+            sequenceAry.push(new cc.CallFunc(function () {
+                var audioId = ex.GameAudioEngine.getInstance().play2d(cc.formatStr("sounds/cries/%s.wav", target.getFormatedId()));
+                ex.GameAudioEngine.getInstance().setFinishCallback(audioId, function (id, name) {
+                    ex.GameAudioEngine.getInstance().uncache(audioId);
+                });
+                this._shouldInterupt = true;
+                target.leaveBattle();
+                (target.ownBySelf() ? this._pokemon1 : this._pokemon2).stop();
+            }.bind(this)));
+            sequenceAry.push(new cc.DelayTime(2));
+            sequenceAry.push((target.ownBySelf() ? this._pokemon1 : this._pokemon2).getDeadAction());
+        } else if (step.name == "ability_level_anim") {
+            var animType = step.args.type;
+            var target = step.args.target;
+            var targetNode = target.ownBySelf() ? this._pokemon1 : this._pokemon2;
+            sequenceAry.push(new cc.CallFunc(function () {
+                var particle = new cc.ParticleSystem(cc.formatStr("particles/particle%d.plist", animType));
+                particle.setAutoRemoveOnFinish(true);
+                particle.setPosition(targetNode.getContentSize().width * 0.5, targetNode.getContentSize().height * 0.5);
+                targetNode.addChild(particle);
+            }));
+            sequenceAry.push(new cc.DelayTime(2));
+        } else if (step.name == "weather_anim") {
+            var weather = step.args.weather;
+            sequenceAry.push(new cc.CallFunc(function () {
+                var particle = new cc.ParticleSystem(cc.formatStr("particles/particle2%d.plist", weather));
+                particle.setAutoRemoveOnFinish(true);
+                particle.setPosition(cc.winSize.width * 0.5, cc.winSize.height);
+                this.view().addChild(particle);
+            }.bind(this)));
+            sequenceAry.push(new cc.DelayTime(2));
+        } else if (step.name == "prepare_anim") {
+            var animationType = step.args.type;
+            var target = this._pokemon1.getModel() == step.args.target ? this._pokemon1 : this._pokemon2;
+            if (animationType == 1) {
+                sequenceAry.push(new cc.CallFunc(function () {
+                    var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", step.args.name));
+                    particle.setAutoRemoveOnFinish(true);
+                    particle.setPosition(target.getContentSize().width * 0.5, target.getContentSize().height * 0.5);
+                    target.addChild(particle);
+                }));
+                sequenceAry.push(new cc.DelayTime(2));
+            }
         }
         sequenceAry.push(new cc.DelayTime(0.5));
     },

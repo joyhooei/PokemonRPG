@@ -97,82 +97,14 @@ var BattleUIViewController = mw.ViewController.extend({
         var battleProcessor = this.scene().getBattleProcessor();
         battleProcessor.process();
     },
-    _onTurnEnded: function () {
-        var battleProcessor = this.scene().getBattleProcessor();
-        var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
+    _onTurnEnded: function (steps) {
         var sequenceAry = [];
-        var dead = false;
-        var pokemonStateInfo = battleProcessor.checkPokemonStateWhenTurnEnds(this._pokemon1.getModel());
-        if (pokemonStateInfo["hurt"]) {
-            sequenceAry.push(dialogVc.getTextAction(
-                cc.formatStr("我方%s%s了", this._pokemon1.getModel().getInfo().getName(), POKEMON_STATE_NAMES[pokemonStateInfo["state"]])
-            ));
-            this._getPokemonStateAction(pokemonStateInfo["state"], this._pokemon1.getModel(), sequenceAry);
-            sequenceAry.push(this._playerBoard.getHpBarAction(pokemonStateInfo["hurt"]));
-            if (this._pokemon1.getModel().isDead()) {
-                dead = true;
-                this._getDeadAction(this._pokemon1.getModel(), sequenceAry);
-            }
+        for (var i in steps) {
+            var step = steps[i];
+            this._processStep(step, sequenceAry);
         }
-        pokemonStateInfo = battleProcessor.checkPokemonStateWhenTurnEnds(this._pokemon2.getModel());
-        if (pokemonStateInfo["hurt"]) {
-            sequenceAry.push(dialogVc.getTextAction(
-                cc.formatStr("敌方%s%s了", this._pokemon2.getModel().getInfo().getName(), POKEMON_STATE_NAMES[pokemonStateInfo["state"]])
-            ));
-            this._getPokemonStateAction(pokemonStateInfo["state"], this._pokemon2.getModel(), sequenceAry);
-            sequenceAry.push(this._enemyBoard.getHpBarAction(pokemonStateInfo["hurt"]));
-            if (this._pokemon2.getModel().isDead()) {
-                dead = true;
-                this._getDeadAction(this._pokemon2.getModel(), sequenceAry);
-            }
-        }
-        if (dead) {
-            sequenceAry.push(new cc.DelayTime(0.5));
-            sequenceAry.push(new cc.CallFunc(function () {
-                battleProcessor.endBattle();
-            }));
-        } else {
-            // 天气
-            var weather = battleProcessor.getWeather();
-            var weatherTurns = battleProcessor.checkWeather();
-            var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
-            if (weatherTurns > 0) {
-                var map = {
-                    1: "正在下雨",
-                    2: "烈日炎炎",
-                    3: "正在下冰雹",
-                    4: "很大的沙尘暴",
-                };
-                sequenceAry.push(new cc.CallFunc(function () {
-                    var particle = new cc.ParticleSystem(cc.formatStr("particles/particle2%d.plist", weather));
-                    particle.setAutoRemoveOnFinish(true);
-                    particle.setPosition(cc.winSize.width * 0.5, cc.winSize.height);
-                    this.view().addChild(particle);
-                }.bind(this)));
-                sequenceAry.push(new cc.DelayTime(2));
-                sequenceAry.push(dialogVc.getTextAction(map[weather]));
-                sequenceAry.push(new cc.DelayTime(0.5));
-            } else if (weatherTurns == 0) {
-                var map = {
-                    1: "雨停了",
-                    2: "阳光减弱了",
-                    3: "冰雹停了",
-                    4: "沙尘暴停了",
-                };
-                sequenceAry.push(dialogVc.getTextAction(map[weather]));
-                sequenceAry.push(new cc.DelayTime(0.5));
-            }
-            sequenceAry.push(new cc.CallFunc(function () {
-                this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME).clearText();
-                this.scene().getViewControllerByIdentifier(BATTLE_OPERATION_VC_NAME).endTurn();
-            }.bind(this)));
-        }
-        // 卧槽尼玛 被这个bug坑死了 Sequence的参数如果是数组而且只有一个 会同时执行两次
-        if (sequenceAry.length > 1) {
-            this.view().runAction(new cc.Sequence(sequenceAry));
-        } else {
-            this.view().runAction(sequenceAry[0]);
-        }
+
+        this._play(sequenceAry);
     },
     _onProcessTurn: function (steps) {
         var sequenceAry = [];
@@ -180,6 +112,9 @@ var BattleUIViewController = mw.ViewController.extend({
             var step = steps[i];
             this._processStep(step, sequenceAry);
         }
+        this._processNextBehavior(sequenceAry);
+
+        this._play(sequenceAry);
     },
     _processStep: function (step, sequenceAry) {
         if (step.name == "text") {
@@ -277,11 +212,17 @@ var BattleUIViewController = mw.ViewController.extend({
         sequenceAry.push(new cc.DelayTime(0.5));
     },
     _processNextBehavior: function (sequenceAry) {
-        sequenceAry.push(new cc.DelayTime(0.5));
         sequenceAry.push(new cc.CallFunc(function () {
             var battleProcessor = this.scene().getBattleProcessor();
             battleProcessor.process();
         }.bind(this)));
+    },
+    _play: function (sequenceAry) {
+        if (sequenceAry.length > 1) {
+            this.runAction(new cc.Sequence(sequenceAry));
+        } else if (sequenceAry.length > 0) {
+            this.runAction(sequenceAry[0]);
+        }
     },
     _pokemon1: null,
     _pokemon2: null,

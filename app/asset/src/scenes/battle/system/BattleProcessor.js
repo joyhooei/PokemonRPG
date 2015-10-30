@@ -71,10 +71,56 @@ var BattleProcessor = cc.Class.extend({
                 this._field2BuffList[buffId] = undefined;
             }
         }
-        Notifier.notify(BATTLE_EVENTS.TURN_ENDED);
+
+        var dead = false;
+        var steps = [];
+        var pokemonStateInfo = this._checkPokemonStateWhenTurnEnds(this._pokemon2);
+        if (pokemonStateInfo["hurt"]) {
+            steps.push(this._createStep("text", 
+                cc.formatStr("敌方%s%s了", this._pokemon2.getInfo().getName(), POKEMON_STATE_NAMES[pokemonStateInfo["state"]])
+                ));
+
+            var strMap = {
+                1: "中毒受到了伤害",
+                4: "受到了灼伤",
+            };
+            steps.push(this._createStep("pokemon_state_anim", { state: pokemonState, target: this._pokemon2 }));
+            steps.push(this._createStep("hp_anim", { delta: pokemonStateInfo["hurt"], target: this._pokemon2 }));
+            steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(this._pokemon2), strMap[pokemonState]) }));
+
+            dead = dead || this._checkDead(this._pokemon2, steps);
+        }
+        pokemonStateInfo = this._checkPokemonStateWhenTurnEnds(this._pokemon1);
+        if (pokemonStateInfo["hurt"]) {
+            steps.push(this._createStep("text", 
+                cc.formatStr("我方%s%s了", this._pokemon2.getInfo().getName(), POKEMON_STATE_NAMES[pokemonStateInfo["state"]])
+                ));
+
+            var strMap = {
+                1: "中毒受到了伤害",
+                4: "受到了灼伤",
+            };
+            steps.push(this._createStep("pokemon_state_anim", { state: pokemonState, target: this._pokemon1 }));
+            steps.push(this._createStep("hp_anim", { delta: pokemonStateInfo["hurt"], target: this._pokemon1 }));
+            steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(this._pokemon1), strMap[pokemonState]) }));
+
+            dead = dead || this._checkDead(this._pokemon1, steps);
+        }
+
+        if (dead) {
+            this.endBattle();
+        }
+
+        Notifier.notify(BATTLE_EVENTS.TURN_ENDED, steps);
     },
     endBattle: function () {
         // 战斗结束
+        if (!this._pokemon1.isDead()) {
+            this._pokemon1.leaveBattle();
+        }
+        if (!this._pokemon2.isDead()) {
+            this._pokemon2.leaveBattle();
+        }
         Notifier.notify(BATTLE_EVENTS.BATTLE_ENDED);
     },
     process: function () {

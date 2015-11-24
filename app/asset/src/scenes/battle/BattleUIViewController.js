@@ -216,6 +216,31 @@ var BattleUIViewController = mw.ViewController.extend({
         }
         sequenceAry.push(new cc.DelayTime(0.5));
     },
+    _getPokemonStateAction: function (state, pokemon, sequenceAry) {
+        // 不包含文字动画
+        var ownBySelf = pokemon.ownBySelf();
+        var tgtBoard = ownBySelf ? this._playerBoard : this._enemyBoard;
+        sequenceAry.push(new cc.CallFunc(function () {
+            tgtBoard.updateState(state);
+        }));
+    },
+    _getBattleStateAction: function (state, pokemon, sequenceAry) {
+        // 包含文字动画
+        var ownBySelf = pokemon.ownBySelf();
+        var targetNode = ownBySelf ? this._pokemon1 : this._pokemon2;
+        if (state == BATTLE_STATES.CONFUSED) {
+            sequenceAry.push(new cc.CallFunc(function () {
+                var dizzyGif = mw.GifSprite.createWithFile("gif/dizzy.gif");
+                dizzyGif.setScale(0.2);
+                dizzyGif.setPosition(targetNode.getContentSize().width * 0.5, targetNode.getContentSize().height);
+                targetNode.addChild(dizzyGif, 0, 100);
+            }));
+            sequenceAry.push(new cc.DelayTime(1));
+            sequenceAry.push(new cc.CallFunc(function () {
+                targetNode.getChildByTag(100).removeFromParent();
+            }));
+        }
+    },
     _processNextBehavior: function (sequenceAry) {
         sequenceAry.push(new cc.CallFunc(function () {
             var battleProcessor = this.scene().getBattleProcessor();

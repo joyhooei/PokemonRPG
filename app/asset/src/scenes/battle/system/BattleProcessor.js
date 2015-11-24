@@ -3,21 +3,27 @@
  */
 
 var BattleProcessor = cc.Class.extend({
-    ctor: function (pokemon1, pokemon2, aiLevel) {
+    ctor: function (battleType, pokemon1, pokemon2, aiLevel, weather) {
         if (!(pokemon1 instanceof Pokemon) || !(pokemon2 instanceof Pokemon)) {
             mw.error("不合法的参数 BattleProcessor创建失败");
             return;
         }
-        aiLevel = aiLevel || BattleAI.AI_LEVELS.IDIOT;
+        this._battleType = battleType;
         this._pokemon1 = pokemon1;
         this._pokemon2 = pokemon2;
         var com = MakeBindable(this._pokemon2).addComponent("BattleAI");
         logBattle("AI LEVEL: %d", aiLevel);
         com.setAILevel(aiLevel);
+        this._weather = (weather == 0 ? null : weather);
 
         this._field1BuffList = [];
         this._field2BuffList = [];
         this._behaviorQueue = [];
+
+        Notifier.addObserver(BATTLE_EVENTS.SKILL_BEHAVIOR, this, this._onSkillBehavior);
+    },
+    cleanup: function () {
+        Notifier.removeObserver(BATTLE_EVENTS.SKILL_BEHAVIOR, this);
     },
     getFriendPokemon: function () {
         return this._pokemon1;
@@ -42,7 +48,10 @@ var BattleProcessor = cc.Class.extend({
     },
     beginTurn: function () {
         // 回合开始
-        Notifier.notify(BATTLE_EVENTS.TURN_BEGAN);
+        var steps = [];
+        this._checkWeather(steps);
+        // 检查天气
+        Notifier.notify(BATTLE_EVENTS.TURN_BEGAN, steps);
     },
     endTurn: function () {
         // 回合结束
@@ -62,10 +71,56 @@ var BattleProcessor = cc.Class.extend({
                 this._field2BuffList[buffId] = undefined;
             }
         }
-        Notifier.notify(BATTLE_EVENTS.TURN_ENDED);
+
+        var dead = false;
+        var steps = [];
+        var pokemonStateInfo = this._checkPokemonStateWhenTurnEnds(this._pokemon2);
+        if (pokemonStateInfo["hurt"]) {
+            steps.push(this._createStep("text", 
+                cc.formatStr("敌方%s%s了", this._pokemon2.getInfo().getName(), POKEMON_STATE_NAMES[pokemonStateInfo["state"]])
+                ));
+
+            var strMap = {
+                1: "中毒受到了伤害",
+                4: "受到了灼伤",
+            };
+            steps.push(this._createStep("pokemon_state_anim", { state: pokemonState, target: this._pokemon2 }));
+            steps.push(this._createStep("hp_anim", { delta: pokemonStateInfo["hurt"], target: this._pokemon2 }));
+            steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(this._pokemon2), strMap[pokemonState]) }));
+
+            dead = dead || this._checkDead(this._pokemon2, steps);
+        }
+        pokemonStateInfo = this._checkPokemonStateWhenTurnEnds(this._pokemon1);
+        if (pokemonStateInfo["hurt"]) {
+            steps.push(this._createStep("text", 
+                cc.formatStr("我方%s%s了", this._pokemon2.getInfo().getName(), POKEMON_STATE_NAMES[pokemonStateInfo["state"]])
+                ));
+
+            var strMap = {
+                1: "中毒受到了伤害",
+                4: "受到了灼伤",
+            };
+            steps.push(this._createStep("pokemon_state_anim", { state: pokemonState, target: this._pokemon1 }));
+            steps.push(this._createStep("hp_anim", { delta: pokemonStateInfo["hurt"], target: this._pokemon1 }));
+            steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(this._pokemon1), strMap[pokemonState]) }));
+
+            dead = dead || this._checkDead(this._pokemon1, steps);
+        }
+
+        if (dead) {
+            this.endBattle();
+        }
+
+        Notifier.notify(BATTLE_EVENTS.TURN_ENDED, steps);
     },
     endBattle: function () {
         // 战斗结束
+        if (!this._pokemon1.isDead()) {
+            this._pokemon1.leaveBattle();
+        }
+        if (!this._pokemon2.isDead()) {
+            this._pokemon2.leaveBattle();
+        }
         Notifier.notify(BATTLE_EVENTS.BATTLE_ENDED);
     },
     process: function () {
@@ -85,18 +140,297 @@ var BattleProcessor = cc.Class.extend({
         }
         return null;
     },
-    checkWeather: function () {
+    _onSkillBehavior: function (skillUser, skill) {
+        var steps = [];
+        // 检查精灵状态
+        var pokemonStateInfo = this._checkPokemonStateBeforeUseSkill(skillUser);
+        var pokemonState = pokemonStateInfo["state"];
+        var pokemonStateOk = false;
+        if (pokemonStateInfo["skip"]) {
+            // 无法使用技能
+            skillUser.setRepeat(0); // 消除连续攻击效果
+            skillUser.setNextBattleState(null);
+
+            var strMap = {
+                2: "正在呼噜大睡",
+                3: "麻痹了无法动弹",
+                5: "冻结了无法动弹",
+            };
+            steps.push(this._createStep("pokemon_state_anim", { state: pokemonState, target: skillUser }));
+            steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(skillUser), strMap[pokemonState]) }));
+        } else if (pokemonStateInfo["eliminated"]) {
+            // 异常消除(仅睡眠可消除)
+            steps.push(this._createStep("text", { text = cc.formatStr("%s醒来了", this._testTarget(skillUser)) }));
+        } else {
+            pokemonStateOk = true;
+        }
+
+        var battleStateOk = false;
+        // 检查异常状态
+        if (pokemonStateOk) {
+            var battleStateInfo = this._checkBattleStateBeforeUseSkill(skillUser);
+            var battleState = battleStateInfo["state"];
+            if (battleState != BATTLE_STATES.NORMAL) {
+                if (battleStateInfo["eliminated"]) {
+                    steps.push(this._createStep("text", { text = cc.formatStr("%s解除%s", this._testTarget(skillUser), BATTLE_STATE_NAMES[battleState]) }));
+                } else {
+                    steps.push(this._createStep("battle_state_anim", { state: battleState, target: skillUser }));
+                    steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(skillUser), BATTLE_STATE_SUFFIX[battleState]) }));
+                    if (battleStateInfo["hurt"]) {
+                        skillUser.setRepeat(0); // 消除连续攻击效果
+                        skillUser.setNextBattleState(null);
+
+                        skillUser.hurt(battleStateInfo["hurt"]);
+
+                        steps.push(this._createStep("hp_anim", { delta: battleStateInfo["hurt"], target: skillUser }));
+                        var strMap = {
+                            1: "攻击了自己",
+                            4: "受到了伤害",
+                        };
+                        steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(skillUser), strMap[battleState]) }));
+
+                        if (battleState == BATTLE_STATES.BOUND) {
+                            battleStateOk = true;
+                        }
+                    } else if (battleStateInfo["skip"]) {
+                        var strMap = {
+                            3: "不能自已",
+                        };
+                        if (strMap[battleState]) {
+                            steps.push(this._createStep("text", { text = cc.formatStr("%s%s", this._testTarget(skillUser), strMap[battleState]) }));
+                        }
+                    } else {
+                        battleStateOk = true;
+                    }
+                }
+            } else {
+                battleStateOk = true;
+            }
+        }
+
+        // 使用技能
+        if (!this._checkDead(skillUser, steps) && pokemonStateOk && battleStateOk) {
+            steps.push(this._createStep("text", { text = cc.formatStr("%s使用了技能%s", this._testTarget(skillUser), skill.getName()) }));
+            var skillData = this._analyzeSkill(skillUser, skill);
+            if (skillData["notHit"]) {
+                // 未命中
+                steps.push(this._createStep("text", { text = "但是没有命中" }));
+            } else if (skillData["noEffect"]) {
+                // 伤害为0
+                steps.push(this._createStep("text", { text = "貌似没有效果" }));
+            } else if (skillData["hasBuff"]) {
+                // 重复的场地buff
+                steps.push(this._createStep("text", { text = "但是不起作用" }));
+            } else if (skillData["hasWeather"]) {
+                // 重复的天气
+                var map = {
+                    1: "已经在下雨了",
+                    2: "已经烈日炎炎了",
+                    3: "已经在下冰雹了",
+                    4: "已经有沙尘暴了",
+                };
+                steps.push(this._createStep("text", { text = map[skillData["weather"]] }));
+            } else if (skillData["isPreparing"]) {
+                // 两回合技能准备回合
+                steps.push(this._createStep("prepare_anim", { type = skillData["animType"], name = skillData["animName"], target = skillData["attacker"] }));
+                steps.push(this._createStep("text", { text = skillData["string"] }));
+            } else if (skill.getId() == 138 && skillData["defender"].getState() != POKEMON_STATES.SLEEP) {
+                // 食梦必须目标睡着
+                steps.push(this._createStep("text", { text = "但是没有作用" }));
+            } else {
+                var animParams = skill.getAnimationParams().split(";");
+                var animType = parseInt(animParams[0]);
+                steps.push(this._createStep("skill_anim", { type = animType, params = animParams[1], skillData = skillData }));
+
+                if (skillData["isHurtSkill"]) {
+                    var attacker = skillData["attacker"];
+                    var defender = skillData["defender"];
+                    // 闪烁动画
+                    steps.push(this._createStep("blink", { target = defender }));
+                    // 血条动画
+                    steps.push(this._createStep("hp_anim", { delta: skillData["delta"], target = defender }));
+                    // 攻击方是否有回复或损伤
+                    if ((skillData["heal"] !== undefined && skillData["heal"] > 0) || (skillData["selfHurt"] !== undefined && skillData["selfHurt"] > 0)) {
+                        var value = skillData["heal"] || skillData["selfHurt"];
+                        steps.push(this._createStep("hp_anim", { delta: value, target: attacker }));
+                    }
+                    // 命中要害判断
+                    if (skillData["criticalCorrection"] > 1.0) {
+                        steps.push(this._createStep("text", { text = "命中要害" }));
+                    }
+                    // 效果判断
+                    if (skillData["propertyCorrection"] != 1.0) {
+                        steps.push(this._createStep("text", { text = skillData["propertyCorrection"] > 1.0 ? "效果拔群" : "效果很小" }));
+                    }
+                    if (skillData["heal"] !== undefined) {
+                        steps.push(this._createStep("text", { text = skillData["heal"] > 0 ? "回复了生命值" : "生命值已经满了" }));
+                    } else if (skillData["selfHurt"] !== undefined && skillData["selfHurt"] > 0) {
+                        steps.push(this._createStep("text", { text = "受到了反冲伤害" }));
+                    }
+                    var dead = this._checkDead(defender, steps) || this._checkDead(attacker, steps);
+                    if (!this._checkDead(defender, steps)) {
+                        this._checkNewPokemonState(defender, steps);
+                        if (skillData["targetAbilityLevels"]) {
+                            this._checkAbilityLevels(defender, skillData["targetAbilityLevels"], skillData["enemyShouldPlay"], skillData["enemyAnimationType"], steps);
+                        }
+                        this._checkNewBattleState(defender, steps);
+                    }
+                    if (!this._checkDead(attacker, steps)) {
+                        this._checkNewPokemonState(attacker, steps);
+                        if (skillData["selfAbilityLevels"]) {
+                            this._checkAbilityLevels(attacker, skillData["selfAbilityLevels"], skillData["selfShouldPlay"], skillData["selfAnimationType"], steps);
+                        }
+                        this._checkNewBattleState(attacker, steps);
+                    }
+                } else if (skillData["isHealSkill"]) {
+                    var target = skillData["defender"];
+                    if (skillData["delta"] > 0) {
+                        steps.push(this._createStep("hp_anim", { delta: skillData["delta"], target: target }));
+                        steps.push(this._createStep("text", { text: cc.formatStr("%s%s回复了生命值", (ownBySelf ? "我方" : "敌方"), target.getInfo().getName()) }));
+                    } else {
+                        steps.push(this._createStep("text", { text: "生命值已经满了" }));
+                    }
+                    this._checkNewBattleState(target, steps);
+                    this._checkNewBattleState(skillData["skiller"], steps);
+                } else if (skillData["isFieldSkill"]) {
+                    var buffId = skillData["buffId"];
+                    steps.push(this._createStep("text", { text: cc.formatStr("%s场地%s", (skillData["isFriend"] ? "我方" : "敌方"), FIELD_BUFF_TEXT[buffId]) }));
+                } else if (skillData["isVarianceSkill"]) {
+                    var attacker = skillData["attacker"];
+                    var defender = skillData["defender"];
+                    this._checkNewPokemonState(defender, steps);
+                    if (skillData["targetAbilityLevels"]) {
+                        this._checkAbilityLevels(defender, skillData["targetAbilityLevels"], skillData["enemyShouldPlay"], skillData["enemyAnimationType"], steps);
+                    }
+                    this._checkNewBattleState(defender, steps);
+                    
+                    this._checkNewPokemonState(attacker, steps);
+                    if (skillData["selfAbilityLevels"]) {
+                        this._checkAbilityLevels(attacker, skillData["selfAbilityLevels"], skillData["selfShouldPlay"], skillData["selfAnimationType"], steps);
+                    }
+                    this._checkNewBattleState(attacker, steps);
+                } else if (skillData["isKillSkill"]) {
+                    var attacker = skillData["attacker"];
+                    var defender = skillData["defender"];
+                    // 闪烁动画
+                    steps.push(this._createStep("blink", { target = defender }));
+                    // 血条动画
+                    steps.push(this._createStep("hp_anim", { delta: skillData["delta"], target = defender }));
+                    steps.push(this._createStep("text", { text: "一击必杀" }));
+                    this._checkDead(defender, steps);
+                } else if (skillData["isWeatherSkill"]) {
+                    var map = {
+                        1: "开始下起了大雨",
+                        2: "阳光强烈起来了",
+                        3: "下起了冰雹",
+                        4: "卷起了沙尘暴",
+                    };
+                    steps.push(this._createStep("text", { text: map[skillData["weather"]] }));
+                }
+            }
+        }
+
+        Notifier.notify(BATTLE_EVENTS.PROCESS_TURN, steps);
+    },
+    _testTarget: function (pokemon) {
+        return (pokemon.ownBySelf() ? "我方" : "敌方") + pokemon.getInfo().getName();
+    },
+    _checkDead: function (pokemon, steps) {
+        if (pokemon.isDead()) {
+            steps.push(this._createStep("die", { target: pokemon }));
+            steps.push(this._createStep("text", { text: cc.formatStr("%s倒下了", this._testTarget(pokemon)) }));
+
+            this.clearBehaviorQueue();
+            return true;
+        }
+        return false;
+    },
+    _checkNewPokemonState: function (pokemon, steps) {
+        var newState = pokemon.getNewState();
+        if (newState) {
+            if (pokemon.getState() == POKEMON_STATES.NORMAL) {
+                steps.push(this._createStep("pokemon_state_anim", { state: pokemonState, target: pokemon }));
+                steps.push(this._createStep("text", { text = cc.formatStr("%s%s%s了", (pokemon.ownBySelf() ? "我方" : "敌方"), pokemon.getInfo().getName(), POKEMON_STATE_NAMES[newState]) }));
+            } else {
+                steps.push(this._createStep("text", { text = cc.formatStr("%s%s已经有异常状态了", (ownBySelf ? "我方" : "敌方"), pokemon.getInfo().getName()) }))
+            }
+            pokemon.refreshState();
+        }
+    },
+    _checkNewBattleState: function (pokemon, steps) {
+        var newState = pokemon.getNewBattleState();
+        if (newState) {
+            if (pokemon.hasBattleState(newState)) {
+                steps.push(this._createStep("text", { text = cc.formatStr("%s%s已经%s了", (pokemon.ownBySelf() ? "我方" : "敌方"), pokemon.getInfo().getName(), BATTLE_STATE_NAMES[newState]) } ));
+            } else {
+                steps.push(this._createStep("battle_state_anim", { state: newState, target: pokemon }));
+            }
+            pokemon.refreshBattleState();
+        }
+    },
+    _checkAbilityLevels: function (pokemon, abilityLevels, shouldPlay, animType, steps) {
+        var propMap = [ "攻击", "防御", "特攻", "特防", "速度" ];
+        var levelMap = [ "迅速下降", "下降", "", "上升", "迅速上升" ];
+        var ownBySelf = pokemon.ownBySelf();
+        var attacker = pokemon;
+        var defender = (ownBySelf ? this._pokemon2 : this._pokemon1);
+        if (abilityLevels) {
+            if (shouldPlay) {
+                steps.push(this._createStep("ability_level_anim", { target: defender, type: animType }));
+            }
+            for (var i in abilityLevels) {
+                var data = abilityLevels[i];
+                var prop = data[0];
+                var delta = data[1];
+                var canChange = data[2];
+
+                if (!canChange) {
+                    steps.push(this._createStep("text", { text: 
+                        cc.formatStr("%s%s%s已经不能%s了",
+                            (ownBySelf ? "我方" : "敌方"),
+                            defender.getInfo().getName(),
+                            propMap[prop],
+                            (delta > 0 ? "上升" : "下降")
+                        ) }));
+                } else {
+                    steps.push(this._createStep("text", { text: 
+                        cc.formatStr("%s%s%s%s",
+                            (ownBySelf ? "我方" : "敌方"),
+                            defender.getInfo().getName(),
+                            propMap[prop],
+                            levelMap[delta + 2]
+                        ) }));
+                }
+            }
+        }
+    },
+    _createStep: function () {
+        var stepName = Array.prototype.shift.call(arguments);
+        var args = Array.prototype.shift.call(arguments);
+        return {
+            name: stepName,
+            args: args,
+        };
+    },
+    _checkWeather: function (steps) {
         if (this._weather) {
+            var map = {
+                1: "正在下雨",
+                2: "烈日炎炎",
+                3: "正在下冰雹",
+                4: "卷起了沙尘暴",
+            };
+            steps.push(this._createStep("weather_anim", { weather = this._weather[0] }));
+            steps.push(this._createStep("text", { text = map[this._weather[0]] }));
+
+            // 天气cd
             --this._weather[1];
             if (this._weather[1] == 0) {
                 this._weather = null;
-                return 0;
             }
-            return this._weather[1];
         }
-        return -1;
     },
-    checkPokemonStateBeforeUseSkill: function (pokemon) {
+    _checkPokemonStateBeforeUseSkill: function (pokemon) {
         // 精灵状态
         var state = pokemon.getState();
         var pokemonStateInfo = { state: state };
@@ -120,7 +454,7 @@ var BattleProcessor = cc.Class.extend({
         }
         return pokemonStateInfo;
     },
-    checkPokemonStateWhenTurnEnds: function (pokemon) {
+    _checkPokemonStateWhenTurnEnds: function (pokemon) {
         var state = pokemon.getState();
         var pokemonStateInfo = { state: state };
         if (state == POKEMON_STATES.BURNED) {
@@ -134,7 +468,7 @@ var BattleProcessor = cc.Class.extend({
         }
         return pokemonStateInfo;
     },
-    checkBattleStateBeforeUseSkill: function (pokemon) {
+    _checkBattleStateBeforeUseSkill: function (pokemon) {
         // 战斗状态
         if (pokemon.checkBattleState(BATTLE_STATES.TIRED) > 0) {
             return {
@@ -176,7 +510,7 @@ var BattleProcessor = cc.Class.extend({
         }
         return battleStateInfo;
     },
-    analyzeSkill: function (skillUser, skillInfo) {
+    _analyzeSkill: function (skillUser, skillInfo) {
         var otherPokemon = skillUser.ownBySelf() ? this._pokemon2 : this._pokemon1;
         var targetType = skillInfo.getTarget();
         var target = null;
@@ -209,6 +543,7 @@ var BattleProcessor = cc.Class.extend({
         var handler = this["_skill" + skillInfo.getHandler()];
         cc.assert(handler instanceof Function, "未实现的技能逻辑处理函数");
         var result = handler.call(this, skillUser, target, skillInfo);
+        result["skillInfo"] = skillInfo;
 
         return result;
     },

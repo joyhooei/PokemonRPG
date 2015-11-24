@@ -38,7 +38,7 @@ var SkillBehavior = BattleBehavior.extend({
     },
     process: function () {
         logBattle("%d使用技能: %d", this._owner.getId(), this._skill.getId());
-        Notifier.notify(BATTLE_UI_EVENTS.PLAY_SKILL, this._owner, this._skill);
+        Notifier.notify(BATTLE_EVENTS.SKILL_BEHAVIOR, this._owner, this._skill);
     },
     _skill: null,
 });

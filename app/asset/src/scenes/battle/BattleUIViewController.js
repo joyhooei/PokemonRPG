@@ -103,6 +103,9 @@ var BattleUIViewController = mw.ViewController.extend({
             var step = steps[i];
             this._processStep(step, sequenceAry);
         }
+        sequenceAry.push(new cc.CallFunc(function () {
+            this.scene().getViewControllerByIdentifier(BATTLE_OPERATION_VC_NAME).endTurn();
+        }.bind(this)));
 
         this._play(sequenceAry);
     },
@@ -117,13 +120,14 @@ var BattleUIViewController = mw.ViewController.extend({
         this._play(sequenceAry);
     },
     _processStep: function (step, sequenceAry) {
+        logBattle("processing step: %s", step.name);
         if (step.name == "text") {
             var dialogVc = this.scene().getViewControllerByIdentifier(BATTLE_DIALOG_VC_NAME);
             sequenceAry.push(dialogVc.getTextAction(step.args.text));
         } else if (step.name == "skill_anim") {
-            var skillData = step.skillData;
+            var skillData = step.args.skillData;
             var target = null;
-            var animType = step.type;
+            var animType = step.args.type;
             var targetType = skillData["targetType"];
             if (targetType == 1) {
                 // 目标是精灵
@@ -140,6 +144,7 @@ var BattleUIViewController = mw.ViewController.extend({
                 // 粒子
                 sequenceAry.push(new cc.CallFunc(function () {
                     var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", step.args.params));
+                    particle.setScale(1.5);
                     particle.setAutoRemoveOnFinish(true);
                     if (targetType == 3) {
                         particle.setPosition(cc.winSize.width * 0.5, cc.winSize.height);
@@ -149,7 +154,7 @@ var BattleUIViewController = mw.ViewController.extend({
                     target.addChild(particle);
                 }));
                 var particle = new cc.ParticleSystem(cc.formatStr("particles/%s.plist", step.args.params));
-                sequenceAry.push(new cc.DelayTime(particle.getDuration() + 0.5));
+                sequenceAry.push(new cc.DelayTime(particle.getDuration()));
             }
         } else if (step.name == "pokemon_state_anim") {
             this._getPokemonStateAction(step.state, step.target, sequenceAry);
@@ -219,9 +224,9 @@ var BattleUIViewController = mw.ViewController.extend({
     },
     _play: function (sequenceAry) {
         if (sequenceAry.length > 1) {
-            this.runAction(new cc.Sequence(sequenceAry));
+            this.view().runAction(new cc.Sequence(sequenceAry));
         } else if (sequenceAry.length > 0) {
-            this.runAction(sequenceAry[0]);
+            this.view().runAction(sequenceAry[0]);
         }
     },
     _pokemon1: null,

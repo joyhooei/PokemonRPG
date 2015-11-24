@@ -17,7 +17,7 @@ var BATTLE_UI_EVENTS = {
 };
 
 var BATTLE_EVENTS = {
-    SKILL_BEHAVIOR = "Battle.SkillBehavior",
+    SKILL_BEHAVIOR: "Battle.SkillBehavior",
     PROCESS_TURN: "Battle.ProcessTurn",
     TURN_BEGAN: "Battle.TurnBegan",
     TURN_ENDED: "Battle.TurnEnded",

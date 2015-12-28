@@ -267,21 +267,21 @@ var BattleProcessor = cc.Class.extend({
                     } else if (skillData["selfHurt"] !== undefined && skillData["selfHurt"] > 0) {
                         steps.push(this._createStep("text", { text: "受到了反冲伤害" }));
                     }
-                    var dead = this._checkDead(defender, steps) || this._checkDead(attacker, steps);
-                    if (!this._checkDead(defender, steps)) {
+                    if (!defender.isDead()) {
                         this._checkNewPokemonState(defender, steps);
                         if (skillData["targetAbilityLevels"]) {
                             this._checkAbilityLevels(defender, skillData["targetAbilityLevels"], skillData["enemyShouldPlay"], skillData["enemyAnimationType"], steps);
                         }
                         this._checkNewBattleState(defender, steps);
                     }
-                    if (!this._checkDead(attacker, steps)) {
+                    if (!attacker.isDead()) {
                         this._checkNewPokemonState(attacker, steps);
                         if (skillData["selfAbilityLevels"]) {
                             this._checkAbilityLevels(attacker, skillData["selfAbilityLevels"], skillData["selfShouldPlay"], skillData["selfAnimationType"], steps);
                         }
                         this._checkNewBattleState(attacker, steps);
                     }
+                    var dead = this._checkDead(defender, steps) || this._checkDead(attacker, steps);
                 } else if (skillData["isHealSkill"]) {
                     var target = skillData["defender"];
                     if (skillData["delta"] > 0) {
